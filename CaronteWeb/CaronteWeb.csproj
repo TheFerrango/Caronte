@@ -80,6 +80,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Veicoli.html" />
+    <Content Include="Viaggi.html" />
+    <Content Include="Personale.html" />
     <Content Include="CSS\metro-icons.css" />
     <Content Include="CSS\metro-icons.min.css" />
     <Content Include="CSS\metro.css" />
@@ -92,6 +95,7 @@
     <Content Include="Images\urAd.png" />
     <Content Include="Images\User-Profile.png" />
     <Content Include="Images\Van.png" />
+    <Content Include="Anagrafica.html" />
     <Content Include="Index.html" />
     <Content Include="JS\jquery-2.1.4.min.js" />
     <Content Include="JS\metro.js" />

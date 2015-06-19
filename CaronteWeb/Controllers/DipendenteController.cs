@@ -32,7 +32,6 @@ namespace CaronteWeb.Controllers
 			try
 			{
 				return Ok(dipServ.Get(id));
-
 			}
 			catch (Exception e)
 			{
@@ -46,7 +45,6 @@ namespace CaronteWeb.Controllers
 			try
 			{
 				return Ok(dipServ.New(dto));
-
 			}
 			catch (Exception e)
 			{
@@ -60,7 +58,6 @@ namespace CaronteWeb.Controllers
 			try
 			{
 				return Ok(dipServ.Update(dto));
-
 			}
 			catch (Exception e)
 			{
@@ -74,7 +71,6 @@ namespace CaronteWeb.Controllers
 			try
 			{
 				return Ok(dipServ.Delete(id));
-
 			}
 			catch (Exception e)
 			{
