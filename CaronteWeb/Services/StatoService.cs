@@ -1,0 +1,62 @@
+﻿using CaronteWeb.Database;
+using CaronteWeb.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace CaronteWeb.Services
+{
+	public class StatoService : IService<StatoDTO>
+	{
+		public IQueryable<StatoDTO> GetAllIQ(CaronteContext caronteCtx)
+		{
+
+			IQueryable<StatoDTO> stats = (from stat in caronteCtx.Stato
+											  select new StatoDTO
+											  {
+												  IDStato = stat.IDStato,
+												  Descrizione = stat.Descrizione
+											  });
+			return stats;
+
+		}
+
+		public List<StatoDTO> GetAll()
+		{
+			using (CaronteContext caronteCtx = new CaronteContext())
+			{
+				return GetAllIQ(caronteCtx).ToList();
+			}
+		}
+
+		public StatoDTO Get(int ID)
+		{
+			using (CaronteContext caronteCtx = new CaronteContext())
+			{
+				StatoDTO stats = (from stat in this.GetAllIQ(caronteCtx)
+									  where stat.IDStato == ID
+									  select stat).FirstOrDefault();
+				return stats;
+			}
+		}
+
+
+
+
+		public StatoDTO New(StatoDTO DTO)
+		{
+			throw new NotImplementedException();
+		}
+
+		public StatoDTO Update(StatoDTO DTO)
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool Delete(int ID)
+		{
+			throw new NotImplementedException();
+		}
+	}
+}
