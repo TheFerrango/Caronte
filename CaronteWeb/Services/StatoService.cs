@@ -41,9 +41,6 @@ namespace CaronteWeb.Services
 			}
 		}
 
-
-
-
 		public StatoDTO New(StatoDTO DTO)
 		{
 			throw new NotImplementedException();

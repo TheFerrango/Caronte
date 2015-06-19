@@ -26,6 +26,7 @@ namespace CaronteWeb.Database
 		public DbSet<Dipendente> Dipendente { get; set; }
 		public DbSet<Viaggio> Viaggio { get; set; }
 		public DbSet<Spostamento> Spostamento { get; set; }
+		public DbSet<Posizione> Posizione { get; set; }
 
 	}
 }

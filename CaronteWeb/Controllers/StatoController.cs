@@ -21,7 +21,6 @@ namespace CaronteWeb.Controllers
 			}
 			catch (Exception e)
 			{
-
 				return BadRequest(e.Message);
 			}
 		}

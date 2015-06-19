@@ -20,7 +20,6 @@ namespace CaronteWeb.Models
 		{
 			return new Anagrafica()
 			{
-				IDAnagrafica = this.IDAnagrafica,
 				CodiceFiscale = this.CodiceFiscale,
 				Nome = this.Nome,
 				Cognome = this.Cognome,
@@ -33,7 +32,6 @@ namespace CaronteWeb.Models
 
 		public Anagrafica ToEntity(Anagrafica toEdit)
 		{
-			toEdit.IDAnagrafica = this.IDAnagrafica;
 			toEdit.CodiceFiscale = this.CodiceFiscale;
 			toEdit.Nome = this.Nome;
 			toEdit.Cognome = this.Cognome;

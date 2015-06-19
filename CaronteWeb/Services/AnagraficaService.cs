@@ -11,21 +11,18 @@ namespace CaronteWeb.Services
 
 		public IQueryable<AnagraficaDTO> GetAllIQ(CaronteContext caronteCtx)
 		{
-			
-				IQueryable<AnagraficaDTO> anas = (from ana in caronteCtx.Anagrafica
-											select new AnagraficaDTO
-											{
-												IDAnagrafica = ana.IDAnagrafica,
-												CodiceFiscale = ana.CodiceFiscale,
-												Nome = ana.Nome,
-												Cognome = ana.Cognome,
-												DataNascita = ana.DataNascita,
-												Indirizzo = ana.Indirizzo,
-												Latitude = ana.Latitude,
-												Longitude = ana.Longitude
-											});
-				return anas;
-			
+			return from ana in caronteCtx.Anagrafica
+				   select new AnagraficaDTO
+				   {
+					   IDAnagrafica = ana.IDAnagrafica,
+					   CodiceFiscale = ana.CodiceFiscale,
+					   Nome = ana.Nome,
+					   Cognome = ana.Cognome,
+					   DataNascita = ana.DataNascita,
+					   Indirizzo = ana.Indirizzo,
+					   Latitude = ana.Latitude,
+					   Longitude = ana.Longitude
+				   };
 		}
 
 		public List<AnagraficaDTO> GetAll()
@@ -73,7 +70,6 @@ namespace CaronteWeb.Services
 		{
 			using (CaronteContext caronteCtx = new CaronteContext())
 			{
-
 				caronteCtx.Anagrafica.Remove(caronteCtx.Anagrafica.Find(ID));
 				caronteCtx.SaveChanges();
 				return true;

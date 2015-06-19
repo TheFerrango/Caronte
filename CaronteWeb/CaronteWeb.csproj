@@ -101,7 +101,6 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AnagraficaController.cs" />
-    <Compile Include="Controllers\ModelliController.cs" />
     <Compile Include="Controllers\StatoController.cs" />
     <Compile Include="Database\Anagrafica.cs" />
     <Compile Include="Database\CaronteContext.cs" />
@@ -118,7 +117,6 @@
     <Compile Include="Models\AnagraficaDTO.cs" />
     <Compile Include="Models\DipendenteDTO.cs" />
     <Compile Include="Models\IDTO.cs" />
-    <Compile Include="Models\Modello.cs" />
     <Compile Include="Models\PosizioneDTO.cs" />
     <Compile Include="Models\RuoloDTO.cs" />
     <Compile Include="Models\SpostamentoDTO.cs" />
@@ -127,9 +125,14 @@
     <Compile Include="Models\ViaggioDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AnagraficaService.cs" />
+    <Compile Include="Services\DipendenteService.cs" />
     <Compile Include="Services\IService.cs" />
+    <Compile Include="Services\PosizioneService.cs" />
     <Compile Include="Services\RuoloService.cs" />
+    <Compile Include="Services\SpostamentoService.cs" />
     <Compile Include="Services\StatoService.cs" />
+    <Compile Include="Services\VeicoloService.cs" />
+    <Compile Include="Services\ViaggioService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
