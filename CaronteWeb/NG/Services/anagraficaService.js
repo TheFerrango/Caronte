@@ -13,6 +13,15 @@ var Caronte;
             });
             return result.promise;
         };
+        anagraficaService.prototype.editAnagrafica = function (anaObj, onSuccess, onError) {
+            var result = this.deferrer.defer();
+            this.wc.put("/api/anagrafica/", anaObj).success(function (data) {
+                onSuccess(data);
+            }).error(function (data) {
+                onError(data);
+            });
+            return result.promise;
+        };
         anagraficaService.prototype.deleteAnagrafica = function (IDAna, onSuccess) {
             var result = this.deferrer.defer();
             this.wc.delete("/api/anagrafica/" + IDAna).success(function (data) {

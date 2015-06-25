@@ -14,7 +14,18 @@
 			this.wc.get("/api/anagrafica")
 				.success((data) => {
 				onSuccess(data);
-				});
+			});
+			return result.promise;
+		}
+
+		public editAnagrafica(anaObj: any, onSuccess: Function, onError: Function) {
+			var result = this.deferrer.defer();
+			this.wc.put("/api/anagrafica/", anaObj)
+				.success((data) => {
+				onSuccess(data);
+			}).error((data) => {
+				onError(data);
+			});
 			return result.promise;
 		}
 
@@ -26,5 +37,7 @@
 			});
 			return result.promise;
 		}
+
+
 	}
 }
