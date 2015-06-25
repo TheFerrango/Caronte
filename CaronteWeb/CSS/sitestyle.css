@@ -1,0 +1,7 @@
+﻿.bigBackground {
+	background: linear-gradient(to bottom right, darkblue, black);
+}
+
+#navcontainer ul li {
+	display: inline;
+}

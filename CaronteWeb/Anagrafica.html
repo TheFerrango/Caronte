@@ -1,23 +1,103 @@
 ﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html ng-app="Caronte" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<style>
-		.bigBackground{
-			background-image:url("Images/background.jpg")
-		}
-	</style>
-	<link href="CSS/metro.min.css" rel="stylesheet" />	
+	<link href="CSS/metro.min.css" rel="stylesheet" />
+	<link href="CSS/metro-icons.css" rel="stylesheet" />
+	<link href="CSS/sitestyle.css" rel="stylesheet" />
 	<script type="text/javascript" src="Scripts/jquery-2.1.4.min.js"></script>
-	<script type="text/javascript" src="Scripts/metro.min.js" ></script>
+	<script type="text/javascript" src="Scripts/metro.min.js"></script>
+	<script src="Scripts/angular.min.js"></script>
+	<script src="Scripts/angular-table.js"></script>
+	<script src="NG/Services/anagraficaService.js"></script>
+	<script src="NG/Controllers/anagraficaController.js"></script>
+	<script src="Scripts/app.js"></script>
 
-		<title>Anagrafica - Project Caronte</title>
+	<title>Anagrafica - Project Caronte</title>
 </head>
-<body>
-	<div class="tile-area fg-darkBlue bigBackground" style="width:1024px">
-		<div class="tile-area-title">Gestione Anagrafica</div>
-		<div class="tile-group">
-		
-		</div>		
+<body ng-controller="anagraficaController">
+	<div class="tile-area fg-white bigBackground" style="width:1024px">
+		<div class="tile-area-title">
+			<a href="Index.html"><span class="mif-arrow-left fg-white"></span></a> Gestione Anagrafica
+		</div>
+		<div>
+			<table class="table table-striped" at-table at-paginated at-list="coops" at-config="config">
+				<thead>
+					<tr>
+						<th>Nome</th>
+						<th>Cognome</th>
+						<th>Codice fiscale</th>
+						<th>Data di nascita</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td at-implicit at-sortable at-attribute="Nome" width="150" at-initial-sorting="asc"></td>
+						<td at-implicit at-sortable at-attribute="Cognome" width="250"></td>
+						<td at-implicit at-sortable at-attribute="CodiceFiscale"></td>
+						<td at-implicit at-sortable at-attribute="DataNascita"></td>
+						<td>
+							<span class="mif-pencil" ng-click="editAnagrafica( item )"></span>&nbsp;
+							<span class="mif-cancel" ng-click="removeAnagrafica( item.IDAnagrafica )"></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<at-pagination id="navcontainer" at-list="coops" at-config="config"></at-pagination>
+		</div>
 	</div>
+
+	<div data-role="dialog" data-windows-style="true" id="dialog" style="text-align:center">
+		<div style="padding:20px;">
+			<div>
+				<h1>{{popupAna.type}} anagrafica</h1>
+			</div>
+			<form>
+
+				<table style="margin-left: auto; margin-right: auto;">
+					<tr>
+						<td style="text-align:left">Nome:</td>
+						<td>
+							<div class="input-control text">
+								<input type="text" ng-model="popupAna.obj.Nome" placeholder="Nome">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align:left">Cognome:</td>
+						<td>
+							<div class="input-control text">
+								<input type="text" ng-model="popupAna.obj.Cognome" placeholder="Cognome">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align:left">Codice fiscale:</td>
+						<td>
+							<div class="input-control text">
+								<input type="text" ng-model="popupAna.obj.CodiceFiscale" placeholder="Codice fiscale">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align:left">Data di nascita:</td>
+						<td>
+							<div class="input-control text">
+								<input type="date" ng-model="popupAna.obj.DataNascita" placeholder="Data nascita">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td />
+						<td style="float:right">
+							<input type="button" value="Salva" />
+							<input type="button" ng-click="cancelEdit()" value="Annulla" />
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
+
 </body>
 </html>

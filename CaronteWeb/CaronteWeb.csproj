@@ -82,13 +82,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CSS\sitestyle.css" />
+    <Content Include="fonts\metro.svg" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular-route.js" />
     <Content Include="Scripts\angular-route.min.js" />
     <Content Include="Scripts\angular-table.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
+    <TypeScriptCompile Include="NG\Controllers\anagraficaController.ts" />
+    <TypeScriptCompile Include="NG\Controllers\viaggioController.ts" />
+    <TypeScriptCompile Include="NG\Controllers\indexController.ts" />
+    <TypeScriptCompile Include="NG\Controllers\veicoloController.ts" />
     <TypeScriptCompile Include="NG\Controllers\personaleController.ts" />
+    <TypeScriptCompile Include="NG\Services\indexService.ts" />
+    <TypeScriptCompile Include="NG\Services\viaggioService.ts" />
+    <TypeScriptCompile Include="NG\Services\veicoloService.ts" />
+    <TypeScriptCompile Include="NG\Services\anagraficaService.ts" />
     <TypeScriptCompile Include="NG\Services\personaleService.ts" />
     <TypeScriptCompile Include="Scripts\app.ts" />
     <Content Include="Veicoli.html" />
@@ -167,6 +177,10 @@
     <Content Include="packages.config" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\angular-route.min.js.map" />
+    <Content Include="fonts\metro.eot" />
+    <Content Include="fonts\metro.ttf" />
+    <Content Include="fonts\metro.woff" />
+    <Content Include="fonts\selection.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

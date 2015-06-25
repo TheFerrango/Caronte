@@ -1,6 +1,6 @@
 ﻿module Caronte {
 
-    export class personaleService {
+    export class indexService {
 		private wc: ng.IHttpService = null;
 		private deferrer: ng.IQService;
 		constructor($http: ng.IHttpService, $q: ng.IQService) {
@@ -9,11 +9,11 @@
 
 		}
 
-		public getPersonale(onSuccess: Function) {
+		public getAnagrafiche(func: Function) {
 			var result = this.deferrer.defer();
-			this.wc.get("/api/dipendente")
+			this.wc.get("/api/anagrafica")
 				.success((data) => {
-				onSuccess(data);
+				func(data);
 			});
 
 			console.log(result.promise);

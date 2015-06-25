@@ -4,11 +4,12 @@
 		config: any;
 	}
 
-	export class personaleController {
-		static $inject = ["$scope", "personaleService"];
+	export class veicoloController {
+		static $inject = ["$scope", "veicoloService"];
 
-		constructor(private $scope: IAppCtrlScope, persServ: personaleService) {
-			persServ.getPersonale((data) => {
+		constructor(private $scope: IAppCtrlScope, persServ: veicoloService) {			
+			
+			persServ.getVeicoli((data) => {
 				this.$scope.coops = data
 				
 			});		
@@ -17,6 +18,7 @@
 				itemsPerPage: 5,
 				fillLastPage: true
 			};
+			
 		}
 	}
 }

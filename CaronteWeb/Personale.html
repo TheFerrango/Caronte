@@ -1,28 +1,26 @@
 ﻿<!DOCTYPE html>
 <html ng-app="Caronte" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<style>
-		.bigBackground {
-			background-image: url("Images/background.jpg");
-		}
-		#navcontainer ul li { display: inline; }
 
-	</style>
 	<link href="CSS/metro.min.css" rel="stylesheet" />
+	<link href="CSS/metro-icons.css" rel="stylesheet" />
+	<link href="CSS/sitestyle.css" rel="stylesheet" />
 	<script type="text/javascript" src="Scripts/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript" src="Scripts/metro.min.js"></script>
-	<script src="Scripts/angular.min.js"></script>	
-	<script src="NG/Services/personaleService.js"></script>	
-	<script src="NG/Controllers/personaleController.js"></script>
-	<script src="Scripts/app.js"></script>	
+	<script src="Scripts/angular.min.js"></script>
 	<script src="Scripts/angular-table.js"></script>
+	<script src="NG/Services/personaleService.js"></script>
+	<script src="NG/Controllers/personaleController.js"></script>
+	<script src="Scripts/app.js"></script>
 	<title>Personale - Project Caronte</title>
 </head>
 <body ng-controller="personaleController">
 
 
-	<div class="tile-area fg-darkBlue bigBackground" style="width:1024px">
-		<div class="tile-area-title">Gestione Personale</div>
+	<div class="tile-area fg-white bigBackground" style="width:1024px">
+		<div class="tile-area-title">
+			<a href="Index.html"><span class="mif-arrow-left fg-white"></span></a>Gestione Personale
+		</div>
 		<div class="tile-group">
 
 			<table class="table table-striped" at-table at-paginated at-list="coops" at-config="config">
@@ -44,16 +42,6 @@
 				</tbody>
 			</table>
 			<at-pagination id="navcontainer" at-list="coops" at-config="config"></at-pagination>
-			<!--<div ng-repeat="coop in coops" class="tile-square bg-lightGreen">
-				<div class="tile-content">
-					
-					<div class="slide-over text-small fg-white">
-						Anagrafica di {{coop.Cognome}} {{coop.Nome}}, Codice fiscale {{coop.CodiceFiscale}} e nato il {{cc}}
-					</div>
-					<span class="tile-label fg-white">{{coop.CodiceFiscale}}</span>
-				</div>
-
-			</div>-->
 		</div>
 	</div>
 </body>

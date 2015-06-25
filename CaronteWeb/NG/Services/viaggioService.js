@@ -1,21 +1,21 @@
 var Caronte;
 (function (Caronte) {
-    var personaleService = (function () {
-        function personaleService($http, $q) {
+    var viaggioService = (function () {
+        function viaggioService($http, $q) {
             this.wc = null;
             this.wc = $http;
             this.deferrer = $q;
         }
-        personaleService.prototype.getPersonale = function (onSuccess) {
+        viaggioService.prototype.getViaggi = function (onSuccess) {
             var result = this.deferrer.defer();
-            this.wc.get("/api/dipendente").success(function (data) {
+            this.wc.get("/api/viaggio").success(function (data) {
                 onSuccess(data);
             });
             console.log(result.promise);
             return result.promise;
         };
-        return personaleService;
+        return viaggioService;
     })();
-    Caronte.personaleService = personaleService;
+    Caronte.viaggioService = viaggioService;
 })(Caronte || (Caronte = {}));
-//# sourceMappingURL=personaleService.js.map
+//# sourceMappingURL=viaggioService.js.map
