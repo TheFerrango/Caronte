@@ -5,25 +5,55 @@
 		.bigBackground {
 			background-image: url("Images/background.jpg");
 		}
+		#navcontainer ul li { display: inline; }
+
 	</style>
 	<link href="CSS/metro.min.css" rel="stylesheet" />
 	<script type="text/javascript" src="Scripts/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript" src="Scripts/metro.min.js"></script>
 	<script src="Scripts/angular.min.js"></script>	
-	<script src="Scripts/personaleController.js"></script>
+	<script src="NG/Services/personaleService.js"></script>	
+	<script src="NG/Controllers/personaleController.js"></script>
+	<script src="Scripts/app.js"></script>	
+	<script src="Scripts/angular-table.js"></script>
 	<title>Personale - Project Caronte</title>
 </head>
-<body ng-controller="personalePageController">
+<body ng-controller="personaleController">
 
 
 	<div class="tile-area fg-darkBlue bigBackground" style="width:1024px">
 		<div class="tile-area-title">Gestione Personale</div>
 		<div class="tile-group">
-			<div ng-repeat="coop in coops" class="tile-square bg-pink">
+
+			<table class="table table-striped" at-table at-paginated at-list="coops" at-config="config">
+				<thead>
+					<tr>
+						<th>Nome</th>
+						<th>Cognome</th>
+						<th>Codice fiscale</th>
+						<th>Data di nascita</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>{{item.Nome}}</td>
+						<td at-implicit at-sortable at-attribute="Nome" width="150" at-initial-sorting="asc"></td>
+						<td at-implicit at-sortable at-attribute="Cognome" width="250"></td>
+						<td at-implicit at-sortable at-attribute="CodiceFiscale"></td>
+					</tr>
+				</tbody>
+			</table>
+			<at-pagination id="navcontainer" at-list="coops" at-config="config"></at-pagination>
+			<!--<div ng-repeat="coop in coops" class="tile-square bg-lightGreen">
 				<div class="tile-content">
-					{{coop}}
+					
+					<div class="slide-over text-small fg-white">
+						Anagrafica di {{coop.Cognome}} {{coop.Nome}}, Codice fiscale {{coop.CodiceFiscale}} e nato il {{cc}}
+					</div>
+					<span class="tile-label fg-white">{{coop.CodiceFiscale}}</span>
 				</div>
-			</div>
+
+			</div>-->
 		</div>
 	</div>
 </body>
