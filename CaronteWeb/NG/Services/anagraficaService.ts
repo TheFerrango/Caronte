@@ -18,6 +18,17 @@
 			return result.promise;
 		}
 
+		public createAnagrafica(anaObj: any, onSuccess: Function, onError: Function) {
+			var result = this.deferrer.defer();
+			this.wc.post("/api/anagrafica/", anaObj)
+				.success((data) => {
+				onSuccess(data);
+			}).error((data) => {
+				onError(data);
+			});
+			return result.promise;
+		}
+
 		public editAnagrafica(anaObj: any, onSuccess: Function, onError: Function) {
 			var result = this.deferrer.defer();
 			this.wc.put("/api/anagrafica/", anaObj)

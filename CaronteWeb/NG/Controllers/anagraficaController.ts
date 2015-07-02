@@ -5,6 +5,8 @@
 
 		anagraficaList: any;
 		popupAna: any;
+
+		newAnagrafica: Function;
 		editAnagrafica: Function;
 		okEdit: Function;
 		cancelEdit: Function;
@@ -22,7 +24,7 @@
 		constructor(private $scope: IAppCtrlScope, persServ: anagraficaService) {
 			this.scope = $scope;
 			this.service = persServ;
-
+			this.scope.pageNumbers = [];
 			this.scope.currentPage = 0;
 			this.howMany = 15
 
@@ -31,6 +33,7 @@
 
 			this.scope.popupAna = {};
 
+			this.scope.newAnagrafica = () => this.newAnagrafica();
 			this.scope.editAnagrafica = (anaObj) => this.editAnagrafica(anaObj);
 			this.scope.okEdit = () => this.okEdit();
 			this.scope.cancelEdit = () => this.cancelEdit();
@@ -80,6 +83,7 @@
 		}
 
 		private showPage(pageToNavigate: number) {
+			console.log(pageToNavigate);
 			this.scope.currentPage = pageToNavigate;
 			this.service.getAnagrafiche(this.scope.currentPage, this.howMany,(data) => {
 				this.scope.anagraficaList = data["Dati"];
@@ -87,6 +91,17 @@
 				this.scope.pageNumbers = this.makeRange();
 				
 			});
+		}
+
+		private newAnagrafica() {
+			var dlg = $("#dialog").data('dialog');
+			this.scope.popupAna.type = "Aggiungi";
+
+			this.scope.popupAna.obj = {};
+			this.scope.popupAna.obj.Latitude = 44.22;
+			this.scope.popupAna.obj.Longitude = 11.6;
+
+			dlg.open()
 		}
 
 		private editAnagrafica(anaObj) {
@@ -110,30 +125,58 @@
 		private okEdit() {
 			this.scope.popupAna.obj.DataNascita = $("#newDate").val();
 			console.log(this.scope.popupAna.obj);
-			this.service.editAnagrafica(this.scope.popupAna.obj,
-				(result) => {
-					if (result) {
+
+			if (this.scope.popupAna.type == "Modifica") {
+				this.service.editAnagrafica(this.scope.popupAna.obj,
+					(result) => {
+						if (result) {
+							(<any>$).Notify({
+								caption: 'Modifica',
+								content: 'Anagrafica modificata con successo!',
+								type: 'success'
+							})
+							this.service.getAnagrafiche(this.scope.currentPage, this.howMany,(data) => {
+								this.$scope.anagraficaList = data["Dati"];
+							});
+							this.cancelEdit();
+						}
+					},
+					() => {
 						(<any>$).Notify({
 							caption: 'Modifica',
-							content: 'Anagrafica modificata con successo!',
-							type: 'success'
+							content: 'Si è verificato un errore durante la modifica dell\'anagrafica',
+							type: 'alert'
 						})
 						this.service.getAnagrafiche(this.scope.currentPage, this.howMany,(data) => {
-							this.$scope.anagraficaList = data["Dati"];							
+							this.$scope.anagraficaList = data["Dati"];
 						});
-						this.cancelEdit();
-					}
-				},
-				() => {
-					(<any>$).Notify({
-						caption: 'Modifica',
-						content: 'Si è verificato un errore durante la modifica dell\'anagrafica',
-						type: 'alert'
-					})
-					this.service.getAnagrafiche(this.scope.currentPage, this.howMany,(data) => {
-						this.$scope.anagraficaList = data["Dati"];
 					});
-				});
+			} else {
+				this.service.createAnagrafica(this.scope.popupAna.obj,
+					(result) => {
+						if (result) {
+							(<any>$).Notify({
+								caption: 'Modifica',
+								content: 'Anagrafica creata con successo!',
+								type: 'success'
+							})
+							this.service.getAnagrafiche(this.scope.currentPage, this.howMany,(data) => {
+								this.$scope.anagraficaList = data["Dati"];
+							});
+							this.cancelEdit();
+						}
+					},
+					() => {
+						(<any>$).Notify({
+							caption: 'Modifica',
+							content: 'Si è verificato un errore durante la creazione dell\'anagrafica',
+							type: 'alert'
+						})
+						this.service.getAnagrafiche(this.scope.currentPage, this.howMany,(data) => {
+							this.$scope.anagraficaList = data["Dati"];
+						});
+					});
+			}
 		}
 
 		private cancelEdit() {
