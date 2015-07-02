@@ -18,7 +18,7 @@ namespace CaronteWeb.Controllers
 		{
 			try
 			{
-				return Ok(veiServ.GetAll());
+				return Ok(veiServ.GetAll(null,null));
 			}
 			catch (Exception e)
 			{

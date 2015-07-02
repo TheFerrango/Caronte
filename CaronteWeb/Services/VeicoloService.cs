@@ -23,11 +23,20 @@ namespace CaronteWeb.Services
 				   };
 		}
 
-		public List<VeicoloDTO> GetAll()
+		public Dictionary<string, object> GetAll(int? page, int? howMany)
 		{
 			using (CaronteContext caronteCtx = new CaronteContext())
 			{
-				return GetAllIQ(caronteCtx).ToList();
+				Dictionary<string, object> toRet = new Dictionary<string, object>();
+				IQueryable<VeicoloDTO> veicList = GetAllIQ(caronteCtx).OrderBy(x => x.Targa);
+				toRet.Add("Totale", veicList.Count());
+
+				if (page.HasValue && howMany.HasValue)
+					veicList = veicList.Skip(page.Value * howMany.Value).Take(howMany.Value);
+
+				toRet.Add("Dati", veicList.ToList());
+
+				return toRet;
 			}
 		}
 

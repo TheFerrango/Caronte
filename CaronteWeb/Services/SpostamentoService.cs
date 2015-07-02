@@ -34,11 +34,20 @@ namespace CaronteWeb.Services
 				   };
 		}
 
-		public List<SpostamentoDTO> GetAll()
+		public Dictionary<string, object> GetAll(int? page, int? howMany)
 		{
 			using (CaronteContext caronteCtx = new CaronteContext())
 			{
-				return GetAllIQ(caronteCtx).ToList();
+				Dictionary<string, object> toRet = new Dictionary<string, object>();
+				IQueryable<SpostamentoDTO> spoList = GetAllIQ(caronteCtx).OrderBy(x => x.DataSalitaPrevista);
+				toRet.Add("Totale", spoList.Count());
+
+				if (page.HasValue && howMany.HasValue)
+					spoList = spoList.Skip(page.Value * howMany.Value).Take(howMany.Value);
+
+				toRet.Add("Dati", spoList.ToList());
+
+				return toRet;
 			}
 		}
 

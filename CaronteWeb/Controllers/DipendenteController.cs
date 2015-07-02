@@ -18,7 +18,7 @@ namespace CaronteWeb.Controllers
 		{
 			try
 			{
-				return Ok(dipServ.GetAll());
+				return Ok(dipServ.GetAll(null,null));
 			}
 			catch (Exception e)
 			{

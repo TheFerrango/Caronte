@@ -11,7 +11,7 @@ namespace CaronteWeb.Services
 	{
 		public IQueryable<ViaggioDTO> GetAllIQ(CaronteContext caronteCtx)
 		{
-			return from viag in caronteCtx.Viaggio
+			return from viag in caronteCtx.Viaggio				   
 				   select new ViaggioDTO
 				   {
 					   IDViaggio = viag.IDViaggio,
@@ -35,11 +35,20 @@ namespace CaronteWeb.Services
 				   };
 		}
 
-		public List<ViaggioDTO> GetAll()
+		public Dictionary<string, object> GetAll(int? page, int? howMany)
 		{
 			using (CaronteContext caronteCtx = new CaronteContext())
 			{
-				return GetAllIQ(caronteCtx).ToList();
+				Dictionary<string, object> toRet = new Dictionary<string, object>();
+				IQueryable<ViaggioDTO> viagList = GetAllIQ(caronteCtx).OrderBy(x => x.DataInizioPrevista);
+				toRet.Add("Totale", viagList.Count());
+
+				if (page.HasValue && howMany.HasValue)
+					viagList = viagList.Skip(page.Value * howMany.Value).Take(howMany.Value);
+
+				toRet.Add("Dati", viagList.ToList());
+
+				return toRet;
 			}
 		}
 

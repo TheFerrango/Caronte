@@ -18,7 +18,7 @@ namespace CaronteWeb.Controllers
 		{
 			try
 			{
-				return Ok(sposServ.GetAll());
+				return Ok(sposServ.GetAll(null,null));
 			}
 			catch (Exception e)
 			{

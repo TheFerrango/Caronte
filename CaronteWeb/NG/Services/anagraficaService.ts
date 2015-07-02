@@ -9,9 +9,9 @@
 
 		}
 
-		public getAnagrafiche(onSuccess: Function) {
+		public getAnagrafiche(page: number, howMany: number, onSuccess: Function) {
 			var result = this.deferrer.defer();
-			this.wc.get("/api/anagrafica")
+			this.wc.get("/api/anagrafica?page=" + page + "&howMany=" + howMany)
 				.success((data) => {
 				onSuccess(data);
 			});
@@ -29,11 +29,13 @@
 			return result.promise;
 		}
 
-		public deleteAnagrafica(IDAna: number, onSuccess: Function) {
+		public deleteAnagrafica(IDAna: number, onSuccess: Function, onError: Function) {
 			var result = this.deferrer.defer();
 			this.wc.delete("/api/anagrafica/" + IDAna)
 				.success((data) => {
 				onSuccess(data);
+				}).error((data) => {
+				onError(data);
 			});
 			return result.promise;
 		}

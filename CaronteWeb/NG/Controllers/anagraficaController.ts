@@ -1,31 +1,33 @@
 ﻿module Caronte {
 	interface IAppCtrlScope extends ng.IScope {
-		coops: any;
-		config: any;
+		currentPage: number;
+		pageNumbers: number[];
+
+		anagraficaList: any;
 		popupAna: any;
 		editAnagrafica: Function;
 		okEdit: Function;
 		cancelEdit: Function;
 		removeAnagrafica: Function;
+		showPage: Function;		
 	}
 
 	export class anagraficaController {
 		static $inject = ["$scope", "anagraficaService"];
 		scope: IAppCtrlScope;
 		service: anagraficaService;
+		totalItems: number;
+		howMany: number;
 
 		constructor(private $scope: IAppCtrlScope, persServ: anagraficaService) {
 			this.scope = $scope;
 			this.service = persServ;
 
-			this.service.getAnagrafiche((data) => {
-				this.scope.coops = data;
-			});
+			this.scope.currentPage = 0;
+			this.howMany = 15
 
-			this.scope.config = {
-				itemsPerPage: 15,
-				fillLastPage: true
-			};
+			this.showPage(0);
+
 
 			this.scope.popupAna = {};
 
@@ -33,6 +35,17 @@
 			this.scope.okEdit = () => this.okEdit();
 			this.scope.cancelEdit = () => this.cancelEdit();
 			this.scope.removeAnagrafica = (idAna) => this.removeAnagrafica(idAna);
+			this.scope.showPage = (numPagina) => this.showPage(numPagina);
+		}
+
+		private makeRange()  {
+			var lista = [];
+			var limit: number = Math.ceil(this.totalItems / this.howMany);
+			for (var idx = 0; idx < limit; idx++) {
+				lista.push(idx)
+			}
+			console.log(lista);
+			return lista;
 		}
 
 		private removeAnagrafica(idAna) {
@@ -44,21 +57,44 @@
 							content: 'Anagrafica eliminata con successo!',
 							type: 'success'
 						})
-						this.service.getAnagrafiche((data) => {
-							this.$scope.coops = data;
+						this.service.getAnagrafiche(this.scope.currentPage, this.howMany,(data) => {
+							this.scope.anagraficaList = data["Dati"];
+							this.totalItems = data["Totale"]
+							this.scope.pageNumbers = this.makeRange();
 						});
 					}
-				});
+				},
+					() => {
+						(<any>$).Notify({
+							caption: 'Eliminazione',
+							content: 'Si è verificato un errore durante l\'eliminazione dell\'anagrafica',
+							type: 'alert'
+						})
+						this.service.getAnagrafiche(this.scope.currentPage, this.howMany,(data) => {
+							this.$scope.anagraficaList = data["Dati"];
+							this.totalItems = data["Totale"]
+							this.scope.pageNumbers = this.makeRange();
+						});
+					});
 			}
+		}
+
+		private showPage(pageToNavigate: number) {
+			this.scope.currentPage = pageToNavigate;
+			this.service.getAnagrafiche(this.scope.currentPage, this.howMany,(data) => {
+				this.scope.anagraficaList = data["Dati"];
+				this.totalItems = data["Totale"]
+				this.scope.pageNumbers = this.makeRange();
+				
+			});
 		}
 
 		private editAnagrafica(anaObj) {
 			var dlg = $("#dialog").data('dialog');
-			this.scope.popupAna.type = "Modifica";
-			console.log(anaObj)
+			this.scope.popupAna.type = "Modifica";			
+
 			this.scope.popupAna.obj = {};
 			this.scope.popupAna.obj.IDAnagrafica = anaObj.IDAnagrafica;
-
 			this.scope.popupAna.obj.Nome = anaObj.Nome;
 			this.scope.popupAna.obj.Cognome = anaObj.Cognome;
 			this.scope.popupAna.obj.CodiceFiscale = anaObj.CodiceFiscale;
@@ -72,6 +108,8 @@
 		}
 
 		private okEdit() {
+			this.scope.popupAna.obj.DataNascita = $("#newDate").val();
+			console.log(this.scope.popupAna.obj);
 			this.service.editAnagrafica(this.scope.popupAna.obj,
 				(result) => {
 					if (result) {
@@ -80,8 +118,8 @@
 							content: 'Anagrafica modificata con successo!',
 							type: 'success'
 						})
-						this.service.getAnagrafiche((data) => {
-							this.$scope.coops = data;
+						this.service.getAnagrafiche(this.scope.currentPage, this.howMany,(data) => {
+							this.$scope.anagraficaList = data["Dati"];							
 						});
 						this.cancelEdit();
 					}
@@ -89,11 +127,11 @@
 				() => {
 					(<any>$).Notify({
 						caption: 'Modifica',
-						content: 'Si è verificato un errore',
+						content: 'Si è verificato un errore durante la modifica dell\'anagrafica',
 						type: 'alert'
 					})
-					this.service.getAnagrafiche((data) => {
-						this.$scope.coops = data;
+					this.service.getAnagrafiche(this.scope.currentPage, this.howMany,(data) => {
+						this.$scope.anagraficaList = data["Dati"];
 					});
 				});
 		}

@@ -19,7 +19,7 @@ namespace CaronteWeb.Controllers
 		{
 			try
 			{
-				return Ok(posServ.GetAll());
+				return Ok(posServ.GetAll(null,null));
 			}
 			catch (Exception e)
 			{

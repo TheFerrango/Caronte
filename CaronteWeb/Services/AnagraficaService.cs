@@ -25,11 +25,21 @@ namespace CaronteWeb.Services
 				   };
 		}
 
-		public List<AnagraficaDTO> GetAll()
+
+		public Dictionary<string, object> GetAll(int? page, int? howMany)
 		{
 			using (CaronteContext caronteCtx = new CaronteContext())
 			{
-				return GetAllIQ(caronteCtx).ToList();
+				Dictionary<string, object> toRet = new Dictionary<string, object>();
+				IQueryable<AnagraficaDTO> anaList = GetAllIQ(caronteCtx).OrderBy(x => x.Cognome);
+				toRet.Add("Totale", anaList.Count());
+
+				if (page.HasValue && howMany.HasValue)
+					anaList = anaList.Skip(page.Value * howMany.Value).Take(howMany.Value);
+
+				toRet.Add("Dati", anaList.ToList());
+
+				return toRet;
 			}
 		}
 

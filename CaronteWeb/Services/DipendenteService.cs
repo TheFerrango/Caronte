@@ -24,11 +24,20 @@ namespace CaronteWeb.Services
 				   };
 		}
 
-		public List<DipendenteDTO> GetAll()
+		public Dictionary<string, object> GetAll(int? page, int? howMany)
 		{
-			using(CaronteContext caronteCtx = new CaronteContext())
+			using (CaronteContext caronteCtx = new CaronteContext())
 			{
-				return GetAllIQ(caronteCtx).ToList();
+				Dictionary<string, object> toRet = new Dictionary<string, object>();
+				IQueryable<DipendenteDTO> dipeList = GetAllIQ(caronteCtx).OrderBy(x => x.DipendenteDal);
+				toRet.Add("Totale", dipeList.Count());
+
+				if (page.HasValue && howMany.HasValue)
+					dipeList = dipeList.Skip(page.Value * howMany.Value).Take(howMany.Value);
+
+				toRet.Add("Dati", dipeList.ToList());
+
+				return toRet;
 			}
 		}
 

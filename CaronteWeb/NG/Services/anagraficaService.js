@@ -6,9 +6,9 @@ var Caronte;
             this.wc = $http;
             this.deferrer = $q;
         }
-        anagraficaService.prototype.getAnagrafiche = function (onSuccess) {
+        anagraficaService.prototype.getAnagrafiche = function (page, howMany, onSuccess) {
             var result = this.deferrer.defer();
-            this.wc.get("/api/anagrafica").success(function (data) {
+            this.wc.get("/api/anagrafica?page=" + page + "&howMany=" + howMany).success(function (data) {
                 onSuccess(data);
             });
             return result.promise;
@@ -22,10 +22,12 @@ var Caronte;
             });
             return result.promise;
         };
-        anagraficaService.prototype.deleteAnagrafica = function (IDAna, onSuccess) {
+        anagraficaService.prototype.deleteAnagrafica = function (IDAna, onSuccess, onError) {
             var result = this.deferrer.defer();
             this.wc.delete("/api/anagrafica/" + IDAna).success(function (data) {
                 onSuccess(data);
+            }).error(function (data) {
+                onError(data);
             });
             return result.promise;
         };

@@ -2,6 +2,22 @@
 	background: linear-gradient(to bottom right, darkblue, black);
 }
 
+.invertedBackground {
+	background: linear-gradient(to bottom right, black, darkblue );
+}
+
+.editCell {
+	cursor: pointer;
+}
+
+.paginateBtn {
+	background-color: #FFF;
+	border-color: #59cde2;
+	color: #000;
+	padding: 10px;
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
 #navcontainer ul li {
 	display: inline;
 }

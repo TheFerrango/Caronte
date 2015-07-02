@@ -22,11 +22,20 @@ namespace CaronteWeb.Services
 
 		}
 
-		public List<StatoDTO> GetAll()
+		public Dictionary<string, object> GetAll(int? page, int? howMany)
 		{
 			using (CaronteContext caronteCtx = new CaronteContext())
 			{
-				return GetAllIQ(caronteCtx).ToList();
+				Dictionary<string, object> toRet = new Dictionary<string, object>();
+				IQueryable<StatoDTO> statiList = GetAllIQ(caronteCtx).OrderBy(x => x.IDStato);
+				toRet.Add("Totale", statiList.Count());
+
+				if (page.HasValue && howMany.HasValue)
+					statiList = statiList.Skip(page.Value * howMany.Value).Take(howMany.Value);
+
+				toRet.Add("Dati", statiList.ToList());
+
+				return toRet;
 			}
 		}
 

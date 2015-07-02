@@ -10,7 +10,7 @@ namespace CaronteWeb.Services
 	internal interface IService<ServType>
 	{
 		IQueryable<ServType> GetAllIQ(CaronteContext caronteCtx);
-		List<ServType> GetAll();
+		Dictionary<string, object> GetAll(int? page, int? howMany);
 		ServType Get(int ID);
 		ServType New(ServType DTO);
 		ServType Update(ServType DTO);
