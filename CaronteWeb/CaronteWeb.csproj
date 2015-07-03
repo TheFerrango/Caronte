@@ -84,6 +84,7 @@
   <ItemGroup>
     <Content Include="CSS\sitestyle.css" />
     <Content Include="fonts\metro.svg" />
+    <Content Include="Scripts\angular-bing-maps.js" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular-route.js" />
     <Content Include="Scripts\angular-route.min.js" />
@@ -128,6 +129,15 @@
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-route.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-sanitize.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\bingmaps\Microsoft.Maps.AdvancedShapes.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\bingmaps\Microsoft.Maps.All.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\bingmaps\Microsoft.Maps.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\bingmaps\Microsoft.Maps.Directions.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\bingmaps\Microsoft.Maps.Overlay.Style.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\bingmaps\Microsoft.Maps.Search.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\bingmaps\Microsoft.Maps.Themes.BingTheme.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\bingmaps\Microsoft.Maps.Traffic.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\bingmaps\Microsoft.Maps.VenueMaps.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
   </ItemGroup>
   <ItemGroup>

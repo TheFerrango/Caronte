@@ -1,6 +1,6 @@
 ﻿module Caronte
 {
-	angular.module("Caronte", [])
+	angular.module("Caronte", ["angularBingMaps"])
 		.service("anagraficaService", ["$http", "$q", ($http, $q) => new Caronte.anagraficaService($http, $q)])
 		.service("personaleService", ["$http", "$q", ($http, $q) => new Caronte.personaleService($http, $q)])
 		.service("veicoloService", ["$http", "$q", ($http, $q) => new Caronte.veicoloService($http, $q)])

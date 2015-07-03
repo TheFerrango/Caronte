@@ -45,6 +45,20 @@ namespace CaronteWeb.Database
 		[Column("Longitude")]
 		public double? Longitude { get; set; }
 
+		[Column("Sesso")]
+		[Required]
+		public bool Sesso { set; get; }
 
+		[Column("Telefono")]
+		[MaxLength(50)]
+		public string Telefono { set; get; }
+	
+		[Column("Cellulare")]
+		[MaxLength(20)]
+		public string Cellulare { set; get; }
+
+		[Column("Email")]
+		[MaxLength(20)]
+		public string Email { set; get; }
 	}
 }

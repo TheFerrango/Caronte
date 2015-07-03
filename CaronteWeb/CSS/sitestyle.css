@@ -62,7 +62,7 @@
 	overflow-y: auto;
 	width: 100%;
 	height: 100%;
-	padding-top: 20px;	
+	padding-top: 20px;
 }
 
 .labelAlignment {
@@ -74,10 +74,31 @@
 	padding: 100px 0 0 0;
 }
 
-#navcontainer{
-	padding-bottom:20px;
+.inputFormContainer {
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%;
+	height: 100%
 }
 
-#navcontainer ul li {
-	display: inline;
+td > div.input-control.text {
+	width: 100%;
 }
+
+form.inputFormContainer > div {
+	width: 600px;
+	padding-top:10px;
+	padding-bottom:10px;
+	margin:auto;
+}
+  bing-map {
+				height: 100%;
+				width: 100%;
+			}
+#navcontainer {
+	padding-bottom: 20px;
+}
+
+	#navcontainer ul li {
+		display: inline;
+	}

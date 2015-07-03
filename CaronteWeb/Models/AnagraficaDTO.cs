@@ -15,6 +15,10 @@ namespace CaronteWeb.Models
 		public string Indirizzo { set; get; }
 		public double? Latitude { set; get; }
 		public double? Longitude { set; get; }
+		public bool Sesso { set; get; }
+		public string Telefono { set; get; }
+		public string Cellulare { set; get; }
+		public string Email { set; get; }
 
 		public Anagrafica ToEntity()
 		{
@@ -26,7 +30,11 @@ namespace CaronteWeb.Models
 				DataNascita = this.DataNascita,
 				Indirizzo = this.Indirizzo,
 				Latitude = this.Latitude,
-				Longitude = this.Longitude
+				Longitude = this.Longitude,
+				Sesso = this.Sesso,
+				Telefono = this.Telefono,
+				Cellulare = this.Cellulare,
+				Email = this.Email
 			};
 		}
 
@@ -39,6 +47,10 @@ namespace CaronteWeb.Models
 			toEdit.Indirizzo = this.Indirizzo;
 			toEdit.Latitude = this.Latitude;
 			toEdit.Longitude = this.Longitude;
+			toEdit.Sesso = this.Sesso;
+			toEdit.Telefono = this.Telefono;
+			toEdit.Cellulare = this.Cellulare;
+			toEdit.Email = this.Email;
 			return toEdit;
 		}
 	}

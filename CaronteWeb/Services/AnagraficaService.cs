@@ -21,7 +21,11 @@ namespace CaronteWeb.Services
 					   DataNascita = ana.DataNascita,
 					   Indirizzo = ana.Indirizzo,
 					   Latitude = ana.Latitude,
-					   Longitude = ana.Longitude
+					   Longitude = ana.Longitude,
+					   Sesso = ana.Sesso,
+					   Telefono = ana.Telefono,
+					   Cellulare = ana.Cellulare,
+					   Email = ana.Email
 				   };
 		}
 
