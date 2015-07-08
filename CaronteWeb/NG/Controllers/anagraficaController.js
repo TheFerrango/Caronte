@@ -136,7 +136,7 @@ var Caronte;
         };
         anagraficaController.prototype.okEdit = function (form) {
             var _this = this;
-            //if($("formToVal")[0]
+            console.log(form.$error);
             if (form.$valid) {
                 this.scope.popupAna.obj.DataNascita = $("#newDate").val();
                 if (this.scope.popupAna.type == "Modifica") {

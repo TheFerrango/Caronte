@@ -20,7 +20,10 @@ namespace CaronteWeb.Services
 					   Password = dip.Password,
 					   DipendenteDal = dip.DipendenteDal,
 					   DipendenteAl = dip.DipendenteAl,
-					   Attivo = dip.Attivo
+					   Attivo = dip.Attivo,
+					   
+					   NOMINATIVO = dip.Anagrafica.Cognome + " " + dip.Anagrafica.Nome,
+					   RUOLO_DESC = dip.Ruolo.Descrizione
 				   };
 		}
 

@@ -60,5 +60,6 @@ namespace CaronteWeb.Database
 		[Column("Email")]
 		[MaxLength(20)]
 		public string Email { set; get; }
+
 	}
 }

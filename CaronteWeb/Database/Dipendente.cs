@@ -32,13 +32,17 @@ namespace CaronteWeb.Database
 		public DateTimeOffset DipendenteDal { get; set; }
 
 		[Column("DipendenteAl")]
-		[Required]
-		public DateTimeOffset DipendenteAl { get; set; }
+		public DateTimeOffset? DipendenteAl { get; set; }
 
 		[Column("Attivo")]
 		[Required]
 		public bool Attivo { get; set; }
 
 
+		[ForeignKey("FKIDAnagrafica")]
+		public virtual Anagrafica Anagrafica { get; set; }
+
+		[ForeignKey("FKIDRuolo")]
+		public virtual Ruolo Ruolo { get; set; }
 	}
 }

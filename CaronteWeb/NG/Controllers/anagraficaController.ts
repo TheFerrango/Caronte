@@ -1,5 +1,5 @@
 ﻿module Caronte {
-	interface IAppCtrlScope extends ng.IScope {
+	interface IAppCtrlScope extends angular.IScope{
 		currentPage: number;
 		pageNumbers: number[];
 
@@ -190,7 +190,7 @@
 		}
 
 		private okEdit(form: angular.IFormController) {
-			//if($("formToVal")[0]
+			console.log(form.$error);
 			if (form.$valid) {
 				this.scope.popupAna.obj.DataNascita = $("#newDate").val();
 

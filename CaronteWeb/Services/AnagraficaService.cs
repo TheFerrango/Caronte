@@ -47,6 +47,29 @@ namespace CaronteWeb.Services
 			}
 		}
 
+		public Dictionary<string, object> GetAll(int? page, int? howMany, string filter)
+		{
+			using (CaronteContext caronteCtx = new CaronteContext())
+			{
+				Dictionary<string, object> toRet = new Dictionary<string, object>();
+				IQueryable<AnagraficaDTO> anaList = GetAllIQ(caronteCtx).OrderBy(x => x.Cognome);
+				toRet.Add("Totale", anaList.Count());
+
+				if (page.HasValue && howMany.HasValue)
+					anaList = anaList.Skip(page.Value * howMany.Value).Take(howMany.Value);
+
+				if (!String.IsNullOrWhiteSpace(filter))
+				{
+					filter = filter.ToUpper();
+					anaList = anaList.Where(x => x.Nome.ToUpper().Contains(filter) || x.Cognome.ToUpper().Contains(filter));
+				}
+
+				toRet.Add("Dati", anaList.ToList());
+
+				return toRet;
+			}
+		}
+
 		public AnagraficaDTO Get(int ID)
 		{
 			using (CaronteContext caronteCtx = new CaronteContext())

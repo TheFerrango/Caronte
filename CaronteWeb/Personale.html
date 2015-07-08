@@ -1,14 +1,13 @@
 ﻿<!DOCTYPE html>
 <html ng-app="Caronte" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-
 	<link href="CSS/metro.min.css" rel="stylesheet" />
 	<link href="CSS/metro-icons.css" rel="stylesheet" />
 	<link href="CSS/sitestyle.css" rel="stylesheet" />
 	<script type="text/javascript" src="Scripts/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript" src="Scripts/metro.min.js"></script>
 	<script src="Scripts/angular.min.js"></script>
-	<script src="Scripts/angular-table.js"></script>
+	<script src="Scripts/angular-bing-maps.js"></script>
 	<script src="NG/Services/personaleService.js"></script>
 	<script src="NG/Controllers/personaleController.js"></script>
 	<script src="Scripts/app.js"></script>
@@ -16,33 +15,153 @@
 </head>
 <body ng-controller="personaleController">
 
+	<div class="tile-area fg-white bg-gray headerPadding" style="width:1024px">
 
-	<div class="tile-area fg-white bigBackground" style="width:1024px">
-		<div class="tile-area-title">
-			<a href="Index.html"><span class="mif-arrow-left fg-white"></span></a>Gestione Personale
+		<div class="headerBar bg-grayDarker">
+			<div class="tile-area-title">
+
+				<span class="mif-arrow-left fg-white" onclick="window.location='Index.html'"></span>
+				<span class="labelAlignment">Gestione Personale</span>
+			</div>
 		</div>
-		<div class="tile-group">
 
-			<table class="table table-striped" at-table at-paginated at-list="coops" at-config="config">
-				<thead>
-					<tr>
-						<th>Nome</th>
-						<th>Cognome</th>
-						<th>Codice fiscale</th>
-						<th>Data di nascita</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>{{item.Nome}}</td>
-						<td at-implicit at-sortable at-attribute="Nome" width="150" at-initial-sorting="asc"></td>
-						<td at-implicit at-sortable at-attribute="Cognome" width="250"></td>
-						<td at-implicit at-sortable at-attribute="CodiceFiscale"></td>
-					</tr>
-				</tbody>
-			</table>
-			<at-pagination id="navcontainer" at-list="coops" at-config="config"></at-pagination>
+		<div class="contentContainer">
+			<div class="leftAlign">
+				<button class="button" ng-click="newPersonale()">
+					<span class="mif-plus"></span>
+					<span class="labelAlignment"> Nuovo dipendente</span>
+				</button>
+			</div>
+
+			<div class="tableContainer">
+				<table class="table striped hovered bordered bg-white fg-black">
+					<thead>
+						<tr>
+							<th>Nominativo</th>
+							<th>Data assunzione</th>
+							<th>Ruolo</th>
+
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="personale in personaleList">
+							<td width="400">{{personale.NOMINATIVO}}</td>
+							<td width="200">{{ personale.DipendenteDal | date: 'dd/MM/yyyy'}}</td>
+							<td>{{personale.RUOLO_DESC}}</td>
+
+							<td width="80">
+								<span class="mif-pencil fg-grayDark editCell" ng-click="editPersonale( personale )"></span>&nbsp;
+								<span class="mif-cancel fg-red editCell" ng-click="removePersonale( personale.IDDipendente )"></span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div id="navcontainer">
+				<ul class="leftAlign">
+					<li><span ng-class="{true: 'paginateBtn', false: 'paginateDisabledBtn'}[currentPage != 0]" ng-click="showPage(0)">Prima</span></li>
+					<li ng-repeat="nPage in pageNumbers">
+						<span class="paginateBtn" ng-show="nPage != currentPage" ng-click="showPage(nPage)">{{nPage + 1}}</span>
+						<span class="paginateSelectedBtn" ng-show="nPage == currentPage">{{nPage + 1}}</span>
+					</li>
+					<li>
+						<span ng-class="{true: 'paginateBtn', false: 'paginateDisabledBtn'}[currentPage != pageNumbers.length - 1]" ng-click="showPage(pageNumbers.length-1)">Ultima</span>
+
+
+					</li>
+
+				</ul>
+			</div>
 		</div>
 	</div>
+
+	<div data-role="dialog" data-windows-style="true" data-height="100%" id="dialog" class="bg-grayDarker fg-black" style="text-align:center;">
+		<div style="height:100%">
+			<div style="width:100%; height:70px" class="fg-white">
+				<h1>{{popupPer.type}} personale</h1>
+			</div>
+			<form class="bg-white inputFormContainer" data-role="validator" name="toVal" novalidate onkeypress="return event.keyCode != 13;">
+				<div>
+					<table style="width:100%">
+						<tr>
+							<td style="text-align:left">Anagrafica:</td>
+							<td>
+								<!--<div class="input-control text">
+									<input list="Anagrafiche" ng-model="popupPer.selectedName" />
+									<datalist style="max-height:300px" id="Anagrafiche" ng-model="popupPer.obj.FKIDAnagrafica" required data-validate-func="required" required>
+										<option ng-repeat="ana in anagraficaList"  data-id="{{ana.IDAnagrafica}}" value="{{ana.Nome}} {{ana.Cognome}}" />
+									</datalist>
+								</div>-->
+								<div class="input-control select full-size" ng-show="popupPer.obj.IDDipendente == 0">
+									<select style="max-height:300px" id="Anagrafiche" ng-model="popupPer.obj.FKIDAnagrafica" required data-validate-func="required" required>
+										<option ng-repeat="ana in anagraficaList" value="{{ana.IDAnagrafica}}">{{ana.Nome}} {{ana.Cognome}}</option>
+									</select>
+								</div>
+								<div class="input-control text full-size" ng-show="popupPer.obj.IDDipendente > 0">
+									<input type="text" ng-model="popupPer.obj.NOMINATIVO" readonly>
+								</div>
+
+
+							</td>
+						</tr>
+						<tr>
+							<td style="text-align:left">Ruolo:</td>
+							<td>
+								<div class="input-control select full-size" ng-show="popupPer.obj.IDDipendente == 0">
+									<select ng-model="popupPer.obj.FKIDRuolo" required data-validate-func="required" required>
+										<option ng-repeat="ruolo in ruoloList" value="{{ruolo.IDRuolo}}">{{ruolo.Descrizione}}</option>
+									</select>
+								</div>
+
+								<div class="input-control text full-size" ng-show="popupPer.obj.IDDipendente > 0">
+									<input type="text" ng-model="popupPer.obj.RUOLO_DESC" readonly>
+								</div>
+
+							</td>
+						</tr>
+						<tr>
+							<td style="text-align:left">Password:</td>
+							<td>
+								<div class="input-control password full-size" data-role="input">
+									<input type="text" ng-model="popupPer.obj.Password" data-validate-func="required" placeholder="Password">
+									<button class="button helper-button reveal"><span class="mif-looks"></span></button>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td style="text-align:left">Dipendente dal:</td>
+							<td>
+								<div class="input-control text" data-format="yyyy/mm/dd" data-role="datepicker">
+									<input type="text" id="newDateDal" value="{{popupPer.obj.DipendenteDal | date: 'yyyy/MM/dd'}}" data-validate-func="required" required>
+									<button class="button"><span class="mif-calendar"></span></button>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td style="text-align:left">Dipendente al:</td>
+							<td>
+								<div class="input-control text" data-format="yyyy/mm/dd" data-role="datepicker">
+									<input type="text" id="newDateAl" value="{{popupPer.obj.DipendenteAl | date: 'yyyy/MM/dd'}}">
+									<button class="button"><span class="mif-calendar"></span></button>
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td />
+							<td style="float:right">
+								<input type="submit" ng-click="okEdit(toVal)" class="button" value="Salva" />
+								<input type="button" ng-click="cancelEdit()" value="Annulla" />
+							</td>
+						</tr>
+					</table>
+				</div>
+
+
+			</form>
+		</div>
+	</div>
+
 </body>
 </html>

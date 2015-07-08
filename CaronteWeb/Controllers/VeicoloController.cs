@@ -14,11 +14,11 @@ namespace CaronteWeb.Controllers
 		VeicoloService veiServ = new VeicoloService();
 
 		[HttpGet]
-		public IHttpActionResult GetVeicoli()
+		public IHttpActionResult GetVeicoli([FromUri] int? page = null, [FromUri] int? howMany = null)
 		{
 			try
 			{
-				return Ok(veiServ.GetAll(null,null));
+				return Ok(veiServ.GetAll(page,howMany));
 			}
 			catch (Exception e)
 			{
