@@ -26,7 +26,7 @@
 
 		<div class="contentContainer">
 			<div class="leftAlign">
-				<button class="button" ng-click="newVeicolo()">
+				<button class="button primary" ng-click="newVeicolo()">
 					<span class="mif-plus"></span>
 					<span class="labelAlignment"> Nuovo veicolo</span>
 				</button>
@@ -63,20 +63,10 @@
 					</tbody>
 				</table>
 			</div>
-			<div id="navcontainer">
-				<ul class="leftAlign">
-					<li><span ng-class="{true: 'paginateBtn', false: 'paginateDisabledBtn'}[currentPage != 0]" ng-click="showPage(0)">Prima</span></li>
-					<li ng-repeat="nPage in pageNumbers">
-						<span class="paginateBtn" ng-show="nPage != currentPage" ng-click="showPage(nPage)">{{nPage + 1}}</span>
-						<span class="paginateSelectedBtn" ng-show="nPage == currentPage">{{nPage + 1}}</span>
-					</li>
-					<li>
-						<span ng-class="{true: 'paginateBtn', false: 'paginateDisabledBtn'}[currentPage != pageNumbers.length - 1]" ng-click="showPage(pageNumbers.length-1)">Ultima</span>
-
-
-					</li>
-
-				</ul>
+			<div class="pagination leftAlign">
+				<span ng-class="{true: 'item', false: 'item disabled'}[currentPage != 0]" ng-click="showPage(0)">Prima</span>
+				<span ng-repeat="nPage in pageNumbers" ng-class="{true: 'item', false: 'item current'}[currentPage != nPage]" ng-click="showPage(nPage)">{{nPage + 1}}</span>
+				<span ng-class="{true: 'item', false: 'item disabled'}[currentPage != pageNumbers.length - 1]" ng-click="showPage(pageNumbers.length-1)">Ultima</span>
 			</div>
 		</div>
 	</div>
@@ -157,8 +147,8 @@
 						<tr>
 							<td />
 							<td style="float:right">
-								<input type="submit" ng-click="okEdit(toVal)" class="button" value="Salva" />
-								<input type="button" ng-click="cancelEdit()" value="Annulla" />
+								<button class="button primary" ng-click="okEdit(toVal)">Salva</button>
+								<button class="button warning" ng-click="cancelEdit()">Annulla</button>
 							</td>
 						</tr>
 					</table>

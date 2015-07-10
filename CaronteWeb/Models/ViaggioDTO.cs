@@ -12,9 +12,11 @@ namespace CaronteWeb.Models
 		public int? FKIDStato { set; get; }
 		public int? FKIDVeicolo { set; get; }
 		public string DescrizioneViaggio { set; get; }
+		public string IndirizzoPartenza { set; get; }
+		public string IndirizzoArrivo { set; get; }
 		public DateTimeOffset DataInizioPrevista { set; get; }
 		public DateTimeOffset DataFinePrevista { set; get; }
-		public DateTimeOffset? DataInizioEffettea { set; get; }
+		public DateTimeOffset? DataInizioEffettiva { set; get; }
 		public DateTimeOffset? DataFineEffettiva { set; get; }
 		public double LatitudinePartenzaPrevista { set; get; }
 		public double LongitudinePartenzaPrevista { set; get; }
@@ -34,9 +36,11 @@ namespace CaronteWeb.Models
 				FKIDStato = this.FKIDStato,
 				FKIDVeicolo = this.FKIDVeicolo,
 				DescrizioneViaggio = string.IsNullOrWhiteSpace(this.DescrizioneViaggio) ? null : this.DescrizioneViaggio,
+				IndirizzoPartenza = this.IndirizzoPartenza,
+				IndirizzoArrivo = this.IndirizzoArrivo,
 				DataInizioPrevista = this.DataInizioPrevista,
 				DataFinePrevista = this.DataFinePrevista,
-				DataInizioEffettea = this.DataInizioEffettea,
+				DataInizioEffettiva = this.DataInizioEffettiva,
 				DataFineEffettiva = this.DataFineEffettiva,
 				LatitudinePartenzaPrevista = this.LatitudinePartenzaPrevista,
 				LongitudinePartenzaPrevista = this.LongitudinePartenzaPrevista,
@@ -54,10 +58,12 @@ namespace CaronteWeb.Models
 			toEdit.FKIDStato = this.FKIDStato;
 			toEdit.FKIDVeicolo = this.FKIDVeicolo;
 			toEdit.DescrizioneViaggio = string.IsNullOrWhiteSpace(this.DescrizioneViaggio) ? null : this.DescrizioneViaggio;
-			toEdit.DataInizioPrevista = this.DataInizioPrevista;
-			toEdit.DataFinePrevista = this.DataFinePrevista;
-			toEdit.DataInizioEffettea = this.DataInizioEffettea;
-			toEdit.DataFineEffettiva = this.DataFineEffettiva;
+			toEdit.IndirizzoPartenza = this.IndirizzoPartenza;
+			toEdit.IndirizzoArrivo = this.IndirizzoArrivo;
+			toEdit.DataInizioPrevista = this.DataInizioPrevista.ToLocalTime();
+			toEdit.DataFinePrevista = this.DataFinePrevista.ToLocalTime();
+			toEdit.DataInizioEffettiva = (this.DataInizioEffettiva.HasValue ? (DateTimeOffset?)this.DataInizioEffettiva.Value.ToLocalTime() : null);
+			toEdit.DataFineEffettiva = (this.DataFineEffettiva.HasValue ? (DateTimeOffset?)this.DataFineEffettiva.Value.ToLocalTime() : null);
 			toEdit.LatitudinePartenzaPrevista = this.LatitudinePartenzaPrevista;
 			toEdit.LongitudinePartenzaPrevista = this.LongitudinePartenzaPrevista;
 			toEdit.LatitudineArrivoPrevista = this.LatitudineArrivoPrevista;

@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html ng-app="Caronte" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<link href="CSS/metro.min.css" rel="stylesheet" />
 	<link href="CSS/metro-icons.css" rel="stylesheet" />
@@ -7,21 +7,207 @@
 	<script type="text/javascript" src="Scripts/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript" src="Scripts/metro.min.js"></script>
 	<script src="Scripts/angular.min.js"></script>
-	<script src="Scripts/angular-table.js"></script>
-	<script src="Scripts/app.js"></script>	
+	<script src="Scripts/angular-bing-maps.js"></script>
+	<script charset="UTF-8" type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"></script>
 	<script src="NG/Services/viaggioService.js"></script>
 	<script src="NG/Controllers/viaggioController.js"></script>
+	<script src="Scripts/app.js"></script>
 
-		<title>Viaggi - Project Caronte</title>
+	<title>Viaggi - Project Caronte</title>
 </head>
-<body>
-	<div class="tile-area fg-darkBlue bigBackground" style="width:1024px">
-		<div class="tile-area-title">
-			<a href="Index.html"><span class="mif-arrow-left fg-white"></span></a> Gestione Viaggi
-		</div>
-		<div class="tile-group">
+<body ng-controller="viaggioController">
+	<div class="tile-area fg-white bg-gray headerPadding" style="width:1024px">
 
+		<div class="headerBar bg-grayDarker">
+			<div class="tile-area-title">
+				<span class="mif-arrow-left fg-white" onclick="window.location='Index.html'"></span>
+				<span class="labelAlignment">Gestione Viaggio</span>
+			</div>
+		</div>
+
+		<div class="contentContainer">
+			<div class="leftAlign">
+				<button class="button primary" ng-click="newViaggio()">
+					<span class="mif-plus"></span>
+					<span class="labelAlignment">Pianifica viaggio</span>
+				</button>
+			</div>
+
+			<div class="tableContainer">
+				<table class="table striped hovered bordered bg-white fg-black">
+					<thead>
+						<tr>
+							<th>Data viaggio</th>
+							<th>Descrizione</th>
+							<th>Posizione di partenza</th>
+							<th>Ora di partenza</th>
+							<th>Posizione di arrivo</th>
+							<th>Ora di arrivo</th>
+							<th>Stato</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="viaggio in viaggioList">
+							<td width="150">{{ viaggio.DataInizioPrevista | date: 'dd/MM/yyyy'}}</td>
+							<td>{{viaggio.DescrizioneViaggio}}</td>
+							<td width="200">{{viaggio.IndirizzoPartenza}}</td>
+							<td width="150">{{ viaggio.DataInizioPrevista | date: 'HH:mm'}}</td>
+							<td width="200">{{viaggio.IndirizzoArrivo}}</td>
+							<td width="150">{{ viaggio.DataFinePrevista | date: 'HH:mm'}}</td>
+							<td width="150">{{viaggio.StatoDesc}}</td>
+
+							<td width="80">
+								<span class="mif-pencil fg-grayDark editCell" ng-click="editViaggio( viaggio )"></span>&nbsp;
+								<span class="mif-cancel fg-red editCell" ng-click="removeViaggio( viaggio.IDViaggio )"></span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="pagination leftAlign">
+				<span ng-class="{true: 'item', false: 'item disabled'}[currentPage != 0]" ng-click="showPage(0)">Prima</span>
+				<span ng-repeat="nPage in pageNumbers" ng-class="{true: 'item', false: 'item current'}[currentPage != nPage]" ng-click="showPage(nPage)">{{nPage + 1}}</span>
+				<span ng-class="{true: 'item', false: 'item disabled'}[currentPage != pageNumbers.length - 1]" ng-click="showPage(pageNumbers.length-1)">Ultima</span>
+			</div>
 		</div>
 	</div>
+
+	<div data-role="dialog" data-windows-style="true" data-height="100%" id="dialog" class="bg-grayDarker fg-black" style="text-align:center;">
+		<div style="height:100%">
+			<div style="width:100%; height:70px" class="fg-white">
+				<h1>{{popupVia.type}} viaggio</h1>
+			</div>
+			<form class="bg-white inputFormContainer" data-role="validator" name="toVal" novalidate onkeypress="return event.keyCode != 13;">
+
+				<div ng-hide="isMapShowing">
+					<table style="width:100%">
+						<tr>
+							<td style="text-align:left">Descrizione:</td>
+							<td>
+								<div class="input-control text">
+									<input type="text" ng-model="popupVia.obj.DescrizioneViaggio" data-validate-func="required" placeholder="Nome" required>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td style="text-align:left">Autista:</td>
+							<td>
+								<div class="input-control select full-size">
+									<select style="max-height:300px" id="Dipendenti" ng-model="popupVia.obj.FKIDDipendente" required data-validate-func="required" required>
+										<option ng-repeat="dip in dipendenteList" value="{{dip.IDDipendente}}">{{dip.NOMINATIVO}}</option>
+									</select>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td style="text-align:left">Data viaggio:</td>
+							<td>
+								<div class="input-control text" data-format="yyyy/mm/dd" data-role="datepicker">
+									<input type="text" id="newDate" value="{{popupVia.obj.DataInizioPrevista | date: 'yyyy/MM/dd'}}" data-validate-func="required" required>
+									<button class="button"><span class="mif-calendar"></span></button>
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td style="text-align:left">Ora inizio:</td>
+							<td>
+								<div class="input-control text">
+									<input type="text" data-validate-arg="^([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}$" placeholder="Ora inizio"
+										   value="{{popupVia.obj.DataInizioPrevista | date: 'HH:mm'}}" data-validate-func="pattern" required id="oraStr" />
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td style="text-align:left">Ora fine:</td>
+							<td>
+								<div class="input-control text">
+									<input type="text" data-validate-arg="^([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}$" placeholder="Ora Fine"
+										   value="{{popupVia.obj.DataFinePrevista | date: 'HH:mm'}}" d data-validate-func="pattern" required id="oraFin" />
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td style="text-align:left">Indirizzo partenza:</td>
+							<td>
+								<div class="input-control text">
+									<input type="text" readonly="readonly" ng-model="popupVia.obj.IndirizzoPartenza" data-validate-func="required" placeholder="Indirizzo partenza" required>
+									<button class="button" ng-click="showMapDiv('part')">
+										<span class="mif-map" />
+									</button>
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td style="text-align:left">Indirizzo arrivo:</td>
+							<td>
+								<div class="input-control text">
+									<input type="text" readonly="readonly" ng-model="popupVia.obj.IndirizzoArrivo" data-validate-func="required" placeholder="Indirizzo arrivo" required>
+									<button class="button" ng-click="showMapDiv('arrv')">
+										<span class="mif-map" />
+									</button>
+								</div>
+							</td>
+						</tr>
+
+						<tr ng-show="popupVia.obj.IDViaggio > 0">
+							<td style="text-align:left">Partecipanti:</td>
+							<td>
+								<div class="input-control text">
+									<input type="text" readonly="readonly" data-validate-func="required" placeholder="Gestisci partecipanti" required>
+									<button class="button" ng-click="newPasseggero()">
+										<span class="mif-users" />
+									</button>
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td />
+							<td style="float:right">
+								<button class="button primary" ng-click="okEdit(toVal)">Salva</button>
+								<button class="button warning" ng-click="cancelEdit()">Annulla</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+
+				<div style="width: 100%; height: 100%;" ng-show="isMapShowing">
+					<table style="margin: 10px;">
+						<tr>
+							<td style="width: 99%;">
+								<div class="input-control text full-size" data-role="input" >
+									<input class="ng-pristine ng-untouched ng-valid" style="padding-right: 5px;" type="text" placeholder="Indirizzo" ng-model="popupVia.TmpIndirizzo">
+									<button class="button" ng-click="centerBingMap()">
+										<span class="mif-location">
+										</span>
+									</button>
+								</div>
+							</td>
+							<td>
+								<button class="button primary" ng-click="okMapPosition()">Salva</button>
+							</td>
+							<td>
+								<button class="button warning" ng-click="cancelMapPosition()">Annulla</button>
+							</td>
+						</tr>
+					</table>
+					<div style="height: 70%;">
+						<div id="mappaBing" style="width: 100%; height: 100%;">
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div data-role="dialog" data-windows-style="true" data-height="100%" id="mgrPasseggeri" class="bg-grayDarker fg-black" style="text-align:center">
+		<div ng-include="'Passeggeri.html'"> 
+	</div>
+
 </body>
 </html>

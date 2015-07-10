@@ -37,11 +37,21 @@ namespace CaronteWeb.Database
 		[Required]
 		public DateTimeOffset DataFinePrevista { get; set; }
 
-		[Column("DataInizioEffettea")]
-		public DateTimeOffset? DataInizioEffettea { get; set; }
+		[Column("DataInizioEffettiva")]
+		public DateTimeOffset? DataInizioEffettiva { get; set; }
 
 		[Column("DataFineEffettiva")]
 		public DateTimeOffset? DataFineEffettiva { get; set; }
+
+		[Column("IndirizzoPartenza")]
+		[Required]
+		[MaxLength(50)]
+		public string IndirizzoPartenza { get; set; }
+
+		[Column("IndirizzoArrivo")]
+		[Required]
+		[MaxLength(50)]
+		public string IndirizzoArrivo { get; set; }
 
 		[Column("LatitudinePartenzaPrevista")]
 		[Required]

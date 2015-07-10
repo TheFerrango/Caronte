@@ -10,13 +10,8 @@ namespace testSimilar
 	{
 		static void Main(string[] args)
 		{
-			List<string> righe = System.IO.File.ReadAllLines("export.txt").ToList();
+			Console.WriteLine(string.Format("{0:0000}/{1:0000}/{2}", 2015, 3, "PROAL"));
 
-			for (int i = 1; i < righe.Count; i++)
-			{
-				if (righe[i].Length > 80 && righe[i-1].Length > 80 && righe[i].Substring(0, 71) == righe[i - 1].Substring(0, 71))
-					Console.WriteLine(String.Format("{0}{1}{2}", righe[i], Environment.NewLine, righe[i - 1]));
-			}
 
 			
 		}

@@ -1,12 +1,4 @@
-﻿.bigBackground {
-	background: linear-gradient(to bottom right, darkblue, black);
-}
-
-.invertedBackground {
-	background: linear-gradient(to bottom right, black, darkblue );
-}
-
-.editCell {
+﻿.editCell {
 	cursor: pointer;
 }
 
@@ -14,36 +6,6 @@
 	margin-left: 80px;
 	margin-right: 80px;
 	margin-top: 20px;
-}
-
-.paginateBtn {
-	background-color: #FFF;
-	border-color: #59cde2;
-	color: #000;
-	padding: 5px 10px;
-	cursor: pointer;
-}
-
-	.paginateBtn:hover {
-		background-color: #75c7ee;
-		border-color: #75c7ee;
-		color: #ffffff;
-	}
-
-.paginateSelectedBtn {
-	background-color: #1ba1e2;
-	border-color: #59cde2;
-	color: #ffffff;
-	padding: 5px 10px;
-	cursor: default;
-}
-
-.paginateDisabledBtn {
-	background-color: #eeeeee;
-	border-color: #eeeeee;
-	color: #999999;
-	padding: 5px 10px;
-	cursor: default;
 }
 
 .headerBar {
@@ -54,7 +16,7 @@
 }
 
 .leftAlign {
-	margin: 0 80px;
+	margin: 0 0 0 80px;
 	padding: 0;
 }
 
@@ -78,23 +40,30 @@
 	margin-left: auto;
 	margin-right: auto;
 	width: 100%;
-	height: 100%
+	height: 100%;
+}
+
+table.firstColumnSmaller tr td:first-child {
+	width: 1px;
+	padding-right: 10px;
 }
 
 td > div.input-control.text {
 	width: 100%;
 }
 
-form.inputFormContainer > div {
+form.inputFormContainer > div:first-child {
 	width: 600px;
-	padding-top:10px;
-	padding-bottom:10px;
-	margin:auto;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin: auto;
 }
-  bing-map {
-				height: 100%;
-				width: 100%;
-			}
+
+bing-map {
+	height: 100%;
+	width: 100%;
+}
+
 #navcontainer {
 	padding-bottom: 20px;
 }

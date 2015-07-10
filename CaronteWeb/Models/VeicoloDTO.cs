@@ -10,6 +10,7 @@ namespace CaronteWeb.Models
 		public int IDVeicolo { set; get; }
 		public string Targa { set; get; }
 		public string Modello { set; get; }
+		public int Cilindrata { set; get; }
 		public int AnnoProduzione { set; get; }
 		public DateTimeOffset DataAcquisto { set; get; }
 		public DateTimeOffset? DataVendita { set; get; }
@@ -21,6 +22,7 @@ namespace CaronteWeb.Models
 		   {
 			   Targa = this.Targa,
 			   Modello = this.Modello,
+			   Cilindrata = this.Cilindrata,
 			   AnnoProduzione = this.AnnoProduzione,
 			   DataAcquisto = this.DataAcquisto,
 			   DataVendita = this.DataVendita
@@ -31,6 +33,7 @@ namespace CaronteWeb.Models
 		{
 			toEdit.Targa = this.Targa;
 			toEdit.Modello = this.Modello;
+			toEdit.Cilindrata = this.Cilindrata;
 			toEdit.AnnoProduzione = this.AnnoProduzione;
 			toEdit.DataAcquisto = this.DataAcquisto;
 			toEdit.DataVendita = this.DataVendita;

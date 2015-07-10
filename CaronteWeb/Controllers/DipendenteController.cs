@@ -14,11 +14,11 @@ namespace CaronteWeb.Controllers
 		DipendenteService dipServ = new DipendenteService();
 
 		[HttpGet]
-		public IHttpActionResult GetDipendenti([FromUri] int? page = null, [FromUri] int? howMany = null)
+		public IHttpActionResult GetDipendenti([FromUri] int? page = null, [FromUri] int? howMany = null, [FromUri] int? ruolo = null)
 		{
 			try
 			{
-				return Ok(dipServ.GetAll(page,howMany));
+				return Ok(dipServ.GetAll(page, howMany, ruolo));
 			}
 			catch (Exception e)
 			{

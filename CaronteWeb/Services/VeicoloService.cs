@@ -17,6 +17,7 @@ namespace CaronteWeb.Services
 					   IDVeicolo = vei.IDVeicolo,
 					   Targa = vei.Targa,
 					   Modello = vei.Modello,
+					   Cilindrata = vei.Cilindrata,
 					   AnnoProduzione = vei.AnnoProduzione,
 					   DataAcquisto = vei.DataAcquisto,
 					   DataVendita = vei.DataVendita,

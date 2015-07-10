@@ -36,7 +36,29 @@ namespace CaronteWeb.Services
 				toRet.Add("Totale", dipeList.Count());
 
 				if (page.HasValue && howMany.HasValue)
+					dipeList = dipeList.Skip(page.Value * howMany.Value).Take(howMany.Value);			
+
+				toRet.Add("Dati", dipeList.ToList());
+
+				return toRet;
+			}
+		}
+
+		public Dictionary<string, object> GetAll(int? page, int? howMany, int? ruolo)
+		{
+			using (CaronteContext caronteCtx = new CaronteContext())
+			{
+				Dictionary<string, object> toRet = new Dictionary<string, object>();
+				IQueryable<DipendenteDTO> dipeList = GetAllIQ(caronteCtx).OrderBy(x => x.DipendenteDal);
+				
+				if (ruolo.HasValue)
+					dipeList = dipeList.Where(x => x.FKIDRuolo == ruolo);
+				
+				toRet.Add("Totale", dipeList.Count());
+
+				if (page.HasValue && howMany.HasValue)
 					dipeList = dipeList.Skip(page.Value * howMany.Value).Take(howMany.Value);
+
 
 				toRet.Add("Dati", dipeList.ToList());
 

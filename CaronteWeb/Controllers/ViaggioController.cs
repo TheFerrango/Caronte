@@ -14,11 +14,11 @@ namespace CaronteWeb.Controllers
 		ViaggioService viagServ = new ViaggioService();
 
 		[HttpGet]
-		public IHttpActionResult GetViaggi()
+		public IHttpActionResult GetViaggi([FromUri] int? page = null, [FromUri] int? howMany = null)
 		{
 			try
 			{
-				return Ok(viagServ.GetAll(null,null));
+				return Ok(viagServ.GetAll(page,howMany));
 			}
 			catch (Exception e)
 			{

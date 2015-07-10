@@ -29,7 +29,7 @@
 		<div class="contentContainer">
 
 			<div class="leftAlign">
-				<button class="button" ng-click="newAnagrafica()">
+				<button class="button primary" ng-click="newAnagrafica()">
 					<span class="mif-plus"></span>
 					<span class="labelAlignment"> Nuova anagrafica</span>
 				</button>
@@ -65,20 +65,11 @@
 					</tbody>
 				</table>
 			</div>
-			<div id="navcontainer">
-				<ul class="leftAlign">
-					<li><span ng-class="{true: 'paginateBtn', false: 'paginateDisabledBtn'}[currentPage != 0]" ng-click="showPage(0)">Prima</span></li>
-					<li ng-repeat="nPage in pageNumbers">
-						<span class="paginateBtn" ng-show="nPage != currentPage" ng-click="showPage(nPage)">{{nPage + 1}}</span>
-						<span class="paginateSelectedBtn" ng-show="nPage == currentPage">{{nPage + 1}}</span>
-					</li>
-					<li>
-						<span ng-class="{true: 'paginateBtn', false: 'paginateDisabledBtn'}[currentPage != pageNumbers.length - 1]" ng-click="showPage(pageNumbers.length-1)">Ultima</span>
 
-
-					</li>
-
-				</ul>
+			<div class="pagination leftAlign">
+				<span ng-class="{true: 'item', false: 'item disabled'}[currentPage != 0]" ng-click="showPage(0)">Prima</span>
+				<span ng-repeat="nPage in pageNumbers" ng-class="{true: 'item', false: 'item current'}[currentPage != nPage]" ng-click="showPage(nPage)">{{nPage + 1}}</span>
+				<span ng-class="{true: 'item', false: 'item disabled'}[currentPage != pageNumbers.length - 1]" ng-click="showPage(pageNumbers.length-1)">Ultima</span>
 			</div>
 		</div>
 	</div>
@@ -178,8 +169,8 @@
 						<tr>
 							<td />
 							<td style="float:right">
-								<input type="submit" ng-click="okEdit(toVal)" class="button" value="Salva" />
-								<input type="button" ng-click="cancelEdit()" value="Annulla" />
+								<button class="button primary" ng-click="okEdit(toVal)">Salva</button>
+								<button class="button warning" ng-click="cancelEdit()">Annulla</button>
 							</td>
 						</tr>
 					</table>
@@ -187,27 +178,29 @@
 
 				<div style="width: 100%; height: 100%;" ng-show="isMapShowing">
 
-					<div>
-						<span style="padding-right:10px; width: 10%">Indirizzo</span>
-						<div class="input-control text" style="width:90%" data-role="input">
-							<input class="ng-pristine ng-untouched ng-valid" style="padding-right: 45.4px;" type="text"  placeholder="Indirizzo" ng-model="popupAna.TmpIndirizzo">
-							<button class="button" ng-click="centerBingMap()">
-								<span class="mif-location">
-								</span>
-							</button>
-							
-						</div>
-					</div>
+					<table style="margin: 10px;">
+						<tr>
+							<td style="width: 99%;">
+								<div class="input-control text full-size" data-role="input">
+									<input class="ng-pristine ng-untouched ng-valid" style="padding-right: 5px;" type="text" placeholder="Indirizzo" ng-model="popupVia.TmpIndirizzo">
+									<button class="button" ng-click="centerBingMap()">
+										<span class="mif-location">
+										</span>
+									</button>
+								</div>
+							</td>
+							<td>
+								<button class="button primary" ng-click="okMapPosition()">Salva</button>
+							</td>
+							<td>
+								<button class="button warning" ng-click="cancelMapPosition()">Annulla</button>
+							</td>
+						</tr>
+					</table>
 					<div style="height: 70%;">
 						<div id="mappaBing" style="width: 100%; height: 100%;">
 
-						</div>
-						<div>
-							<div style="float: right;">
-								<input type="button" value="Salva" ng-click="okMapPosition()">
-								<input type="button" value="Annulla" ng-click="cancelMapPosition()">
-							</div>
-						</div>
+						</div>						
 					</div>
 				</div>
 			</form>

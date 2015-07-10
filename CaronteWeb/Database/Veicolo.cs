@@ -26,6 +26,10 @@ namespace CaronteWeb.Database
 		[Required]
 		public string Modello { get; set; }
 
+		[Column("Cilindrata")]
+		[Required]
+		public int Cilindrata { get; set; }
+
 		[Column("AnnoProduzione")]
 		[Required]
 		public int AnnoProduzione { get; set; }

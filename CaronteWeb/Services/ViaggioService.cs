@@ -7,11 +7,11 @@ using System.Web;
 
 namespace CaronteWeb.Services
 {
-	public class ViaggioService:IService<ViaggioDTO>
+	public class ViaggioService : IService<ViaggioDTO>
 	{
 		public IQueryable<ViaggioDTO> GetAllIQ(CaronteContext caronteCtx)
 		{
-			return from viag in caronteCtx.Viaggio				   
+			return from viag in caronteCtx.Viaggio
 				   select new ViaggioDTO
 				   {
 					   IDViaggio = viag.IDViaggio,
@@ -19,9 +19,11 @@ namespace CaronteWeb.Services
 					   FKIDStato = viag.FKIDStato,
 					   FKIDVeicolo = viag.FKIDVeicolo,
 					   DescrizioneViaggio = viag.DescrizioneViaggio,
+					   IndirizzoPartenza = viag.IndirizzoPartenza,
+					   IndirizzoArrivo = viag.IndirizzoArrivo,
 					   DataInizioPrevista = viag.DataInizioPrevista,
 					   DataFinePrevista = viag.DataFinePrevista,
-					   DataInizioEffettea = viag.DataInizioEffettea,
+					   DataInizioEffettiva = viag.DataInizioEffettiva,
 					   DataFineEffettiva = viag.DataFineEffettiva,
 					   LatitudinePartenzaPrevista = viag.LatitudinePartenzaPrevista,
 					   LongitudinePartenzaPrevista = viag.LongitudinePartenzaPrevista,

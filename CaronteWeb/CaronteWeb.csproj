@@ -101,6 +101,7 @@
     <TypeScriptCompile Include="NG\Services\anagraficaService.ts" />
     <TypeScriptCompile Include="NG\Services\personaleService.ts" />
     <TypeScriptCompile Include="Scripts\app.ts" />
+    <Content Include="Passeggeri.html" />
     <Content Include="Veicoli.html" />
     <Content Include="Viaggi.html" />
     <Content Include="Personale.html" />

@@ -172,18 +172,7 @@
 			this.scope.popupAna.type = "Modifica";
 
 			this.scope.popupAna.obj = {};
-			this.scope.popupAna.obj.IDAnagrafica = anaObj.IDAnagrafica;
-			this.scope.popupAna.obj.Nome = anaObj.Nome;
-			this.scope.popupAna.obj.Cognome = anaObj.Cognome;
-			this.scope.popupAna.obj.CodiceFiscale = anaObj.CodiceFiscale;
-			this.scope.popupAna.obj.DataNascita = anaObj.DataNascita;
-			this.scope.popupAna.obj.Sesso = anaObj.Sesso.toString();
-			this.scope.popupAna.obj.Telefono = anaObj.Telefono;
-			this.scope.popupAna.obj.Cellulare = anaObj.Cellulare;
-			this.scope.popupAna.obj.Email = anaObj.Email;
-			this.scope.popupAna.obj.Indirizzo = anaObj.Indirizzo;
-			this.scope.popupAna.obj.Latitude = anaObj.Latitude;
-			this.scope.popupAna.obj.Longitude = anaObj.Longitude;
+			angular.copy(anaObj, this.scope.popupAna.obj);
 			
 			dlg.open()
 
