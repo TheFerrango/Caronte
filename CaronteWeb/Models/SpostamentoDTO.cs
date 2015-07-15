@@ -28,6 +28,7 @@ namespace CaronteWeb.Models
 		public double? LongitudineDiscesaEffettiva { set; get; }
 
 		public string NOMINATIVO { set; get; }
+		public string STATO_DESC { set; get; }
 
 
 		public Spostamento ToEntity()

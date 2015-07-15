@@ -5,6 +5,7 @@
 
 		viaggioList: any;
 		dipendenteList: any;
+		statoList: any;
 		popupVia: any;
 
 		isMapShowing: boolean;
@@ -104,6 +105,10 @@
 		private initControlli() {
 			this.service.getDipendentiFilter(2,(data) => {
 				this.scope.dipendenteList = data["Dati"];
+			});
+
+			this.service.getStato((data) => {
+				this.scope.statoList = data["Dati"];
 			});
 		}
 
@@ -256,6 +261,7 @@
 			this.scope.popupVia.obj = {};
 			angular.copy(viaObj, this.scope.popupVia.obj)
 			this.scope.popupVia.obj.FKIDDipendente = this.scope.popupVia.obj.FKIDDipendente.toString();
+			this.scope.popupVia.obj.FKIDStato = this.scope.popupVia.obj.FKIDStato.toString();
 			dlg.open()
 
 		}
@@ -548,6 +554,8 @@
 
 			this.scope.popupPas.obj = {};
 			angular.copy(pasObj, this.scope.popupPas.obj)
+			this.scope.popupPas.obj.FKIDStato = this.scope.popupPas.obj.FKIDStato.toString();
+
 
 			dlg.open()
 

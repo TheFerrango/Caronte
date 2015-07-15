@@ -27,6 +27,7 @@ namespace CaronteWeb.Models
 		public double? LatitudineArrivoEffettiva { set; get; }
 		public double? LongitudineArrivoEffettiva { set; get; }
 
+		public string STATO_DESC { set; get; }
 
 		public Viaggio ToEntity()
 		{

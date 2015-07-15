@@ -12,6 +12,8 @@ namespace CaronteWeb.Services
 		public IQueryable<ViaggioDTO> GetAllIQ(CaronteContext caronteCtx)
 		{
 			return from viag in caronteCtx.Viaggio
+				   join stat in caronteCtx.Stato
+				   on viag.FKIDStato equals stat.IDStato
 				   select new ViaggioDTO
 				   {
 					   IDViaggio = viag.IDViaggio,
@@ -34,6 +36,7 @@ namespace CaronteWeb.Services
 					   LatitudineArrivoEffettiva = viag.LatitudineArrivoEffettiva,
 					   LongitudineArrivoEffettiva = viag.LongitudineArrivoEffettiva,
 
+					   STATO_DESC = stat.Descrizione
 				   };
 		}
 

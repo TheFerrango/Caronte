@@ -11,7 +11,7 @@
 	<script charset="UTF-8" type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0&mkt=it-it"></script>
 	<script src="NG/Services/viaggioService.js"></script>
 	<script src="NG/Services/passeggeroService.js"></script>
-	<script src="NG/Controllers/viaggioController.js"></script>	
+	<script src="NG/Controllers/viaggioController.js"></script>
 	<script src="Scripts/app.js"></script>
 
 	<title>Viaggi - Project Caronte</title>
@@ -38,27 +38,27 @@
 				<table class="table striped hovered bordered bg-white fg-black">
 					<thead>
 						<tr>
-							<th>Data viaggio</th>
+							<th width="150">Data viaggio</th>
 							<th>Descrizione</th>
-							<th>Posizione di partenza</th>
-							<th>Ora di partenza</th>
-							<th>Posizione di arrivo</th>
-							<th>Ora di arrivo</th>
-							<th>Stato</th>
-							<th></th>
+							<th width="200">Posizione di partenza</th>
+							<th width="150">Ora di partenza</th>
+							<th width="200">Posizione di arrivo</th>
+							<th width="150">Ora di arrivo</th>
+							<th width="150">Stato</th>
+							<th width="80"></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="viaggio in viaggioList">
-							<td width="150">{{ viaggio.DataInizioPrevista | date: 'dd/MM/yyyy'}}</td>
+							<td>{{ viaggio.DataInizioPrevista | date: 'dd/MM/yyyy'}}</td>
 							<td>{{viaggio.DescrizioneViaggio}}</td>
-							<td width="200">{{viaggio.IndirizzoPartenza}}</td>
-							<td width="150">{{ viaggio.DataInizioPrevista | date: 'HH:mm'}}</td>
-							<td width="200">{{viaggio.IndirizzoArrivo}}</td>
-							<td width="150">{{ viaggio.DataFinePrevista | date: 'HH:mm'}}</td>
-							<td width="150">{{viaggio.StatoDesc}}</td>
+							<td>{{viaggio.IndirizzoPartenza}}</td>
+							<td>{{ viaggio.DataInizioPrevista | date: 'HH:mm'}}</td>
+							<td>{{viaggio.IndirizzoArrivo}}</td>
+							<td>{{ viaggio.DataFinePrevista | date: 'HH:mm'}}</td>
+							<td>{{viaggio.STATO_DESC}}</td>
 
-							<td width="80">
+							<td>
 								<span class="mif-pencil fg-grayDark editCell" ng-click="editViaggio( viaggio )"></span>&nbsp;
 								<span class="mif-cancel fg-red editCell" ng-click="removeViaggio( viaggio.IDViaggio )"></span>
 							</td>
@@ -155,6 +155,17 @@
 							</td>
 						</tr>
 
+						<tr>
+							<td style="text-align:left">Stato:</td>
+							<td>
+								<div class="input-control select full-size">
+									<select style="max-height:300px" id="Stati" ng-model="popupVia.obj.FKIDStato" required data-validate-func="required" required>
+										<option ng-repeat="st in statoList" value="{{st.IDStato}}">{{st.Descrizione}}</option>
+									</select>
+								</div>
+							</td>
+						</tr>
+
 						<tr ng-show="popupVia.obj.IDViaggio > 0">
 							<td style="text-align:left">Passeggeri:</td>
 							<td>
@@ -182,7 +193,7 @@
 					<table style="margin: 10px;">
 						<tr>
 							<td style="width: 99%;">
-								<div class="input-control text full-size" data-role="input" >
+								<div class="input-control text full-size" data-role="input">
 									<input class="ng-pristine ng-untouched ng-valid" style="padding-right: 5px;" type="text" placeholder="Indirizzo" ng-model="popupVia.TmpIndirizzo">
 									<button class="button" ng-click="centerBingMap()">
 										<span class="mif-location">
@@ -208,8 +219,8 @@
 	</div>
 
 	<div data-role="dialog" data-windows-style="true" data-height="100%" id="mgrPasseggeri" class="bg-grayDarker fg-black">
-		<div ng-include="'SubPages/Passeggeri.html'" style="height:100%"> 
-	</div>
+		<div ng-include="'SubPages/Passeggeri.html'" style="height:100%">
+		</div>
 
 </body>
 </html>

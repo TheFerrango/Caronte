@@ -9,6 +9,15 @@
 
 		}
 
+		public getStato(onSuccess: Function) {
+			var result = this.deferrer.defer();
+			this.wc.get("/api/stato")
+				.success((data) => {
+				onSuccess(data);
+			});
+			return result.promise;
+		}
+
 		public getDipendentiFilter(idRuolo: number, onSuccess: Function) {
 			var result = this.deferrer.defer();
 			this.wc.get("/api/dipendente?ruolo=" + idRuolo)

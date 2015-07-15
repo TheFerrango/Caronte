@@ -14,6 +14,8 @@ namespace CaronteWeb.Services
 			return from sposta in caronteCtx.Spostamento
 				   join ana in caronteCtx.Anagrafica
 				   on sposta.FKIDAnagrafica equals ana.IDAnagrafica
+				   join stat in caronteCtx.Stato
+				   on sposta.FKIDStato equals stat.IDStato
 				   select new SpostamentoDTO
 				   {
 					   IDSpostamento = sposta.IDSpostamento,
@@ -36,7 +38,8 @@ namespace CaronteWeb.Services
 					   LatitudineDiscesaEffettiva = sposta.LatitudineDiscesaEffettiva,
 					   LongitudineDiscesaEffettiva = sposta.LongitudineDiscesaEffettiva,
 
-					   NOMINATIVO = ana.Nome + " " + ana.Cognome
+					   NOMINATIVO = ana.Nome + " " + ana.Cognome,
+					   STATO_DESC = stat.Descrizione
 				   };
 		}
 

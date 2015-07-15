@@ -39,25 +39,25 @@
 				<table class="table striped hovered bordered bg-white fg-black">
 					<thead>
 						<tr>
-							<th>Codice Fiscale</th>
-							<th>Cognome</th>
-							<th>Nome</th>
-							<th>Data di nascita</th>
+							<th width="200">Codice Fiscale</th>
+							<th width="200">Cognome</th>
+							<th width="200">Nome</th>
+							<thwidth ="150">Data di nascita</thwidth>
 							<th>Indirizzo</th>
-							<th>N. Telefono</th>
-							<th></th>
+							<th width="250">N. Telefono</th>
+							<th width="80"></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="anagrafica in anagraficaList">
-							<td width="200">{{anagrafica.CodiceFiscale}}</td>
-							<td width="200">{{anagrafica.Cognome}}</td>
-							<td width="200">{{anagrafica.Nome}}</td>
-							<td width="150">{{ anagrafica.DataNascita | date: 'dd/MM/yyyy'}}</td>
+							<td>{{anagrafica.CodiceFiscale}}</td>
+							<td>{{anagrafica.Cognome}}</td>
+							<td>{{anagrafica.Nome}}</td>
+							<td >{{ anagrafica.DataNascita | date: 'dd/MM/yyyy'}}</td>
 							<td >{{anagrafica.Indirizzo}}</td>
-							<td width="250">{{anagrafica.Telefono}}</td>
+							<td>{{anagrafica.Telefono}}</td>
 
-							<td width="80">
+							<td>
 								<span class="mif-pencil fg-grayDark editCell" ng-click="editAnagrafica( anagrafica )"></span>&nbsp;
 								<span class="mif-cancel fg-red editCell" ng-click="removeAnagrafica( anagrafica.IDAnagrafica )"></span>
 							</td>
