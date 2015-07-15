@@ -1,7 +1,7 @@
 var Caronte;
 (function (Caronte) {
-    var viaggioController = (function () {
-        function viaggioController($scope, persServ) {
+    var passeggeroController = (function () {
+        function passeggeroController($scope, persServ) {
             this.$scope = $scope;
             this.scope = $scope;
             this.service = persServ;
@@ -11,18 +11,19 @@ var Caronte;
             this.howMany = 15;
             this.showPage(0);
             this.scope.popupVia = {};
+            console.log("compra coop");
             this.initControlli();
             this.initBindMetodi();
             this.initMappa();
         }
         //#region Inizializzazione
-        viaggioController.prototype.initControlli = function () {
+        passeggeroController.prototype.initControlli = function () {
             var _this = this;
             this.service.getDipendentiFilter(2, function (data) {
                 _this.scope.dipendenteList = data["Dati"];
             });
         };
-        viaggioController.prototype.initBindMetodi = function () {
+        passeggeroController.prototype.initBindMetodi = function () {
             var _this = this;
             this.scope.newViaggio = function () { return _this.newViaggio(); };
             this.scope.editViaggio = function (viaObj) { return _this.editViaggio(viaObj); };
@@ -35,9 +36,9 @@ var Caronte;
             this.scope.okMapPosition = function () { return _this.okMapPosition(); };
             this.scope.cancelMapPosition = function () { return _this.cancelMapPosition(); };
             this.scope.newPasseggero = function () { return _this.newPasseggero(); };
-            this.scope.closePasseggeri = function () { return _this.closePasseggeri(); };
+            this.scope.closeManagePasseggeri = function () { return _this.closeManagePasseggeri(); };
         };
-        viaggioController.prototype.initMappa = function () {
+        passeggeroController.prototype.initMappa = function () {
             Microsoft.Maps.loadModule("Microsoft.Maps.Search");
             this.mapObj = new Microsoft.Maps.Map($("#mappaBing")[0], { credentials: "AvCv3p-UgCnQsBKohLfG71_6FT84OovVPBups8s28O5U6fEEXj9BSMFU3NX1Ee5N" });
             this.mapOptions = {};
@@ -52,7 +53,7 @@ var Caronte;
         };
         //#endregion
         //#region Gestione Tab mappa
-        viaggioController.prototype.getLocationFromAddress = function (address) {
+        passeggeroController.prototype.getLocationFromAddress = function (address) {
             var _this = this;
             var grOpts;
             grOpts = {
@@ -77,7 +78,7 @@ var Caronte;
             var sm = new Microsoft.Maps.Search.SearchManager(this.mapObj);
             sm.geocode(grOpts);
         };
-        viaggioController.prototype.showTabMappa = function (whichAddr) {
+        passeggeroController.prototype.showTabMappa = function (whichAddr) {
             this.scope.isMapShowing = true;
             if (whichAddr == "part") {
                 this.scope.popupVia.TmpIndirizzo = this.scope.popupVia.obj.IndirizzoPartenza;
@@ -93,7 +94,7 @@ var Caronte;
             this.mapObj.setView(this.mapOptions);
             this.cheMappa = whichAddr;
         };
-        viaggioController.prototype.okMapPosition = function () {
+        passeggeroController.prototype.okMapPosition = function () {
             var currentPos = this.pushPin.getLocation();
             if (this.cheMappa == "part") {
                 this.scope.popupVia.obj.LatitudinePartenzaPrevista = currentPos.latitude;
@@ -107,12 +108,12 @@ var Caronte;
             }
             this.cancelMapPosition();
         };
-        viaggioController.prototype.cancelMapPosition = function () {
+        passeggeroController.prototype.cancelMapPosition = function () {
             this.scope.isMapShowing = false;
         };
         //#endregion
         //#region Paginazione
-        viaggioController.prototype.makeRange = function () {
+        passeggeroController.prototype.makeRange = function () {
             var lista = [];
             var limit = Math.ceil(this.totalItems / this.howMany);
             for (var idx = 0; idx < limit; idx++) {
@@ -120,7 +121,7 @@ var Caronte;
             }
             return lista;
         };
-        viaggioController.prototype.showPage = function (pageToNavigate) {
+        passeggeroController.prototype.showPage = function (pageToNavigate) {
             var _this = this;
             console.log(pageToNavigate);
             this.scope.currentPage = pageToNavigate;
@@ -132,7 +133,7 @@ var Caronte;
         };
         //#endregion
         //#region Aggiunta, modifica ed eliminazione
-        viaggioController.prototype.newViaggio = function () {
+        passeggeroController.prototype.newViaggio = function () {
             var dlg = $("#dialog").data('dialog');
             this.scope.popupVia.type = "Aggiungi";
             this.scope.popupVia.obj = {};
@@ -141,14 +142,14 @@ var Caronte;
             this.scope.popupVia.obj.Longitude = 11.6;
             dlg.open();
         };
-        viaggioController.prototype.editViaggio = function (viaObj) {
+        passeggeroController.prototype.editViaggio = function (viaObj) {
             var dlg = $("#dialog").data('dialog');
             this.scope.popupVia.type = "Modifica";
             this.scope.popupVia.obj = {};
             angular.copy(viaObj, this.scope.popupVia.obj);
             dlg.open();
         };
-        viaggioController.prototype.okEdit = function (form) {
+        passeggeroController.prototype.okEdit = function (form) {
             var _this = this;
             console.log(form.$error);
             if (form.$valid) {
@@ -210,11 +211,11 @@ var Caronte;
                 }
             }
         };
-        viaggioController.prototype.cancelEdit = function () {
+        passeggeroController.prototype.cancelEdit = function () {
             var dlg = $('#dialog').data('dialog');
             dlg.close();
         };
-        viaggioController.prototype.removeViaggio = function (idVia) {
+        passeggeroController.prototype.removeViaggio = function (idVia) {
             var _this = this;
             if (confirm("Sei sicuro di voler eliminare questa viaggio?")) {
                 this.service.deleteViaggio(idVia, function (result) {
@@ -246,16 +247,18 @@ var Caronte;
         };
         //#endregion
         //#region 
-        viaggioController.prototype.newPasseggero = function () {
+        passeggeroController.prototype.newPasseggero = function () {
             var dlg = $("#mgrPasseggeri").data('dialog');
             dlg.open();
         };
-        viaggioController.prototype.closePasseggeri = function () {
+        passeggeroController.prototype.closeManagePasseggeri = function () {
             console.log("chiudiPasseggeri");
+            var dlg = $("#mgrPasseggeri").data('dialog');
+            dlg.close();
         };
-        viaggioController.$inject = ["$scope", "viaggioService"];
-        return viaggioController;
+        passeggeroController.$inject = ["$scope", "viaggioService"];
+        return passeggeroController;
     })();
-    Caronte.viaggioController = viaggioController;
+    Caronte.passeggeroController = passeggeroController;
 })(Caronte || (Caronte = {}));
-//# sourceMappingURL=viaggioController.js.map
+//# sourceMappingURL=passeggeroController.js.map

@@ -27,7 +27,7 @@ namespace CaronteWeb.Models
 				CodiceFiscale = this.CodiceFiscale,
 				Nome = this.Nome,
 				Cognome = this.Cognome,
-				DataNascita = this.DataNascita,
+				DataNascita = this.DataNascita.ToLocalTime(),
 				Indirizzo = this.Indirizzo,
 				Latitude = this.Latitude,
 				Longitude = this.Longitude,
@@ -43,7 +43,7 @@ namespace CaronteWeb.Models
 			toEdit.CodiceFiscale = this.CodiceFiscale;
 			toEdit.Nome = this.Nome;
 			toEdit.Cognome = this.Cognome;
-			toEdit.DataNascita = this.DataNascita;
+			toEdit.DataNascita = this.DataNascita.ToLocalTime();
 			toEdit.Indirizzo = this.Indirizzo;
 			toEdit.Latitude = this.Latitude;
 			toEdit.Longitude = this.Longitude;

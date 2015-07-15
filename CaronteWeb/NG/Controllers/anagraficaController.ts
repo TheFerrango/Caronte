@@ -173,6 +173,7 @@
 
 			this.scope.popupAna.obj = {};
 			angular.copy(anaObj, this.scope.popupAna.obj);
+			this.scope.popupAna.obj.Sesso = this.scope.popupAna.obj.Sesso.toString();
 			
 			dlg.open()
 

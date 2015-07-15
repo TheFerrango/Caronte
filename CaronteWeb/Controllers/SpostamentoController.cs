@@ -14,11 +14,11 @@ namespace CaronteWeb.Controllers
 		SpostamentoService sposServ = new SpostamentoService();
 
 		[HttpGet]
-		public IHttpActionResult GetSpostamenti()
+		public IHttpActionResult GetSpostamenti([FromUri] int? page = null, [FromUri] int? howMany = null, int? idViaggio = null)
 		{
 			try
 			{
-				return Ok(sposServ.GetAll(null,null));
+				return Ok(sposServ.GetAll(page, howMany, idViaggio));
 			}
 			catch (Exception e)
 			{

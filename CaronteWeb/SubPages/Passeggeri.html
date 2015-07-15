@@ -1,0 +1,177 @@
+﻿<div class="tile-area fg-white bg-gray headerPadding" style="width:1024px">
+
+	<div class="headerBar bg-grayDarker">
+		<div class="tile-area-title">
+
+			<span class="mif-arrow-left fg-white" ng-click="closeManagePasseggeri()"></span>
+			<span class="labelAlignment">Gestione Passeggeri</span>
+		</div>
+	</div>
+
+	<div class="contentContainer">
+		<div class="leftAlign">
+			<button class="button primary" ng-click="newPasseggero()">
+				<span class="mif-plus"></span>
+				<span class="labelAlignment"> Nuovo passeggero</span>
+			</button>
+		</div>
+
+		<div class="tableContainer">
+			<table class="table striped hovered bordered bg-white fg-black">
+				<thead>
+					<tr>
+						<th>Nominativo</th>
+						<th>Indirizzo salita</th>
+						<th>Ora salita</th>
+						<th>Indirizzo discesa</th>
+						<th>Ora discesa</th>
+						<th>Stato</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="passeggero in passeggeriList">
+						<td width="400">{{passeggero.NOMINATIVO}}</td>
+						<td width="200">{{ passeggero.IndirizzoSalita}}</td>
+
+						<td width="200">{{ passeggero.DataSalitaPrevista | date: 'HH:mm'}}</td>
+
+						<td width="200">{{ passeggero.IndirizzoDiscesa}}</td>
+
+						<td width="200">{{ passeggero.DataDiscesaPrevista | date: 'HH:mm'}}</td>
+						<td>{{passeggero.STATO_DESC}}</td>
+
+						<td width="80">
+							<span class="mif-pencil fg-grayDark editCell" ng-click="editPasseggero( passeggero )"></span>&nbsp;
+							<span class="mif-cancel fg-red editCell" ng-click="removePasseggero( passeggero.IDPasseggero )"></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="pagination leftAlign">
+			<span ng-class="{true: 'item', false: 'item disabled'}[currentPage_P != 0]" ng-click="showPage_P(0)">Prima</span>
+			<span ng-repeat="nPage in pageNumbers_P" ng-class="{true: 'item', false: 'item current'}[currentPage_P!= nPage]" ng-click="showPag_P(nPage)">{{nPage + 1}}</span>
+			<span ng-class="{true: 'item', false: 'item disabled'}[currentPage_P != pageNumbers_P.length - 1]" ng-click="showPage_P(pageNumbers_P.length-1)">Ultima</span>
+		</div>
+	</div>
+</div>
+
+<div data-role="dialog" data-windows-style="true" data-height="100%" id="dialogPasseggero" class="bg-grayDarker fg-black" style="text-align:center;">
+	<div style="height:100%">
+		<div style="width:100%; height:70px" class="fg-white">
+			<h1>{{popupPas.type}} passeggero</h1>
+		</div>
+		<form class="bg-white inputFormContainer" data-role="validator" name="toValPas" novalidate onkeypress="return event.keyCode != 13;">
+
+			<div ng-hide="isMapShowing_P">
+				<table style="width:100%">
+					<tr>
+						<td style="text-align:left">Passeggero:</td>
+						<td>
+							
+							<div class="input-control select full-size" ng-show="popupPas.obj.IDSpostamento == 0">
+								<select style="max-height:300px" id="Anagrafiche" ng-model="popupPas.obj.FKIDAnagrafica" required data-validate-func="required" required>
+									<option ng-repeat="ana in anagraficaList" value="{{ana.IDAnagrafica}}">{{ana.Nome}} {{ana.Cognome}}</option>
+								</select>
+							</div>
+							<div class="input-control text full-size" ng-show="popupPas.obj.IDSpostamento > 0">
+								<input type="text" ng-model="popupPas.obj.NOMINATIVO" readonly>
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td style="text-align:left">Indirizzo partenza:</td>
+						<td>
+							<div class="input-control text">
+								<input type="text" readonly="readonly" ng-model="popupPas.obj.IndirizzoSalita" data-validate-func="required" placeholder="Indirizzo partenza" required>
+								<button class="button" ng-click="showMapDiv_P('part')">
+									<span class="mif-map" />
+								</button>
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td style="text-align:left">Indirizzo arrivo:</td>
+						<td>
+							<div class="input-control text">
+								<input type="text" readonly="readonly" ng-model="popupPas.obj.IndirizzoDiscesa" data-validate-func="required" placeholder="Indirizzo arrivo" required>
+								<button class="button" ng-click="showMapDiv_P('arrv')">
+									<span class="mif-map" />
+								</button>
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td style="text-align:left">Data viaggio:</td>
+						<td>
+							<div class="input-control text" data-format="yyyy/mm/dd" data-role="datepicker">
+								<input type="text" id="newDate_P" value="{{popupPas.obj.DataSalitaPrevista | date: 'yyyy/MM/dd'}}" data-validate-func="required" required>
+								<button class="button"><span class="mif-calendar"></span></button>
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td style="text-align:left">Ora inizio:</td>
+						<td>
+							<div class="input-control text">
+								<input type="text" data-validate-arg="^([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}$" placeholder="Ora inizio"
+									   value="{{popupPas.obj.DataSalitaPrevista | date: 'HH:mm'}}" data-validate-func="pattern" required id="oraStr_P" />
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td style="text-align:left">Ora fine:</td>
+						<td>
+							<div class="input-control text">
+								<input type="text" data-validate-arg="^([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}$" placeholder="Ora Fine"
+									   value="{{popupPas.obj.DataDiscesaPrevista | date: 'HH:mm'}}" d data-validate-func="pattern" required id="oraFin_P" />
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td />
+						<td style="float:right">
+							<button class="button primary" ng-click="okEdit_P(toValPas)">Salva</button>
+							<button class="button warning" ng-click="cancelEdit_P()">Annulla</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<div style="width: 100%; height: 100%;" ng-show="isMapShowing_P">
+
+				<table style="margin: 10px;">
+					<tr>
+						<td style="width: 99%;">
+							<div class="input-control text full-size" data-role="input">
+								<input class="ng-pristine ng-untouched ng-valid" style="padding-right: 5px;" type="text" placeholder="Indirizzo" ng-model="popupPas.TmpIndirizzo">
+								<button class="button" ng-click="centerBingMap_P()">
+									<span class="mif-location">
+									</span>
+								</button>
+							</div>
+						</td>
+						<td>
+							<button class="button primary" ng-click="okMapPosition_P()">Salva</button>
+						</td>
+						<td>
+							<button class="button warning" ng-click="cancelMapPosition_P()">Annulla</button>
+						</td>
+					</tr>
+				</table>
+				<div style="height: 70%;">
+					<div id="mappaBing_P" style="width: 100%; height: 100%;">
+
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

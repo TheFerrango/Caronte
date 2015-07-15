@@ -29,6 +29,14 @@ namespace CaronteWeb.Database
 		[MaxLength(255)]
 		public string DescrizioneViaggio { get; set; }
 
+		[Column("IndirizzoSalita")]
+		[MaxLength(50)]
+		public string IndirizzoSalita { get; set; }
+
+		[Column("IndirizzoDiscesa")]
+		[MaxLength(50)]
+		public string IndirizzoDiscesa { get; set; }
+
 		[Column("DataSalitaPrevista")]
 		[Required]
 		public DateTimeOffset DataSalitaPrevista { get; set; }
@@ -37,8 +45,8 @@ namespace CaronteWeb.Database
 		[Required]
 		public DateTimeOffset DataDiscesaPrevista { get; set; }
 
-		[Column("DataSalitaEffettea")]
-		public DateTimeOffset? DataSalitaEffettea { get; set; }
+		[Column("DataSalitaEffettiva")]
+		public DateTimeOffset? DataSalitaEffettiva { get; set; }
 
 		[Column("DataDiscesaEffettiva")]
 		public DateTimeOffset? DataDiscesaEffettiva { get; set; }

@@ -28,7 +28,7 @@ namespace CaronteWeb.Models
 		public Posizione ToEntity(Posizione toEdit)
 		{
 			toEdit.FKIDViaggio = this.FKIDViaggio;
-			toEdit.Data = this.Data;
+			toEdit.Data = this.Data.ToLocalTime();
 			toEdit.Latitudine = this.Latitudine;
 			toEdit.Longitudine = this.Longitudine;
 			return toEdit;

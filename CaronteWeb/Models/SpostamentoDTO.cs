@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CaronteWeb.Models
 {
-	public class SpostamentoDTO: IDTO<Spostamento>
+	public class SpostamentoDTO : IDTO<Spostamento>
 	{
 		[Key]
 		public int IDSpostamento { set; get; }
@@ -12,9 +12,11 @@ namespace CaronteWeb.Models
 		public int? FKIDViaggio { set; get; }
 		public int? FKIDStato { set; get; }
 		public string DescrizioneViaggio { set; get; }
+		public string IndirizzoSalita { set; get; }
+		public string IndirizzoDiscesa { set; get; }
 		public DateTimeOffset DataSalitaPrevista { set; get; }
 		public DateTimeOffset DataDiscesaPrevista { set; get; }
-		public DateTimeOffset? DataSalitaEffettea { set; get; }
+		public DateTimeOffset? DataSalitaEffettiva { set; get; }
 		public DateTimeOffset? DataDiscesaEffettiva { set; get; }
 		public double LatitudineSalitaPrevista { set; get; }
 		public double LongitudineSalitaPrevista { set; get; }
@@ -25,6 +27,8 @@ namespace CaronteWeb.Models
 		public double? LatitudineDiscesaEffettiva { set; get; }
 		public double? LongitudineDiscesaEffettiva { set; get; }
 
+		public string NOMINATIVO { set; get; }
+
 
 		public Spostamento ToEntity()
 		{
@@ -34,10 +38,12 @@ namespace CaronteWeb.Models
 			   FKIDViaggio = this.FKIDViaggio,
 			   FKIDStato = this.FKIDStato,
 			   DescrizioneViaggio = string.IsNullOrWhiteSpace(this.DescrizioneViaggio) ? null : this.DescrizioneViaggio,
-			   DataSalitaPrevista = this.DataSalitaPrevista,
-			   DataDiscesaPrevista = this.DataDiscesaPrevista,
-			   DataSalitaEffettea = this.DataSalitaEffettea,
-			   DataDiscesaEffettiva = this.DataDiscesaEffettiva,
+			   IndirizzoSalita = this.IndirizzoSalita,
+			   IndirizzoDiscesa = this.IndirizzoDiscesa,
+			   DataSalitaPrevista = this.DataSalitaPrevista.ToLocalTime(),
+			   DataDiscesaPrevista = this.DataDiscesaPrevista.ToLocalTime(),
+			   DataSalitaEffettiva = (this.DataSalitaEffettiva.HasValue ? (DateTimeOffset?)this.DataSalitaEffettiva.Value.ToLocalTime() : null),
+			   DataDiscesaEffettiva = (this.DataDiscesaEffettiva.HasValue ? (DateTimeOffset?)this.DataDiscesaEffettiva.Value.ToLocalTime() : null),
 			   LatitudineSalitaPrevista = this.LatitudineSalitaPrevista,
 			   LongitudineSalitaPrevista = this.LongitudineSalitaPrevista,
 			   LatitudineDiscesaPrevista = this.LatitudineDiscesaPrevista,
@@ -55,10 +61,12 @@ namespace CaronteWeb.Models
 			toEdit.FKIDViaggio = this.FKIDViaggio;
 			toEdit.FKIDStato = this.FKIDStato;
 			toEdit.DescrizioneViaggio = string.IsNullOrWhiteSpace(this.DescrizioneViaggio) ? null : this.DescrizioneViaggio;
-			toEdit.DataSalitaPrevista = this.DataSalitaPrevista;
-			toEdit.DataDiscesaPrevista = this.DataDiscesaPrevista;
-			toEdit.DataSalitaEffettea = this.DataSalitaEffettea;
-			toEdit.DataDiscesaEffettiva = this.DataDiscesaEffettiva;
+			toEdit.IndirizzoSalita = this.IndirizzoSalita;
+			toEdit.IndirizzoDiscesa = this.IndirizzoDiscesa;
+			toEdit.DataSalitaPrevista = this.DataSalitaPrevista.ToLocalTime();
+			toEdit.DataDiscesaPrevista = this.DataDiscesaPrevista.ToLocalTime();
+			toEdit.DataSalitaEffettiva = (this.DataSalitaEffettiva.HasValue ? (DateTimeOffset?)this.DataSalitaEffettiva.Value.ToLocalTime() : null);
+			toEdit.DataDiscesaEffettiva = (this.DataDiscesaEffettiva.HasValue ? (DateTimeOffset?)this.DataDiscesaEffettiva.Value.ToLocalTime() : null);
 			toEdit.LatitudineSalitaPrevista = this.LatitudineSalitaPrevista;
 			toEdit.LongitudineSalitaPrevista = this.LongitudineSalitaPrevista;
 			toEdit.LatitudineDiscesaPrevista = this.LatitudineDiscesaPrevista;

@@ -96,12 +96,13 @@
     <TypeScriptCompile Include="NG\Controllers\veicoloController.ts" />
     <TypeScriptCompile Include="NG\Controllers\personaleController.ts" />
     <TypeScriptCompile Include="NG\Services\indexService.ts" />
+    <TypeScriptCompile Include="NG\Services\passeggeroService.ts" />
     <TypeScriptCompile Include="NG\Services\viaggioService.ts" />
     <TypeScriptCompile Include="NG\Services\veicoloService.ts" />
     <TypeScriptCompile Include="NG\Services\anagraficaService.ts" />
     <TypeScriptCompile Include="NG\Services\personaleService.ts" />
     <TypeScriptCompile Include="Scripts\app.ts" />
-    <Content Include="Passeggeri.html" />
+    <Content Include="SubPages\Passeggeri.html" />
     <Content Include="Veicoli.html" />
     <Content Include="Viaggi.html" />
     <Content Include="Personale.html" />

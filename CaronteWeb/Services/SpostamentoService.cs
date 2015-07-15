@@ -12,6 +12,8 @@ namespace CaronteWeb.Services
 		public IQueryable<SpostamentoDTO> GetAllIQ(CaronteContext caronteCtx)
 		{
 			return from sposta in caronteCtx.Spostamento
+				   join ana in caronteCtx.Anagrafica
+				   on sposta.FKIDAnagrafica equals ana.IDAnagrafica
 				   select new SpostamentoDTO
 				   {
 					   IDSpostamento = sposta.IDSpostamento,
@@ -19,9 +21,11 @@ namespace CaronteWeb.Services
 					   FKIDViaggio = sposta.FKIDViaggio,
 					   FKIDStato = sposta.FKIDStato,
 					   DescrizioneViaggio = sposta.DescrizioneViaggio,
+					   IndirizzoSalita = sposta.IndirizzoSalita,
+					   IndirizzoDiscesa = sposta.IndirizzoDiscesa,
 					   DataSalitaPrevista = sposta.DataSalitaPrevista,
 					   DataDiscesaPrevista = sposta.DataDiscesaPrevista,
-					   DataSalitaEffettea = sposta.DataSalitaEffettea,
+					   DataSalitaEffettiva = sposta.DataSalitaEffettiva,
 					   DataDiscesaEffettiva = sposta.DataDiscesaEffettiva,
 					   LatitudineSalitaPrevista = sposta.LatitudineSalitaPrevista,
 					   LongitudineSalitaPrevista = sposta.LongitudineSalitaPrevista,
@@ -30,7 +34,9 @@ namespace CaronteWeb.Services
 					   LatitudineSalitaEffettiva = sposta.LatitudineSalitaEffettiva,
 					   LongitudineSalitaEffettiva = sposta.LongitudineSalitaEffettiva,
 					   LatitudineDiscesaEffettiva = sposta.LatitudineDiscesaEffettiva,
-					   LongitudineDiscesaEffettiva = sposta.LongitudineDiscesaEffettiva
+					   LongitudineDiscesaEffettiva = sposta.LongitudineDiscesaEffettiva,
+
+					   NOMINATIVO = ana.Nome + " " + ana.Cognome
 				   };
 		}
 
@@ -44,6 +50,26 @@ namespace CaronteWeb.Services
 
 				if (page.HasValue && howMany.HasValue)
 					spoList = spoList.Skip(page.Value * howMany.Value).Take(howMany.Value);
+
+				toRet.Add("Dati", spoList.ToList());
+
+				return toRet;
+			}
+		}
+
+		public Dictionary<string, object> GetAll(int? page, int? howMany, int? idViaggio)
+		{
+			using (CaronteContext caronteCtx = new CaronteContext())
+			{
+				Dictionary<string, object> toRet = new Dictionary<string, object>();
+				IQueryable<SpostamentoDTO> spoList = GetAllIQ(caronteCtx).OrderBy(x => x.DataSalitaPrevista);
+				toRet.Add("Totale", spoList.Count());
+
+				if (page.HasValue && howMany.HasValue)
+					spoList = spoList.Skip(page.Value * howMany.Value).Take(howMany.Value);
+
+				if (idViaggio.HasValue)
+					spoList = spoList.Where(x => x.FKIDViaggio == idViaggio.Value);
 
 				toRet.Add("Dati", spoList.ToList());
 

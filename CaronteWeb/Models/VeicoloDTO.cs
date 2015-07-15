@@ -35,8 +35,8 @@ namespace CaronteWeb.Models
 			toEdit.Modello = this.Modello;
 			toEdit.Cilindrata = this.Cilindrata;
 			toEdit.AnnoProduzione = this.AnnoProduzione;
-			toEdit.DataAcquisto = this.DataAcquisto;
-			toEdit.DataVendita = this.DataVendita;
+			toEdit.DataAcquisto = this.DataAcquisto.ToLocalTime();
+			toEdit.DataVendita = (this.DataVendita.HasValue ? (DateTimeOffset?)this.DataVendita.Value.ToLocalTime():null);
 			return toEdit;
 		}
 	}

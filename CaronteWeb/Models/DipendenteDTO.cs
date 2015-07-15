@@ -21,13 +21,13 @@ namespace CaronteWeb.Models
 		public Dipendente ToEntity()
 		{
 			return new Dipendente()
-			{			
+			{
 				IDDipendente = this.IDDipendente,
 				FKIDAnagrafica = this.FKIDAnagrafica,
 				FKIDRuolo = this.FKIDRuolo,
 				Password = this.Password,
-				DipendenteDal = this.DipendenteDal,
-				DipendenteAl = this.DipendenteAl,
+				DipendenteDal = this.DipendenteDal.ToLocalTime(),
+				DipendenteAl = (this.DipendenteAl.HasValue ? (DateTimeOffset?)this.DipendenteAl.Value.ToLocalTime() : null),
 				Attivo = this.Attivo
 			};
 		}
@@ -37,8 +37,8 @@ namespace CaronteWeb.Models
 			toEdit.FKIDAnagrafica = this.FKIDAnagrafica;
 			toEdit.FKIDRuolo = this.FKIDRuolo;
 			toEdit.Password = this.Password;
-			toEdit.DipendenteDal = this.DipendenteDal;
-			toEdit.DipendenteAl = this.DipendenteAl;
+			toEdit.DipendenteDal = this.DipendenteDal.ToLocalTime();
+			toEdit.DipendenteAl = (this.DipendenteAl.HasValue ? (DateTimeOffset?)this.DipendenteAl.Value.ToLocalTime() : null);
 			toEdit.Attivo = this.Attivo;
 			return toEdit;
 		}
