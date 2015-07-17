@@ -24,7 +24,7 @@
 	export class personaleController {
 		static $inject = ["$scope", "personaleService"];
 		scope: IAppCtrlScope;
-		service: personaleService;
+		service:  personaleService;
 		totalItems: number;
 		howMany: number;
 

@@ -1,6 +1,6 @@
 ﻿module Caronte {
 
-    export class indexService {
+    export class situationManagerService {
 		private wc: ng.IHttpService = null;
 		private deferrer: ng.IQService;
 		constructor($http: ng.IHttpService, $q: ng.IQService) {

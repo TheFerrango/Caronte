@@ -1,27 +1,9 @@
-﻿<!DOCTYPE html>
-<html ng-app="Caronte" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<link href="CSS/metro.min.css" rel="stylesheet" />
-	<link href="CSS/metro-icons.css" rel="stylesheet" />
-	<link href="CSS/sitestyle.css" rel="stylesheet" />
-	<script type="text/javascript" src="Scripts/jquery-2.1.4.min.js"></script>
-	<script type="text/javascript" src="Scripts/metro.min.js"></script>
-	<script src="Scripts/angular.min.js"></script>
-	<script src="Scripts/angular-bing-maps.js"></script>
-	<script charset="UTF-8" type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0&mkt=it-it"></script>
-	<script src="NG/Services/viaggioService.js"></script>
-	<script src="NG/Services/passeggeroService.js"></script>
-	<script src="NG/Controllers/viaggioController.js"></script>
-	<script src="Scripts/app.js"></script>
-
-	<title>Viaggi - Project Caronte</title>
-</head>
-<body ng-controller="viaggioController">
+﻿<div style="height:100%">
 	<div class="tile-area fg-white bg-gray headerPadding" style="width:1024px">
 
 		<div class="headerBar bg-grayDarker">
 			<div class="tile-area-title">
-				<span class="mif-arrow-left fg-white" onclick="window.location='Index.html'"></span>
+				<span class="mif-arrow-left fg-white" onclick="window.location=''"></span>
 				<span class="labelAlignment">Gestione Viaggio</span>
 			</div>
 		</div>
@@ -222,5 +204,5 @@
 		<div ng-include="'SubPages/Passeggeri.html'" style="height:100%">
 		</div>
 
-</body>
-</html>
+	</div>
+</div>

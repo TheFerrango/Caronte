@@ -2,123 +2,43 @@
 <html ng-app="Caronte" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<link href="CSS/metro.min.css" rel="stylesheet" />
+	<link href="CSS/metro-icons.min.css" rel="stylesheet" />
 	<link href="CSS/sitestyle.css" rel="stylesheet" />
+
 	<script type="text/javascript" src="Scripts/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript" src="Scripts/metro.min.js"></script>
+
+	<script charset="UTF-8" type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"></script>
+
 	<script src="Scripts/angular.min.js"></script>
+	<script src="Scripts/angular-route.min.js"></script>
 	<script src="Scripts/angular-bing-maps.js"></script>
-	<script src="NG/Services/indexService.js"></script>
-	<script src="NG/Controllers/indexController.js"></script>
-	<script src="Scripts/app.js"></script>	
+	
+	<script src="NG/Services/situationManagerService.js"></script>
+	<script src="NG/Controllers/situationManagerController.js"></script>
+
+	<script src="NG/Services/anagraficaService.js"></script>
+	<script src="NG/Controllers/anagraficaController.js"></script>
+
+	<script src="NG/Services/personaleService.js"></script>
+	<script src="NG/Controllers/personaleController.js"></script>
+
+	<script src="NG/Services/veicoloService.js"></script>
+	<script src="NG/Controllers/veicoloController.js"></script>
+
+	<script src="NG/Services/viaggioService.js"></script>
+	<script src="NG/Services/passeggeroService.js"></script>
+	<script src="NG/Controllers/viaggioController.js"></script>
+
+	<script src="Scripts/app.js"></script>
+
 	<title>Project Caronte</title>
 </head>
-<body>
-	<div class="tile-area fg-white bg-gray" style="width:1024px">
-		<div class="headerBar bg-grayDarker">
-			<div class="tile-area-title">Welcome to Project Caronte!</div>
-		</div>
-		<div class="tile-group">
-			<span class="tile-group-title fg-white">Gestione anagrafiche</span>
 
-			<a class="tile-wide bg-lightBlue" href="Anagrafica.html">
-				<div class="tile-content slide-up-2">
-					<div class="slide align-center">
-						<img src="Images/User-Profile.png">
-					</div>
-					<div class="slide-over text-small padding10 fg-white">
-						Entra qui per visualizzare, creare, modificare od eliminare le anagrafiche
-					</div>
-					<span class="tile-label fg-white">Anagrafiche</span>
-				</div>
-			</a>
-
-			<a class="tile-wide bg-lightBlue" href="Personale.html">
-				<div class="tile-content slide-up-2">
-					<div class="slide align-center">
-						<img src="Images/Employee.png">
-					</div>
-					<div class="slide-over text-small padding10 fg-white">
-						Entra qui per visualizzare, creare, modificare od eliminare il personale
-					</div>
-					<span class="tile-label fg-white">Personale</span>
-				</div>
-			</a>
-		</div>
-
-		<div class="tile-group">
-			<span class="tile-group-title fg-white">Gestione Viaggi</span>
-
-			<a class="tile-wide bg-lightBlue" href="Veicoli.html">
-				<div class="tile-content slide-up-2">
-					<div class="slide align-center">
-						<img src="Images/Van.png">
-					</div>
-					<div class="slide-over text-small padding10 fg-white">
-						Entra qui per visualizzare, creare, modificare od eliminare i veicoli
-					</div>
-					<span class="tile-label fg-white">Veicoli</span>
-				</div>
-			</a>
-
-			<a class="tile-wide bg-lightBlue" href="Viaggi.html">
-				<div class="tile-content slide-up-2">
-					<div class="slide align-center">
-						<img src="Images/Road.png">
-					</div>
-					<div class="slide-over text-small padding10 fg-white">
-						Entra qui per visualizzare, creare, modificare od eliminare i viaggi
-					</div>
-					<span class="tile-label fg-white">Viaggi</span>
-				</div>
-			</a>
-		</div>
-		<div class="tile-group">
-			<span class="tile-group-title fg-white">Dati in tempo reale</span>
-
-			<div class="tile-wide bg-lightPink">
-				<div class="tile-content iconic">
-					<span class="tile-label fg-white">Viaggi programmati</span>
-					<span class="icon">5</span>
-
-				</div>
-			</div>
-
-			<div class="tile-wide bg-lightGreen">
-				<div class="tile-content iconic">
-					<span class="tile-label fg-white">Viaggi in corso</span>
-					<span class="icon">2</span>
-				</div>
-			</div>
-		</div>
-		<div class="tile-group">
-			<span class="tile-group-title fg-white">Pubblicità</span>
-
-			<div class="tile-wide ">
-				<div class="tile-content">
-					<div class="image-container">
-						<div class="frame">
-							<img src="Images/urAd.png">
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="tile-wide " data-role="tile" data-effect="slideUpDown">
-				<div class="tile-content">
-					<div class="live-slide">
-						<div class="image-container">
-							<img src="Images/938_coop.jpg" />
-						</div>
-					</div>
-					<div class="live-slide">
-						<div class="image-container">
-							<img src="Images/urAd.png" />
-						</div>
-					</div>
-				</div>
-
-			</div>
-		</div>
+<body ng-cloak>
+	<div class="container-fluid">
+		<ng-view></ng-view>
 	</div>
 </body>
+
 </html>

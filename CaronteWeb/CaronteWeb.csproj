@@ -125,15 +125,15 @@
   <ItemGroup>
     <Content Include="CSS\sitestyle.css" />
     <Content Include="fonts\metro.svg" />
-    <Content Include="Login.html" />
+    <Content Include="Views\Login.html" />
     <Content Include="Scripts\angular-bing-maps.js" />
     <Content Include="Scripts\angular-mocks.js" />
     <TypeScriptCompile Include="NG\Controllers\anagraficaController.ts" />
     <TypeScriptCompile Include="NG\Controllers\viaggioController.ts" />
-    <TypeScriptCompile Include="NG\Controllers\indexController.ts" />
+    <TypeScriptCompile Include="NG\Controllers\situationManagerController.ts" />
     <TypeScriptCompile Include="NG\Controllers\veicoloController.ts" />
     <TypeScriptCompile Include="NG\Controllers\personaleController.ts" />
-    <TypeScriptCompile Include="NG\Services\indexService.ts" />
+    <TypeScriptCompile Include="NG\Services\situationManagerService.ts" />
     <TypeScriptCompile Include="NG\Services\passeggeroService.ts" />
     <TypeScriptCompile Include="NG\Services\viaggioService.ts" />
     <TypeScriptCompile Include="NG\Services\veicoloService.ts" />
@@ -144,10 +144,11 @@
     <Content Include="Scripts\angular-route.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
+    <Content Include="Views\SituationManager.html" />
     <Content Include="SubPages\Passeggeri.html" />
-    <Content Include="Veicoli.html" />
-    <Content Include="Viaggi.html" />
-    <Content Include="Personale.html" />
+    <Content Include="Views\Veicoli.html" />
+    <Content Include="Views\Viaggi.html" />
+    <Content Include="Views\Personale.html" />
     <Content Include="CSS\metro-icons.css" />
     <Content Include="CSS\metro-icons.min.css" />
     <Content Include="CSS\metro.css" />
@@ -159,7 +160,7 @@
     <Content Include="Images\urAd.png" />
     <Content Include="Images\User-Profile.png" />
     <Content Include="Images\Van.png" />
-    <Content Include="Anagrafica.html" />
+    <Content Include="Views\Anagrafica.html" />
     <Content Include="Index.html" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
     <Content Include="Scripts\metro.js" />

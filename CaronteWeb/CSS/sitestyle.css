@@ -1,4 +1,8 @@
-﻿.editCell {
+﻿body > div.container-fluid{
+	height:100%
+}
+
+.editCell {
 	cursor: pointer;
 }
 

@@ -10,7 +10,6 @@
 
 namespace LogPosizioni.Resources
 {
-	using System;
 
 
 	/// <summary>

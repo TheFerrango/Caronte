@@ -4,10 +4,10 @@
 		config: any;
 	}
 
-	export class indexController {
-		static $inject = ["$scope", "indexService"];
+	export class situationManagerController {
+		static $inject = ["$scope", "situationManagerService"];
 
-		constructor(private $scope: IAppCtrlScope, persServ: indexService) {			
+		constructor(private $scope: IAppCtrlScope, persServ: situationManagerService) {			
 			
 			//persServ.getAnagrafiche((data) => {
 			//	this.$scope.coops = data

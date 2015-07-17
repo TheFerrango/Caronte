@@ -1,25 +1,9 @@
-﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" ng-app="Caronte">
-<head>
-	<link href="CSS/metro.min.css" rel="stylesheet" />
-	<link href="CSS/metro-icons.css" rel="stylesheet" />
-	<link href="CSS/sitestyle.css" rel="stylesheet" />
-	<script type="text/javascript" src="Scripts/jquery-2.1.4.min.js"></script>
-	<script type="text/javascript" src="Scripts/metro.min.js"></script>
-	<script src="Scripts/angular.min.js"></script>
-	<script src="Scripts/angular-bing-maps.js"></script>
-	<script src="NG/Services/veicoloService.js"></script>
-	<script src="NG/Controllers/veicoloController.js"></script>
-	<script src="Scripts/app.js"></script>
-	<title>Veicoli - Project Caronte</title>
-</head>
-<body ng-controller="veicoloController">
-
+﻿<div style="height:100%">
 	<div class="tile-area fg-white bg-gray headerPadding" style="width:1024px">
 
 		<div class="headerBar bg-grayDarker">
 			<div class="tile-area-title">
-				<span class="mif-arrow-left fg-white" onclick="window.location='Index.html'"></span>
+				<span class="mif-arrow-left fg-white" onclick="window.location=''"></span>
 				<span class="labelAlignment">Gestione Veicoli</span>
 			</div>
 		</div>
@@ -92,7 +76,7 @@
 							<td>
 								<div class="input-control text full-size">
 									<input type="text" ng-model="popupVei.obj.Modello" data-validate-func="required" required>
-								</div>								
+								</div>
 							</td>
 						</tr>
 						<tr>
@@ -143,6 +127,4 @@
 			</form>
 		</div>
 	</div>
-
-</body>
-</html>
+</div>
