@@ -125,6 +125,7 @@
   <ItemGroup>
     <Content Include="CSS\sitestyle.css" />
     <Content Include="fonts\metro.svg" />
+    <Content Include="Scripts\angular-local-storage.min.js" />
     <Content Include="Views\Login.html" />
     <Content Include="Scripts\angular-bing-maps.js" />
     <Content Include="Scripts\angular-mocks.js" />
@@ -133,6 +134,8 @@
     <TypeScriptCompile Include="NG\Controllers\situationManagerController.ts" />
     <TypeScriptCompile Include="NG\Controllers\veicoloController.ts" />
     <TypeScriptCompile Include="NG\Controllers\personaleController.ts" />
+    <TypeScriptCompile Include="NG\Services\InterceptorService.ts" />
+    <TypeScriptCompile Include="NG\Services\minosseService.ts" />
     <TypeScriptCompile Include="NG\Services\situationManagerService.ts" />
     <TypeScriptCompile Include="NG\Services\passeggeroService.ts" />
     <TypeScriptCompile Include="NG\Services\viaggioService.ts" />
@@ -166,6 +169,7 @@
     <Content Include="Scripts\metro.js" />
     <Content Include="Scripts\metro.min.js" />
     <Content Include="Web.config" />
+    <TypeScriptCompile Include="Scripts\typings\angular-local-storage\angular-local-storage.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-cookies.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-mocks.d.ts" />

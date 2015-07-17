@@ -1,9 +1,7 @@
-﻿module Caronte
-{
+﻿module Caronte {
 	"use strict";
 
-	
-	var app = angular.module("Caronte", ["ngRoute", "angularBingMaps"])
+	var app = angular.module("Caronte", ["ngRoute", "LocalStorageModule", "angularBingMaps"])
 		.service("situationManagerService", ["$http", "$q", ($http, $q) => new Caronte.situationManagerService($http, $q)])
 		.service("anagraficaService", ["$http", "$q", ($http, $q) => new Caronte.anagraficaService($http, $q)])
 		.service("personaleService", ["$http", "$q", ($http, $q) => new Caronte.personaleService($http, $q)])
@@ -14,10 +12,14 @@
 		.controller("anagraficaController", Caronte.anagraficaController)
 		.controller("personaleController", Caronte.personaleController)
 		.controller("veicoloController", Caronte.veicoloController)
-		.controller("viaggioController", Caronte.viaggioController);
+		.controller("viaggioController", Caronte.viaggioController)
+		.factory("minosseService", ["$http", "$q", "localStorageService", ($http, $q, localStorageService) => new Caronte.minosseService($http, $q, localStorageService)])
+		.factory("interceptorService", ["$q", "$location", "localStorageService", ($q, $location, localStorageService) => new Caronte.interceptorService($q, $location, localStorageService)]);
 
 
-	app.config(function ($routeProvider: ng.route.IRouteProvider) {
+	app.config(($routeProvider: ng.route.IRouteProvider) => {	
+			
+
 		$routeProvider.when("/Anagrafica", {
 			controller: "anagraficaController",
 			templateUrl: "Views/Anagrafica.html"
@@ -44,5 +46,11 @@
 		});
 	});
 
-		
+
+	app.config(($httpProvider: ng.IHttpProvider) => {
+		$httpProvider.interceptors.push('interceptorService');
+	});
+
+ 
+
 }
