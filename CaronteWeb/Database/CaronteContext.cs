@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
+﻿using System.Data.Entity;
 
 namespace CaronteWeb.Database
 {
@@ -10,7 +6,8 @@ namespace CaronteWeb.Database
 	{
 		public CaronteContext():base(@"Data Source=MDTASG\SQLSERVER2014;Initial Catalog=Caronte;Persist Security Info=True;MultipleActiveResultSets=True;User ID=sa;Password=Mssqlidea2014")
 		{
-			System.Data.Entity.Database.SetInitializer<CaronteContext>(null);			
+			System.Data.Entity.Database.SetInitializer<CaronteContext>(null);		
+			
 		}
 
 		public CaronteContext(string ConnectionString)

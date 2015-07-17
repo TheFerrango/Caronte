@@ -13,6 +13,7 @@ namespace CaronteWeb.Controllers
 	{
 		AnagraficaService anaService = new AnagraficaService();
 
+		//[Authorize]
 		[HttpGet]
 		public IHttpActionResult GetAnagrafiche([FromUri] int? page = null, [FromUri] int? howMany = null, [FromUri] string filter = "")
 		{

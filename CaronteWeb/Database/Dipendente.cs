@@ -22,8 +22,13 @@ namespace CaronteWeb.Database
 		[Column("FKIDRuolo")]
 		public int? FKIDRuolo { get; set; }
 
+		[Column("Username")]
+		[MaxLength(50)]
+		[Required]
+		public string Username { get; set; }
+
 		[Column("Password")]
-		[MaxLength(255)]
+		[MaxLength(50)]
 		[Required]
 		public string Password { get; set; }
 

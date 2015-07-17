@@ -21,7 +21,7 @@ namespace CaronteWeb.Services
 					   DipendenteDal = dip.DipendenteDal,
 					   DipendenteAl = dip.DipendenteAl,
 					   Attivo = dip.Attivo,
-					   
+					   Username = "admin",
 					   NOMINATIVO = dip.Anagrafica.Cognome + " " + dip.Anagrafica.Nome,
 					   RUOLO_DESC = dip.Ruolo.Descrizione
 				   };
@@ -66,6 +66,14 @@ namespace CaronteWeb.Services
 			}
 		}
 
+		public DipendenteDTO GetFoarAuth(string passWd, string userName)
+		{
+			using (CaronteContext caronteCtx = new CaronteContext())
+			{
+				return GetAllIQ(caronteCtx).FirstOrDefault(x => x.Username == userName && x.Password == passWd);
+			}
+		}
+
 		public DipendenteDTO Get(int ID)
 		{
 			using (CaronteContext caronteCtx = new CaronteContext())
@@ -81,6 +89,13 @@ namespace CaronteWeb.Services
 				Dipendente tmp = DTO.ToEntity();
 				caronteCtx.Dipendente.Add(tmp);
 				caronteCtx.SaveChanges();
+
+				if(tmp.IDDipendente > 0)
+				{
+					AuthRepository ar = new AuthRepository();
+					ar.RegisterUser(tmp);
+				}
+
 				return this.Get(tmp.IDDipendente);
 			}
 		}
@@ -90,8 +105,10 @@ namespace CaronteWeb.Services
 			using (CaronteContext caronteCtx = new CaronteContext())
 			{
 				Dipendente tmpAna = caronteCtx.Dipendente.Find(DTO.IDDipendente);
-				DTO.ToEntity(tmpAna);
+				DTO.ToEntity(tmpAna);	
 				caronteCtx.SaveChanges();
+				AuthRepository ar = new AuthRepository();
+				ar.UpdateUser(tmpAna);
 				return this.Get(tmpAna.IDDipendente);
 			}
 		}
@@ -101,6 +118,8 @@ namespace CaronteWeb.Services
 			using (CaronteContext caronteCtx = new CaronteContext())
 			{
 				caronteCtx.Dipendente.Remove(caronteCtx.Dipendente.Find(ID));
+				AuthRepository ar = new AuthRepository();
+				
 				caronteCtx.SaveChanges();
 				return true;
 			}
