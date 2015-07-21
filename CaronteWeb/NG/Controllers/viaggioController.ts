@@ -289,7 +289,7 @@
 							if (result) {
 								(<any>$).Notify({
 									caption: 'Modifica',
-									content: 'Viaggio modificata con successo!',
+									content: 'Viaggio modificato con successo!',
 									type: 'success'
 								})
 								this.service.getViaggi(this.scope.currentPage, this.howMany,(data) => {
@@ -301,7 +301,7 @@
 						() => {
 							(<any>$).Notify({
 								caption: 'Modifica',
-								content: 'Si è verificato un errore durante la modifica dell\'viaggio',
+								content: 'Si è verificato un errore durante la modifica del viaggio',
 								type: 'alert'
 							})
 							this.service.getViaggi(this.scope.currentPage, this.howMany,(data) => {
@@ -314,7 +314,7 @@
 							if (result) {
 								(<any>$).Notify({
 									caption: 'Modifica',
-									content: 'Viaggio creata con successo!',
+									content: 'Viaggio creato con successo!',
 									type: 'success'
 								})
 								this.service.getViaggi(this.scope.currentPage, this.howMany,(data) => {
@@ -326,7 +326,7 @@
 						() => {
 							(<any>$).Notify({
 								caption: 'Modifica',
-								content: 'Si è verificato un errore durante la creazione dell\'viaggio',
+								content: 'Si è verificato un errore durante la creazione del viaggio',
 								type: 'alert'
 							})
 							this.service.getViaggi(this.scope.currentPage, this.howMany,(data) => {
@@ -343,12 +343,12 @@
 		}
 
 		private removeViaggio(idVia) {
-			if (confirm("Sei sicuro di voler eliminare questa viaggio?")) {
+			if (confirm("Sei sicuro di voler eliminare questo viaggio?")) {
 				this.service.deleteViaggio(idVia,(result) => {
 					if (result) {
 						(<any>$).Notify({
 							caption: 'Eliminazione',
-							content: 'Viaggio eliminata con successo!',
+							content: 'Viaggio eliminato con successo!',
 							type: 'success'
 						})
 						this.service.getViaggi(this.scope.currentPage, this.howMany,(data) => {
@@ -361,7 +361,7 @@
 					() => {
 						(<any>$).Notify({
 							caption: 'Eliminazione',
-							content: 'Si è verificato un errore durante l\'eliminazione dell\'viaggio',
+							content: 'Si è verificato un errore durante l\'eliminazione del viaggio',
 							type: 'alert'
 						})
 						this.service.getViaggi(this.scope.currentPage, this.howMany,(data) => {

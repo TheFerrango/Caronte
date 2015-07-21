@@ -157,7 +157,7 @@ var Caronte;
                     this.service.createAnagrafica(this.scope.popupAna.obj, function (result) {
                         if (result) {
                             $.Notify({
-                                caption: 'Modifica',
+                                caption: 'Creazione',
                                 content: 'Anagrafica creata con successo!',
                                 type: 'success'
                             });
@@ -168,7 +168,7 @@ var Caronte;
                         }
                     }, function () {
                         $.Notify({
-                            caption: 'Modifica',
+                            caption: 'Creazione',
                             content: 'Si è verificato un errore durante la creazione dell\'anagrafica',
                             type: 'alert'
                         });

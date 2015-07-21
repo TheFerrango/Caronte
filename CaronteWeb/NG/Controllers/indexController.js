@@ -33,7 +33,8 @@ var Caronte;
             }, function () {
                 $.Notify({
                     caption: 'Login',
-                    content: 'Dati di login errati!',
+                    icon: 'mif-not',
+                    content: 'Dati di login errati! ',
                     type: 'alert'
                 });
             });

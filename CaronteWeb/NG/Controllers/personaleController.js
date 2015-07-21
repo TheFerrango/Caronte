@@ -78,16 +78,9 @@ var Caronte;
             var dlg = $("#dialog").data('dialog');
             this.scope.popupPer.type = "Modifica";
             this.scope.popupPer.obj = {};
-            this.scope.popupPer.obj.IDDipendente = perObj.IDDipendente;
+            angular.copy(perObj, this.scope.popupPer.obj);
             this.scope.popupPer.obj.FKIDAnagrafica = perObj.FKIDAnagrafica.toString();
             this.scope.popupPer.obj.FKIDRuolo = perObj.FKIDRuolo.toString();
-            this.scope.popupPer.obj.Password = perObj.Password;
-            this.scope.popupPer.obj.DipendenteDal = perObj.DipendenteDal;
-            this.scope.popupPer.obj.DipendenteAl = perObj.DipendenteAl;
-            this.scope.popupPer.obj.Attivo = perObj.Attivo;
-            this.scope.popupPer.obj.NOMINATIVO = perObj.NOMINATIVO;
-            this.scope.popupPer.obj.RUOLO_DESC = perObj.RUOLO_DESC;
-            console.log(this.scope.popupPer.obj);
             dlg.open();
         };
         personaleController.prototype.okEdit = function (form) {
@@ -101,7 +94,7 @@ var Caronte;
                         if (result) {
                             $.Notify({
                                 caption: 'Modifica',
-                                content: 'Personale modificata con successo!',
+                                content: 'Personale modificato con successo!',
                                 type: 'success'
                             });
                             _this.service.getPersonale(_this.scope.currentPage, _this.howMany, function (data) {
@@ -112,7 +105,7 @@ var Caronte;
                     }, function () {
                         $.Notify({
                             caption: 'Modifica',
-                            content: 'Si è verificato un errore durante la modifica dell\'personale',
+                            content: 'Si è verificato un errore durante la modifica del personale',
                             type: 'alert'
                         });
                         _this.service.getPersonale(_this.scope.currentPage, _this.howMany, function (data) {
@@ -125,7 +118,7 @@ var Caronte;
                         if (result) {
                             $.Notify({
                                 caption: 'Creazione',
-                                content: 'Personale creata con successo!',
+                                content: 'Personale creato con successo!',
                                 type: 'success'
                             });
                             _this.service.getPersonale(_this.scope.currentPage, _this.howMany, function (data) {
@@ -136,7 +129,7 @@ var Caronte;
                     }, function () {
                         $.Notify({
                             caption: 'Creazione',
-                            content: 'Si è verificato un errore durante la creazione dell\'personale',
+                            content: 'Si è verificato un errore durante la creazione del personale',
                             type: 'alert'
                         });
                         _this.service.getPersonale(_this.scope.currentPage, _this.howMany, function (data) {
@@ -152,12 +145,12 @@ var Caronte;
         };
         personaleController.prototype.removePersonale = function (idAna) {
             var _this = this;
-            if (confirm("Sei sicuro di voler eliminare questa personale?")) {
+            if (confirm("Sei sicuro di voler eliminare questa voce del personale?")) {
                 this.service.deletePersonale(idAna, function (result) {
                     if (result) {
                         $.Notify({
                             caption: 'Eliminazione',
-                            content: 'Personale eliminata con successo!',
+                            content: 'Personale eliminato con successo!',
                             type: 'success'
                         });
                         _this.service.getPersonale(_this.scope.currentPage, _this.howMany, function (data) {
@@ -169,7 +162,7 @@ var Caronte;
                 }, function () {
                     $.Notify({
                         caption: 'Eliminazione',
-                        content: 'Si è verificato un errore durante l\'eliminazione dell\'personale',
+                        content: 'Si è verificato un errore durante l\'eliminazione del personale',
                         type: 'alert'
                     });
                     _this.service.getPersonale(_this.scope.currentPage, _this.howMany, function (data) {

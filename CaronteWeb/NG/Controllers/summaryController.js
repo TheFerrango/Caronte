@@ -17,4 +17,4 @@ var Caronte;
     })();
     Caronte.summaryController = summaryController;
 })(Caronte || (Caronte = {}));
-//# sourceMappingURL=situationManagerController.js.map
+//# sourceMappingURL=summaryController.js.map

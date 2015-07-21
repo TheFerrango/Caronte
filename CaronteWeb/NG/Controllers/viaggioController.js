@@ -180,7 +180,7 @@ var Caronte;
                         if (result) {
                             $.Notify({
                                 caption: 'Modifica',
-                                content: 'Viaggio modificata con successo!',
+                                content: 'Viaggio modificato con successo!',
                                 type: 'success'
                             });
                             _this.service.getViaggi(_this.scope.currentPage, _this.howMany, function (data) {
@@ -191,7 +191,7 @@ var Caronte;
                     }, function () {
                         $.Notify({
                             caption: 'Modifica',
-                            content: 'Si è verificato un errore durante la modifica dell\'viaggio',
+                            content: 'Si è verificato un errore durante la modifica del viaggio',
                             type: 'alert'
                         });
                         _this.service.getViaggi(_this.scope.currentPage, _this.howMany, function (data) {
@@ -204,7 +204,7 @@ var Caronte;
                         if (result) {
                             $.Notify({
                                 caption: 'Modifica',
-                                content: 'Viaggio creata con successo!',
+                                content: 'Viaggio creato con successo!',
                                 type: 'success'
                             });
                             _this.service.getViaggi(_this.scope.currentPage, _this.howMany, function (data) {
@@ -215,7 +215,7 @@ var Caronte;
                     }, function () {
                         $.Notify({
                             caption: 'Modifica',
-                            content: 'Si è verificato un errore durante la creazione dell\'viaggio',
+                            content: 'Si è verificato un errore durante la creazione del viaggio',
                             type: 'alert'
                         });
                         _this.service.getViaggi(_this.scope.currentPage, _this.howMany, function (data) {
@@ -231,12 +231,12 @@ var Caronte;
         };
         viaggioController.prototype.removeViaggio = function (idVia) {
             var _this = this;
-            if (confirm("Sei sicuro di voler eliminare questa viaggio?")) {
+            if (confirm("Sei sicuro di voler eliminare questo viaggio?")) {
                 this.service.deleteViaggio(idVia, function (result) {
                     if (result) {
                         $.Notify({
                             caption: 'Eliminazione',
-                            content: 'Viaggio eliminata con successo!',
+                            content: 'Viaggio eliminato con successo!',
                             type: 'success'
                         });
                         _this.service.getViaggi(_this.scope.currentPage, _this.howMany, function (data) {
@@ -248,7 +248,7 @@ var Caronte;
                 }, function () {
                     $.Notify({
                         caption: 'Eliminazione',
-                        content: 'Si è verificato un errore durante l\'eliminazione dell\'viaggio',
+                        content: 'Si è verificato un errore durante l\'eliminazione del viaggio',
                         type: 'alert'
                     });
                     _this.service.getViaggi(_this.scope.currentPage, _this.howMany, function (data) {

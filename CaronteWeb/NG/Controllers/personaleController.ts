@@ -116,18 +116,11 @@
 		private editPersonale(perObj) {
 			var dlg = $("#dialog").data('dialog');
 			this.scope.popupPer.type = "Modifica";
+
 			this.scope.popupPer.obj = {};
-			this.scope.popupPer.obj.IDDipendente = perObj.IDDipendente;
+			angular.copy(perObj, this.scope.popupPer.obj);
 			this.scope.popupPer.obj.FKIDAnagrafica = perObj.FKIDAnagrafica.toString();
 			this.scope.popupPer.obj.FKIDRuolo = perObj.FKIDRuolo.toString();
-			this.scope.popupPer.obj.Password = perObj.Password;
-			this.scope.popupPer.obj.DipendenteDal = perObj.DipendenteDal;
-			this.scope.popupPer.obj.DipendenteAl = perObj.DipendenteAl;
-			this.scope.popupPer.obj.Attivo = perObj.Attivo;
-
-			this.scope.popupPer.obj.NOMINATIVO = perObj.NOMINATIVO;
-			this.scope.popupPer.obj.RUOLO_DESC = perObj.RUOLO_DESC;
-			console.log(this.scope.popupPer.obj);
 
 			dlg.open()
 
@@ -146,7 +139,7 @@
 							if (result) {
 								(<any>$).Notify({
 									caption: 'Modifica',
-									content: 'Personale modificata con successo!',
+									content: 'Personale modificato con successo!',
 									type: 'success'
 								})
 								this.service.getPersonale(this.scope.currentPage, this.howMany,(data) => {
@@ -158,7 +151,7 @@
 						() => {
 							(<any>$).Notify({
 								caption: 'Modifica',
-								content: 'Si è verificato un errore durante la modifica dell\'personale',
+								content: 'Si è verificato un errore durante la modifica del personale',
 								type: 'alert'
 							})
 							this.service.getPersonale(this.scope.currentPage, this.howMany,(data) => {
@@ -171,7 +164,7 @@
 							if (result) {
 								(<any>$).Notify({
 									caption: 'Creazione',
-									content: 'Personale creata con successo!',
+									content: 'Personale creato con successo!',
 									type: 'success'
 								})
 								this.service.getPersonale(this.scope.currentPage, this.howMany,(data) => {
@@ -183,7 +176,7 @@
 						() => {
 							(<any>$).Notify({
 								caption: 'Creazione',
-								content: 'Si è verificato un errore durante la creazione dell\'personale',
+								content: 'Si è verificato un errore durante la creazione del personale',
 								type: 'alert'
 							})
 							this.service.getPersonale(this.scope.currentPage, this.howMany,(data) => {
@@ -200,12 +193,12 @@
 		}
 
 		private removePersonale(idAna) {
-			if (confirm("Sei sicuro di voler eliminare questa personale?")) {
+			if (confirm("Sei sicuro di voler eliminare questa voce del personale?")) {
 				this.service.deletePersonale(idAna,(result) => {
 					if (result) {
 						(<any>$).Notify({
 							caption: 'Eliminazione',
-							content: 'Personale eliminata con successo!',
+							content: 'Personale eliminato con successo!',
 							type: 'success'
 						})
 						this.service.getPersonale(this.scope.currentPage, this.howMany,(data) => {
@@ -218,7 +211,7 @@
 					() => {
 						(<any>$).Notify({
 							caption: 'Eliminazione',
-							content: 'Si è verificato un errore durante l\'eliminazione dell\'personale',
+							content: 'Si è verificato un errore durante l\'eliminazione del personale',
 							type: 'alert'
 						})
 						this.service.getPersonale(this.scope.currentPage, this.howMany,(data) => {

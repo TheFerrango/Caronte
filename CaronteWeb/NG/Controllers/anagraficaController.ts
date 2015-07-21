@@ -214,7 +214,7 @@
 						(result) => {
 							if (result) {
 								(<any>$).Notify({
-									caption: 'Modifica',
+									caption: 'Creazione',
 									content: 'Anagrafica creata con successo!',
 									type: 'success'
 								})
@@ -226,7 +226,7 @@
 						},
 						() => {
 							(<any>$).Notify({
-								caption: 'Modifica',
+								caption: 'Creazione',
 								content: 'Si è verificato un errore durante la creazione dell\'anagrafica',
 								type: 'alert'
 							})

@@ -3,12 +3,12 @@
 		logoutUser: Function;
 	}
 
-	export class situationManagerController {
-		static $inject = ["$scope", "situationManagerService", "minosseService"];
+	export class summaryController {
+		static $inject = ["$scope", "summaryService", "minosseService"];
 		private scope: IAppCtrlScope;
 		private minosseSrv: any;
 
-		constructor(private $scope: IAppCtrlScope, persServ: situationManagerService, miNos: any) {			
+		constructor(private $scope: IAppCtrlScope, persServ: summaryService, miNos: any) {			
 			this.scope = $scope;
 			this.minosseSrv = miNos;
 			this.scope.logoutUser = () => this.logoutUser();

@@ -19,7 +19,7 @@ namespace CaronteWeb.Services
 					   DipendenteDal = dip.DipendenteDal,
 					   DipendenteAl = dip.DipendenteAl,
 					   Attivo = dip.Attivo,
-					   Username = "admin",
+					   Username = dip.Username,
 					   NOMINATIVO = dip.Anagrafica.Cognome + " " + dip.Anagrafica.Nome,
 					   RUOLO_DESC = dip.Ruolo.Descrizione
 				   };
@@ -106,7 +106,9 @@ namespace CaronteWeb.Services
 				DTO.ToEntity(tmpAna);	
 				caronteCtx.SaveChanges();
 				AuthRepository ar = new AuthRepository();
-				ar.UpdateUser(tmpAna);
+				if (ar.FindUser(DTO.Username, DTO.Password) != null)
+					ar.UpdateUser(tmpAna);
+				else ar.RegisterUser(tmpAna);
 				return this.Get(tmpAna.IDDipendente);
 			}
 		}

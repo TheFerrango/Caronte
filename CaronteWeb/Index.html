@@ -20,11 +20,14 @@
 
 	<script src="NG/Controllers/indexController.js"></script>
 
+	<script src="NG/Services/masterSituationService.js"></script>
+	<script src="NG/Controllers/masterSituationController.js"></script>
+
 	<script src="NG/Services/loginService.js"></script>
 	<script src="NG/Controllers/loginController.js"></script>
 
-	<script src="NG/Services/situationManagerService.js"></script>
-	<script src="NG/Controllers/situationManagerController.js"></script>
+	<script src="NG/Services/summaryService.js"></script>
+	<script src="NG/Controllers/summaryController.js"></script>
 
 	<script src="NG/Services/anagraficaService.js"></script>
 	<script src="NG/Controllers/anagraficaController.js"></script>
@@ -48,7 +51,7 @@
 	<div class="container-fluid" ng-controller="indexController">
 		<ng-view ng-if="logged"></ng-view>
 		<div ng-if="!logged" class="tile-area fg-white bg-gray" ng-include="'SubPages/Login.html'">
-		
+
 		</div>
 	</div>
 </body>

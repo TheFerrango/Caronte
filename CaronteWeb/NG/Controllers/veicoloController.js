@@ -82,7 +82,7 @@ var Caronte;
                         if (result) {
                             $.Notify({
                                 caption: 'Modifica',
-                                content: 'Veicolo modificata con successo!',
+                                content: 'Veicolo modificato con successo!',
                                 type: 'success'
                             });
                             _this.service.getVeicoli(_this.scope.currentPage, _this.howMany, function (data) {
@@ -93,7 +93,7 @@ var Caronte;
                     }, function () {
                         $.Notify({
                             caption: 'Modifica',
-                            content: 'Si è verificato un errore durante la modifica dell\'veicolo',
+                            content: 'Si è verificato un errore durante la modifica del veicolo',
                             type: 'alert'
                         });
                         _this.service.getVeicoli(_this.scope.currentPage, _this.howMany, function (data) {
@@ -106,7 +106,7 @@ var Caronte;
                         if (result) {
                             $.Notify({
                                 caption: 'Creazione',
-                                content: 'Veicolo creata con successo!',
+                                content: 'Veicolo creato con successo!',
                                 type: 'success'
                             });
                             _this.service.getVeicoli(_this.scope.currentPage, _this.howMany, function (data) {
@@ -117,7 +117,7 @@ var Caronte;
                     }, function () {
                         $.Notify({
                             caption: 'Creazione',
-                            content: 'Si è verificato un errore durante la creazione dell\'veicolo',
+                            content: 'Si è verificato un errore durante la creazione del veicolo',
                             type: 'alert'
                         });
                         _this.service.getVeicoli(_this.scope.currentPage, _this.howMany, function (data) {
@@ -133,12 +133,12 @@ var Caronte;
         };
         veicoloController.prototype.removeVeicolo = function (idAna) {
             var _this = this;
-            if (confirm("Sei sicuro di voler eliminare questa veicolo?")) {
+            if (confirm("Sei sicuro di voler eliminare questo veicolo?")) {
                 this.service.deleteVeicolo(idAna, function (result) {
                     if (result) {
                         $.Notify({
                             caption: 'Eliminazione',
-                            content: 'Veicolo eliminata con successo!',
+                            content: 'Veicolo eliminato con successo!',
                             type: 'success'
                         });
                         _this.service.getVeicoli(_this.scope.currentPage, _this.howMany, function (data) {
@@ -150,7 +150,7 @@ var Caronte;
                 }, function () {
                     $.Notify({
                         caption: 'Eliminazione',
-                        content: 'Si è verificato un errore durante l\'eliminazione dell\'veicolo',
+                        content: 'Si è verificato un errore durante l\'eliminazione del veicolo',
                         type: 'alert'
                     });
                     _this.service.getVeicoli(_this.scope.currentPage, _this.howMany, function (data) {

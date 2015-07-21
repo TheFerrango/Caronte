@@ -121,7 +121,7 @@
 							if (result) {
 								(<any>$).Notify({
 									caption: 'Modifica',
-									content: 'Veicolo modificata con successo!',
+									content: 'Veicolo modificato con successo!',
 									type: 'success'
 								})
 								this.service.getVeicoli(this.scope.currentPage, this.howMany,(data) => {
@@ -133,7 +133,7 @@
 						() => {
 							(<any>$).Notify({
 								caption: 'Modifica',
-								content: 'Si è verificato un errore durante la modifica dell\'veicolo',
+								content: 'Si è verificato un errore durante la modifica del veicolo',
 								type: 'alert'
 							})
 							this.service.getVeicoli(this.scope.currentPage, this.howMany,(data) => {
@@ -146,7 +146,7 @@
 							if (result) {
 								(<any>$).Notify({
 									caption: 'Creazione',
-									content: 'Veicolo creata con successo!',
+									content: 'Veicolo creato con successo!',
 									type: 'success'
 								})
 								this.service.getVeicoli(this.scope.currentPage, this.howMany,(data) => {
@@ -158,7 +158,7 @@
 						() => {
 							(<any>$).Notify({
 								caption: 'Creazione',
-								content: 'Si è verificato un errore durante la creazione dell\'veicolo',
+								content: 'Si è verificato un errore durante la creazione del veicolo',
 								type: 'alert'
 							})
 							this.service.getVeicoli(this.scope.currentPage, this.howMany,(data) => {
@@ -175,12 +175,12 @@
 		}
 
 		private removeVeicolo(idAna) {
-			if (confirm("Sei sicuro di voler eliminare questa veicolo?")) {
+			if (confirm("Sei sicuro di voler eliminare questo veicolo?")) {
 				this.service.deleteVeicolo(idAna,(result) => {
 					if (result) {
 						(<any>$).Notify({
 							caption: 'Eliminazione',
-							content: 'Veicolo eliminata con successo!',
+							content: 'Veicolo eliminato con successo!',
 							type: 'success'
 						})
 						this.service.getVeicoli(this.scope.currentPage, this.howMany,(data) => {
@@ -193,7 +193,7 @@
 					() => {
 						(<any>$).Notify({
 							caption: 'Eliminazione',
-							content: 'Si è verificato un errore durante l\'eliminazione dell\'veicolo',
+							content: 'Si è verificato un errore durante l\'eliminazione del veicolo',
 							type: 'alert'
 						})
 						this.service.getVeicoli(this.scope.currentPage, this.howMany,(data) => {
