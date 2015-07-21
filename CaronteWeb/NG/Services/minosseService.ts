@@ -16,7 +16,6 @@
 
 			var logOut = () => {
 				localStorageService.remove('authorizationData');
-
 			};
 
 			this.authServiceFactory.login = (loginData) => {

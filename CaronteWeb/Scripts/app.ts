@@ -8,11 +8,13 @@
 		.service("veicoloService", ["$http", "$q", ($http, $q) => new Caronte.veicoloService($http, $q)])
 		.service("viaggioService", ["$http", "$q", ($http, $q) => new Caronte.viaggioService($http, $q)])
 		.service("passeggeroService", ["$http", "$q", ($http, $q) => new Caronte.passeggeroService($http, $q)])
+		.service("loginService", ["$http", "$q", ($http, $q) => new Caronte.loginService($http, $q)])
 		.controller("situationManagerController", Caronte.situationManagerController)
 		.controller("anagraficaController", Caronte.anagraficaController)
 		.controller("personaleController", Caronte.personaleController)
 		.controller("veicoloController", Caronte.veicoloController)
 		.controller("viaggioController", Caronte.viaggioController)
+		.controller("loginController", Caronte.loginController)
 		.factory("minosseService", ["$http", "$q", "localStorageService", ($http, $q, localStorageService) => new Caronte.minosseService($http, $q, localStorageService)])
 		.factory("interceptorService", ["$q", "$location", "localStorageService", ($q, $location, localStorageService) => new Caronte.interceptorService($q, $location, localStorageService)]);
 
@@ -38,6 +40,11 @@
 		$routeProvider.when("/Viaggi", {
 			controller: "viaggioController",
 			templateUrl: "Views/Viaggi.html"
+		});
+
+		$routeProvider.when("/Login", {
+			controller: "loginController",
+			templateUrl: "Views/Login.html"
 		});
 
 		$routeProvider.otherwise({
