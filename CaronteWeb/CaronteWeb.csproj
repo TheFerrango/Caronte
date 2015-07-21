@@ -126,16 +126,14 @@
     <Content Include="CSS\sitestyle.css" />
     <Content Include="fonts\metro.svg" />
     <Content Include="Scripts\angular-local-storage.min.js" />
-    <Content Include="Views\Login.html" />
     <Content Include="Scripts\angular-bing-maps.js" />
     <Content Include="Scripts\angular-mocks.js" />
-    <TypeScriptCompile Include="NG\Controllers\loginController.ts" />
+    <TypeScriptCompile Include="NG\Controllers\indexController.ts" />
     <TypeScriptCompile Include="NG\Controllers\anagraficaController.ts" />
     <TypeScriptCompile Include="NG\Controllers\viaggioController.ts" />
     <TypeScriptCompile Include="NG\Controllers\situationManagerController.ts" />
     <TypeScriptCompile Include="NG\Controllers\veicoloController.ts" />
     <TypeScriptCompile Include="NG\Controllers\personaleController.ts" />
-    <TypeScriptCompile Include="NG\Services\loginService.ts" />
     <TypeScriptCompile Include="NG\Services\InterceptorService.ts" />
     <TypeScriptCompile Include="NG\Services\minosseService.ts" />
     <TypeScriptCompile Include="NG\Services\situationManagerService.ts" />
@@ -149,6 +147,7 @@
     <Content Include="Scripts\angular-route.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
+    <Content Include="SubPages\Login.html" />
     <Content Include="Views\SituationManager.html" />
     <Content Include="SubPages\Passeggeri.html" />
     <Content Include="Views\Veicoli.html" />

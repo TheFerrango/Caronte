@@ -18,6 +18,8 @@
 	<script src="NG/Services/InterceptorService.js"></script>
 	<script src="NG/Services/minosseService.js"></script>
 
+	<script src="NG/Controllers/indexController.js"></script>
+
 	<script src="NG/Services/loginService.js"></script>
 	<script src="NG/Controllers/loginController.js"></script>
 
@@ -43,8 +45,11 @@
 </head>
 
 <body ng-cloak>
-	<div class="container-fluid">
-		<ng-view></ng-view>
+	<div class="container-fluid" ng-controller="indexController">
+		<ng-view ng-if="logged"></ng-view>
+		<div ng-if="!logged" class="tile-area fg-white bg-gray" ng-include="'SubPages/Login.html'">
+		
+		</div>
 	</div>
 </body>
 

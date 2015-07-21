@@ -11,16 +11,18 @@ var Caronte;
             var logOut = function () {
                 localStorageService.remove('authorizationData');
             };
-            this.authServiceFactory.login = function (loginData) {
+            this.authServiceFactory.login = function (loginData, onSuccess, onFail) {
                 var data = "grant_type=password&username=" + loginData.userName + "&password=" + loginData.password;
                 var deferred = $q.defer();
                 $http.post(serviceBase + 'token', data, {
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
                 }).success(function (response) {
                     localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName });
+                    onSuccess();
                     deferred.resolve(response);
                 }).error(function (err, status) {
                     logOut();
+                    onFail();
                     deferred.reject(err);
                 });
                 return deferred.promise;

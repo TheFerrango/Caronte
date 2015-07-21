@@ -1,20 +1,17 @@
 var Caronte;
 (function (Caronte) {
     var situationManagerController = (function () {
-        function situationManagerController($scope, persServ, minServ) {
+        function situationManagerController($scope, persServ, miNos) {
+            var _this = this;
             this.$scope = $scope;
-            console.log(minServ);
-            console.log(JSON.stringify(minServ.authentication()));
-            console.log(minServ.login({ "userName": "Admin", "password": "marzosmarzo" }));
-            console.log(JSON.stringify(minServ.authentication()));
-            //persServ.getAnagrafiche((data) => {
-            //	this.$scope.coops = data
-            //});		
-            //$scope.config = {
-            //	itemsPerPage: 5,
-            //	fillLastPage: true
-            //};
+            this.scope = $scope;
+            this.minosseSrv = miNos;
+            this.scope.logoutUser = function () { return _this.logoutUser(); };
         }
+        situationManagerController.prototype.logoutUser = function () {
+            this.minosseSrv.logOut();
+            location.href = "/";
+        };
         situationManagerController.$inject = ["$scope", "situationManagerService", "minosseService"];
         return situationManagerController;
     })();

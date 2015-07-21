@@ -1,27 +1,22 @@
 ﻿module Caronte {
 	interface IAppCtrlScope extends ng.IScope {
-		coops: any;
-		config: any;
+		logoutUser: Function;
 	}
 
 	export class situationManagerController {
 		static $inject = ["$scope", "situationManagerService", "minosseService"];
+		private scope: IAppCtrlScope;
+		private minosseSrv: any;
 
-		constructor(private $scope: IAppCtrlScope, persServ: situationManagerService,minServ: any) {			
-			console.log(minServ);
-			console.log(JSON.stringify(minServ.authentication()));
-			console.log(minServ.login({ "userName": "Admin", "password": "marzosmarzo" }));
-			console.log(JSON.stringify(minServ.authentication()));
-			//persServ.getAnagrafiche((data) => {
-			//	this.$scope.coops = data
-				
-			//});		
+		constructor(private $scope: IAppCtrlScope, persServ: situationManagerService, miNos: any) {			
+			this.scope = $scope;
+			this.minosseSrv = miNos;
+			this.scope.logoutUser = () => this.logoutUser();
+		}
 
-			//$scope.config = {
-			//	itemsPerPage: 5,
-			//	fillLastPage: true
-			//};
-			
+		private logoutUser() {
+			this.minosseSrv.logOut();
+			location.href = "/";
 		}
 	}
 }

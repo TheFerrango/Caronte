@@ -1,0 +1,42 @@
+﻿<div class="fg-white bg-gray headerPadding" style="height:100%">
+
+	<div class="headerBar bg-grayDarker">
+		<div class="tile-area-title">
+			<span class="labelAlignment">Today's quote is brought to you by Boxxy</span>
+		</div>
+	</div>
+
+	<div class="contentContainer">
+		<div style="width:300px; margin:auto">
+			<h1 class="text-light">Caronte Login</h1>
+			<hr class="thin" />
+			<br />
+			<div class="input-control text full-size" data-role="input">
+				<label for="user_login">Username:</label>
+				<input type="text" name="user_login" ng-model="loginObj.userName" id="user_login">
+				<button class="button helper-button clear"><span class="mif-cross"></span></button>
+			</div>
+			<br />
+			<br />
+			<div class="input-control password full-size" data-role="input">
+				<label for="user_password">User password:</label>
+				<input type="password" name="user_password" ng-model="loginObj.password" id="user_password">
+				<button class="button helper-button reveal"><span class="mif-looks"></span></button>
+			</div>
+			<br />
+			<br />
+			<div class="form-actions">
+				<button type="submit" class="button primary" ng-click="submittami()">Login</button>
+				<button type="button" class="button warning" ng-click="clearForm()">Cancel</button>
+			</div>
+
+		</div>
+
+		<div style="position: absolute; width:100%; bottom:20px">
+			<p style="text-align:right">{{citOfDay}}</p>
+		</div>
+	</div>
+
+
+
+</div>
