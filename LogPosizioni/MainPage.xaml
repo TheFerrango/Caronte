@@ -53,6 +53,7 @@
 				<TextBlock x:Name="lat"/>
 				<TextBlock x:Name="lon"/>
 				<TextBlock x:Name="alt"/>
+				<TextBlock x:Name="pre"/>
 			</StackPanel>
 			<Button x:Name="btnManda" VerticalAlignment="Bottom" Content="Invia dati" Tap="btnManda_Tap"/>
 

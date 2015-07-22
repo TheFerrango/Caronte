@@ -34,11 +34,13 @@ namespace LogPosizioni
 			// Language display initialization
 			InitializeLanguage();
 
+			Application.Current.Host.Settings.EnableFrameRateCounter = true;
+			PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
+
 			// Show graphics profiling information while debugging.
 			if (Debugger.IsAttached)
 			{
 				// Display the current frame rate counters.
-				Application.Current.Host.Settings.EnableFrameRateCounter = true;
 
 				// Show the areas of the app that are being redrawn in each frame.
 				//Application.Current.Host.Settings.EnableRedrawRegions = true;
@@ -51,7 +53,7 @@ namespace LogPosizioni
 				// the application's idle detection.
 				// Caution:- Use this under debug mode only. Application that disables user idle detection will continue to run
 				// and consume battery power when the user is not using the phone.
-				PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
+				
 			}
 
 		}

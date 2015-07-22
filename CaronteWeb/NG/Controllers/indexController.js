@@ -10,6 +10,7 @@ var Caronte;
             this.scope.citOfDay = this.quoteList[Math.floor(Math.random() * this.quoteList.length)];
             this.clearForm();
             this.initBindMetodi();
+            console.log(this.scope.logged);
         }
         //#region Inizializzazione
         indexController.prototype.initCitazioni = function () {

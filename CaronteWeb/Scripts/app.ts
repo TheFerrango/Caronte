@@ -22,10 +22,7 @@
 	
 	app.config(($routeProvider: ng.route.IRouteProvider) => {	
 			
-		$routeProvider.when("/MasterSituation", {
-			controller: "masterSituationController",
-			templateUrl: "Views/MasterSituation.html"
-		});
+		
 
 		$routeProvider.when("/Anagrafica", {
 			controller: "anagraficaController",
@@ -47,6 +44,12 @@
 			templateUrl: "Views/Viaggi.html"
 		});
 
+		$routeProvider.when("/MasterSituation", {
+			controller: "masterSituationController",
+			templateUrl: "Views/MasterSituation.html"
+
+		});
+
 		$routeProvider.when("/Login", {
 			controller: "loginController",
 			templateUrl: "Views/Login.html"
@@ -54,7 +57,7 @@
 
 		$routeProvider.otherwise({
 			controller: "summaryController",
-			templateUrl: "Views/Index.html"
+			templateUrl: "Views/Summary.html"
 		});
 	});
 

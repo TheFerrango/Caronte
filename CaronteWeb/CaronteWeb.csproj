@@ -151,7 +151,7 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="SubPages\Login.html" />
     <Content Include="Views\MasterSituation.html" />
-    <Content Include="Views\SituationManager.html" />
+    <Content Include="Views\Summary.html" />
     <Content Include="SubPages\Passeggeri.html" />
     <Content Include="Views\Veicoli.html" />
     <Content Include="Views\Viaggi.html" />
