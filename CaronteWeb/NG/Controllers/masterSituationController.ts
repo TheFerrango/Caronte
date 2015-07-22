@@ -1,15 +1,19 @@
 ﻿module Caronte {
 	interface IAppCtrlScope extends angular.IScope {
-
-
+		viaggiVisualizzati: any;
+		viaggiInCorsoList: any[];
+		onViaggioCheck: Function;
 	}
 
 	export class masterSituationController {
 		static $inject = ["$scope", "masterSituationService"];
 		scope: IAppCtrlScope;
 		service: any;
+		percorsi: any;
 		mapOptions: Microsoft.Maps.ViewOptions;
 		mapObj: Microsoft.Maps.Map;
+
+
 
 		constructor(private $scope: IAppCtrlScope) {
 			this.scope = $scope;
@@ -18,6 +22,8 @@
 			this.initMappa();
 			this.initPollyLine();
 			this.initPollyLine2();
+
+			this.initDati();
 		}
 
 		//#region Inizializzazione
@@ -215,9 +221,7 @@
 
 			var polly = new Microsoft.Maps.Polyline(posList);
 
-			console.log(polly);
-
-			this.mapObj.entities.push(polly);
+			this.percorsi[1] = polly;
 		}
 
 		private initPollyLine2() {
@@ -422,15 +426,19 @@
 			}
 
 
-			var polly = new Microsoft.Maps.Polyline(posList, { strokeColor: new Microsoft.Maps.Color(255,0,0,255), visible: true});
+			var polly = new Microsoft.Maps.Polyline(posList, { strokeColor: new Microsoft.Maps.Color(255, 0, 0, 255), visible: true });
 
-			console.log(polly);
+			this.percorsi[0] = polly;
+		}
 
-			this.mapObj.entities.push(polly);
+		private initDati() {
+			this.scope.viaggiVisualizzati = [];
+			this.scope.viaggiInCorsoList = [{ IDViaggio: 0, Descrizione: "Viaggio di Lorenzo" }, { IDViaggio: 1, Descrizione: "Viaggio di Andrea" }, ];
+
 		}
 
 		private initBindMetodi() {
-
+			this.scope.onViaggioCheck = (IDViaggio) => this.onViaggioCheck(IDViaggio);
 		}
 
 		private initMappa() {
@@ -445,5 +453,11 @@
 		}
 
 		//#endregion	
+
+		private onViaggioCheck(IDViaggio: number) {
+			if (this.scope.viaggiVisualizzati[IDViaggio])
+				this.mapObj.entities.push(this.percorsi[IDViaggio]);
+			else this.mapObj.entities.remove(this.percorsi[IDViaggio]);
+		}
 	}
 }

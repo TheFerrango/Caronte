@@ -19,36 +19,12 @@
 				</div>
 				<div style="width:10px"></div>
 				<div style="width:300px; height:100%; float:right; overflow:hidden; white-space:nowrap; background-color:red">
-					<h2>Viaggi visualizzati</h2>
+					<h2>Opzioni visualizzazione</h2>
 
 					<table>
-						<tr>
-							<td>Furgone 7</td>
-							<td><input type="checkbox" /></td>
-						</tr>
-						<tr>
-							<td>Furgone 3</td>
-							<td><input type="checkbox" /></td>
-						</tr>
-						<tr>
-							<td>Furgone 5</td>
-							<td><input type="checkbox" /></td>
-						</tr>
-						<tr>
-							<td>Furgone 8</td>
-							<td><input type="checkbox" /></td>
-						</tr>
-						<tr>
-							<td>Furgone 2</td>
-							<td><input type="checkbox" /></td>
-						</tr>
-						<tr>
-							<td>Furgone 4</td>
-							<td><input type="checkbox" /></td>
-						</tr>
-						<tr>
-							<td>Furgone 8</td>
-							<td><input type="checkbox" /></td>
+						<tr ng-repeat="viaggio in viaggiInCorsoList">
+							<td>viaggio.Descrizione</td>
+							<td><input type="checkbox" ng-model="viaggiVisualizzati[ viaggio.IDViaggio ]" ng-click="onViaggioCheck( viaggio.IDViaggio )" /></td>
 						</tr>
 					</table>
 				
