@@ -16,6 +16,21 @@
 	transform: scale(.8);
 }
 
+.MSMSidebar {
+	width: 400px;
+	height: 100%;
+	float: right;
+	overflow: hidden;
+	white-space: nowrap;
+	text-align: center;
+	border: 1px solid rgba(234, 232, 225, 1);
+
+}
+
+.MSMMappa {
+	width: calc(100% - 400px);
+}
+
 .editCell {
 	cursor: pointer;
 }
