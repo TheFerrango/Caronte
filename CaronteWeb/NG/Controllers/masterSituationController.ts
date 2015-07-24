@@ -57,21 +57,23 @@
 
 			this.scope.viaggiInCorsoList = [
 				{ IDViaggio: 0, Descrizione: "Viaggio di Lorenzo" },
-				{ IDViaggio: 1, Descrizione: "Viaggio di Andrea" }
+				{ IDViaggio: 1, Descrizione: "Viaggio di Andrea" },
+				{ IDViaggio: 2, Descrizione: "Viaggio Gambri" }
 			];
 
-			this.service.getPosizioni(0,(data, IDV) => {
-				this.initPollyLine(data, IDV);
-			});
+			console.log(this.scope.viaggiInCorsoList.length);
 
-			this.service.getPosizioni(1,(data, IDV) => {
-				this.initPollyLine(data, IDV);
-			});
+			for (var idx = 0; idx < this.scope.viaggiInCorsoList.length; idx++) {
+				console.log(this.scope.viaggiInCorsoList[idx]);
+				this.scope.viaggiVisualizzati[this.scope.viaggiInCorsoList[ idx ].IDViaggio] = false;
+			}
+			
 		}
 
 		private initPollyLine(puntiLinea, idPerc: number) {
 			var colore = this.makeRandomColour();
-			
+			var coloreLinea = colore.clone();
+			coloreLinea.a = 127;
 			var posList = [];
 
 			for (var idx = 0; idx < puntiLinea.length; idx++) {
@@ -79,12 +81,14 @@
 			}		
 
 			var pollyObj = {
-				linea: new Microsoft.Maps.Polyline(posList, { strokeColor: colore, visible: true }),				
+				linea: new Microsoft.Maps.Polyline(posList, { strokeColor: coloreLinea, visible: true }),				
 				pushpinPosAtt: new Microsoft.Maps.Pushpin(posList[posList.length - 1], {
 					htmlContent: "<div style='font-size:32px; color: " + colore.toHex() + "' class='mif-truck'/>",
 					anchor: new Microsoft.Maps.Point(16, 16)
-				})
+				}),				
 			};
+
+			this.scope.viaggiInCorsoList[idPerc].color = colore.toHex();
 
 			this.percorsi[idPerc] = pollyObj;
 		}
@@ -111,15 +115,22 @@
 		//#endregion	
 
 		private onViaggioCheck(IDViaggio: number) {
-			if (this.scope.viaggiVisualizzati[IDViaggio] == undefined) {
+			if (this.percorsi[IDViaggio] == undefined) {
 				// get data;
+				this.service.getPosizioni(IDViaggio,(data, IDV) => {
+					this.initPollyLine(data, IDV);
+					this.scope.viaggiVisualizzati[IDViaggio] = true;
+					this.showHidePercorsi(IDViaggio);
+				});
 			}
 			else {
+				this.scope.viaggiVisualizzati[IDViaggio] = !this.scope.viaggiVisualizzati[IDViaggio];
 				this.showHidePercorsi(IDViaggio);
 			}
 		}
 
 		private showHidePercorsi(IDViaggio: number) {
+			
 			if (this.scope.viaggiVisualizzati[IDViaggio]) {
 				this.mapObj.entities.push(this.percorsi[IDViaggio].linea);
 				this.mapObj.entities.push(this.percorsi[IDViaggio].pushpinPosAtt);

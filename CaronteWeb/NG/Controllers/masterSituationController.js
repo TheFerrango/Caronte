@@ -32,33 +32,35 @@ var Caronte;
             this.mapObj.setView(this.mapOptions);
         };
         masterSituationController.prototype.initDati = function () {
-            var _this = this;
             this.scope.viaggiVisualizzati = [];
             this.percorsi = [];
             this.scope.viaggiInCorsoList = [
                 { IDViaggio: 0, Descrizione: "Viaggio di Lorenzo" },
-                { IDViaggio: 1, Descrizione: "Viaggio di Andrea" }
+                { IDViaggio: 1, Descrizione: "Viaggio di Andrea" },
+                { IDViaggio: 2, Descrizione: "Viaggio Gambri" }
             ];
-            this.service.getPosizioni(0, function (data, IDV) {
-                _this.initPollyLine(data, IDV);
-            });
-            this.service.getPosizioni(1, function (data, IDV) {
-                _this.initPollyLine(data, IDV);
-            });
+            console.log(this.scope.viaggiInCorsoList.length);
+            for (var idx = 0; idx < this.scope.viaggiInCorsoList.length; idx++) {
+                console.log(this.scope.viaggiInCorsoList[idx]);
+                this.scope.viaggiVisualizzati[this.scope.viaggiInCorsoList[idx].IDViaggio] = false;
+            }
         };
         masterSituationController.prototype.initPollyLine = function (puntiLinea, idPerc) {
             var colore = this.makeRandomColour();
+            var coloreLinea = colore.clone();
+            coloreLinea.a = 127;
             var posList = [];
             for (var idx = 0; idx < puntiLinea.length; idx++) {
                 posList.push(new Microsoft.Maps.Location(puntiLinea[idx].Latitudine, puntiLinea[idx].Longitudine));
             }
             var pollyObj = {
-                linea: new Microsoft.Maps.Polyline(posList, { strokeColor: colore, visible: true }),
+                linea: new Microsoft.Maps.Polyline(posList, { strokeColor: coloreLinea, visible: true }),
                 pushpinPosAtt: new Microsoft.Maps.Pushpin(posList[posList.length - 1], {
                     htmlContent: "<div style='font-size:32px; color: " + colore.toHex() + "' class='mif-truck'/>",
                     anchor: new Microsoft.Maps.Point(16, 16)
-                })
+                }),
             };
+            this.scope.viaggiInCorsoList[idPerc].color = colore.toHex();
             this.percorsi[idPerc] = pollyObj;
         };
         masterSituationController.prototype.showHidePushPins = function () {
@@ -81,9 +83,17 @@ var Caronte;
         };
         //#endregion	
         masterSituationController.prototype.onViaggioCheck = function (IDViaggio) {
-            if (this.scope.viaggiVisualizzati[IDViaggio] == undefined) {
+            var _this = this;
+            if (this.percorsi[IDViaggio] == undefined) {
+                // get data;
+                this.service.getPosizioni(IDViaggio, function (data, IDV) {
+                    _this.initPollyLine(data, IDV);
+                    _this.scope.viaggiVisualizzati[IDViaggio] = true;
+                    _this.showHidePercorsi(IDViaggio);
+                });
             }
             else {
+                this.scope.viaggiVisualizzati[IDViaggio] = !this.scope.viaggiVisualizzati[IDViaggio];
                 this.showHidePercorsi(IDViaggio);
             }
         };
