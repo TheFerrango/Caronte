@@ -17,9 +17,10 @@ namespace CaronteWeb.Services
 					   Data = pos.Data,
 					   Latitudine = pos.Latitudine,
 					   Longitudine = pos.Longitudine,
-
+					   Precisione = pos.Precisione,
 				   };
 		}
+
 
 		public Dictionary<string, object> GetAll(int? page, int? howMany)
 		{
@@ -35,6 +36,17 @@ namespace CaronteWeb.Services
 				toRet.Add("Dati", posList.ToList());
 
 				return toRet;
+			}
+		}
+
+		public List<PosizioneDTO> GetByViaggio(int IDViaggio)
+		{
+			using (CaronteContext caronteCtx = new CaronteContext())
+			{
+				Dictionary<string, object> toRet = new Dictionary<string, object>();
+				IQueryable<PosizioneDTO> posList = GetAllIQ(caronteCtx).OrderBy(x => x.Data);
+				posList = posList.Where(x => x.FKIDViaggio == IDViaggio);
+				return posList.ToList();
 			}
 		}
 

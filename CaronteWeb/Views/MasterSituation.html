@@ -24,35 +24,35 @@
 						<!--<img src="Images/Van.png" />-->
 					</div>
 					<table style="width:100%; text-align:left">
-						<tr>
+						<tr style="padding:5px 0">
 							<td style="width:1%"></td>
 							<td>
-								<span style="">
+								<span style="margin: 0 10px">
 									Descrizione
 								</span>
 							</td>
-							<td style="width:50px">Colore</td>
+							<td style="width:75px; text-align:center">Colore</td>
+						</tr>
+						<tr style="height:10px">
+							<td />
+							<td />
+							<td />
 						</tr>
 						<tr ng-repeat="viaggio in viaggiInCorsoList">
-							<td >
-								<!--<input type="checkbox" style="padding:5px" class=mif-truck"
-									   ng-model="viaggiVisualizzati[ viaggio.IDViaggio ]" ng-click="onViaggioCheck( viaggio.IDViaggio )" />-->
-								<!--ng-class="{ true: fg-white, false: fg-black}[viaggiVisualizzati[ viaggio.IDViaggio ] ]"-->
-
+							<td>
 								<div style="padding:5px" ng-class="{  false: 'fg-black', true: 'fg-white'}[ viaggiVisualizzati[ viaggio.IDViaggio ] ]"
 									 ng-click="onViaggioCheck( viaggio.IDViaggio )">
 									<div class="mif-truck"></div>
 								</div>
-
 							</td>
-							<td >
+							<td>
 								<span style="margin: 0 10px">
-									{{viaggio.Descrizione}}
+									{{viaggio.DescrizioneViaggio}}
 								</span>
 							</td>
-							<td >
-								<div style="width:30px; height:30px;" 
-									 ng-style="{background: viaggiInCorsoList[viaggio.IDViaggio] ? viaggiInCorsoList[viaggio.IDViaggio].color : '#FF000000' }">
+							<td>
+								<div style="width:30px; height:30px; margin:auto; border: 1px solid rgba(234, 232, 225, 1);"
+									 ng-style="{background: viaggiInCorsoList[viaggio.IDViaggio] ? viaggiInCorsoList[viaggio.IDViaggio].COLORE : '#FF000000' }">
 								</div>
 							</td>
 						</tr>

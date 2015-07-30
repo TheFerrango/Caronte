@@ -135,6 +135,9 @@
     <TypeScriptCompile Include="NG\Controllers\summaryController.ts" />
     <TypeScriptCompile Include="NG\Controllers\veicoloController.ts" />
     <TypeScriptCompile Include="NG\Controllers\personaleController.ts" />
+    <TypeScriptCompile Include="NG\DTOs\Posizione.ts" />
+    <TypeScriptCompile Include="NG\DTOs\SupportClasses.ts" />
+    <TypeScriptCompile Include="NG\DTOs\Viaggio.ts" />
     <TypeScriptCompile Include="NG\Services\InterceptorService.ts" />
     <TypeScriptCompile Include="NG\Services\minosseService.ts" />
     <TypeScriptCompile Include="NG\Services\masterSituationService.ts" />

@@ -28,6 +28,10 @@ namespace CaronteWeb.Database
 		[Required]
 		public double Longitudine { get; set; }
 
+		[Column("Precisione")]
+		[Required]
+		public double Precisione { get; set; }
+
 
 	}
 }

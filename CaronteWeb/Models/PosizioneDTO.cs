@@ -12,7 +12,8 @@ namespace CaronteWeb.Models
 		public DateTimeOffset Data { set; get; }
 		public double Latitudine { set; get; }
 		public double Longitudine { set; get; }
-
+		public double Precisione { set; get; }
+		
 
 		public Posizione ToEntity()
 		{
@@ -21,7 +22,8 @@ namespace CaronteWeb.Models
 				FKIDViaggio = this.FKIDViaggio,
 				Data = this.Data,
 				Latitudine = this.Latitudine,
-				Longitudine = this.Longitudine
+				Longitudine = this.Longitudine,
+				Precisione = this.Precisione
 			};
 		}
 
@@ -31,6 +33,7 @@ namespace CaronteWeb.Models
 			toEdit.Data = this.Data.ToLocalTime();
 			toEdit.Latitudine = this.Latitudine;
 			toEdit.Longitudine = this.Longitudine;
+			toEdit.Precisione = this.Precisione;
 			return toEdit;
 		}
 	}
