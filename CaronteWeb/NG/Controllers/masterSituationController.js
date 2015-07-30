@@ -8,6 +8,7 @@ var Caronte;
             this.initBindMetodi();
             this.initMappa();
             this.initDati();
+            this.initMenuViaggi();
         }
         //#region Inizializzazione
         masterSituationController.prototype.initBindMetodi = function () {
@@ -81,41 +82,23 @@ var Caronte;
                 },
             ];
             this.colorIndex = 0;
-            this.scope.viaggiInCorsoList = [
-                {
-                    IDViaggio: 0,
-                    FKIDDipendente: 0,
-                    FKIDStato: 0,
-                    FKIDVeicolo: 0,
-                    DescrizioneViaggio: "Viaggio di Lorenzo",
-                    IndirizzoArrivo: "",
-                    IndirizzoPartenza: "",
-                    DataInizioPrevista: null,
-                    DataFinePrevista: null,
-                    LatitudineArrivoPrevista: 0,
-                    LongitudineArrivoPrevista: 0,
-                    LatitudinePartenzaPrevista: 0,
-                    LongitudinePartenzaPrevista: 0
-                },
-                { IDViaggio: 1, FKIDDipendente: 0, FKIDStato: 0, FKIDVeicolo: 0, DescrizioneViaggio: "Viaggio di Andrea", IndirizzoArrivo: "", IndirizzoPartenza: "", DataInizioPrevista: null, DataFinePrevista: null, LatitudineArrivoPrevista: 0, LongitudineArrivoPrevista: 0, LatitudinePartenzaPrevista: 0, LongitudinePartenzaPrevista: 0 },
-                { IDViaggio: 2, FKIDDipendente: 0, FKIDStato: 0, FKIDVeicolo: 0, DescrizioneViaggio: "Viaggio Andrea Città", IndirizzoArrivo: "", IndirizzoPartenza: "", DataInizioPrevista: null, DataFinePrevista: null, LatitudineArrivoPrevista: 0, LongitudineArrivoPrevista: 0, LatitudinePartenzaPrevista: 0, LongitudinePartenzaPrevista: 0 },
-                { IDViaggio: 3, FKIDDipendente: 0, FKIDStato: 0, FKIDVeicolo: 0, DescrizioneViaggio: "Altro viaggio Andrea", IndirizzoArrivo: "", IndirizzoPartenza: "", DataInizioPrevista: null, DataFinePrevista: null, LatitudineArrivoPrevista: 0, LongitudineArrivoPrevista: 0, LatitudinePartenzaPrevista: 0, LongitudinePartenzaPrevista: 0 },
-            ];
-            console.log(this.scope.viaggiInCorsoList.length);
-            for (var idx = 0; idx < this.scope.viaggiInCorsoList.length; idx++) {
-                console.log(this.scope.viaggiInCorsoList[idx]);
-                this.scope.viaggiVisualizzati[this.scope.viaggiInCorsoList[idx].IDViaggio] = false;
-            }
+        };
+        masterSituationController.prototype.initMenuViaggi = function () {
+            var _this = this;
+            this.service.getViaggi(true, function (data) {
+                _this.scope.viaggiInCorsoList = data["Dati"];
+                for (var idx = 0; idx < _this.scope.viaggiInCorsoList.length; idx++) {
+                    _this.scope.viaggiVisualizzati[_this.scope.viaggiInCorsoList[idx].IDViaggio] = false;
+                }
+            });
         };
         masterSituationController.prototype.initPollyLine = function (puntiLinea, idPerc) {
             var colore = this.availableColors[this.colorIndex];
-            console.log(colore);
             this.colorIndex += 1;
             this.colorIndex = this.colorIndex % 10;
             var coloreLinea = colore.COLORE.clone();
             coloreLinea.a = 127;
             var posList = [];
-            //var coop = this.simplifyPath(puntiLinea, 0.0001);
             var coop = this.simplifyPath(puntiLinea, 50);
             for (var idx = 0; idx < coop.length; idx++)
                 if (coop[idx].Precisione) {
@@ -131,7 +114,7 @@ var Caronte;
                     anchor: new Microsoft.Maps.Point(16, 16)
                 }),
             };
-            this.scope.viaggiInCorsoList[idPerc].COLORE = colore.COLORE.toHex();
+            this.scope.viaggiInCorsoList.filter(function (x) { return x.IDViaggio == idPerc; })[0].COLORE = colore.COLORE.toHex();
             this.percorsi[idPerc] = pollyObj;
         };
         masterSituationController.prototype.showHidePushPins = function () {
@@ -149,14 +132,10 @@ var Caronte;
                 }
             }
         };
-        masterSituationController.prototype.makeRandomColour = function () {
-            return new Microsoft.Maps.Color(255, Math.round(255 * Math.random()), Math.round(255 * Math.random()), Math.round(255 * Math.random()));
-        };
         //#endregion	
         masterSituationController.prototype.onViaggioCheck = function (IDViaggio) {
             var _this = this;
             if (this.percorsi[IDViaggio] == undefined) {
-                // get data;
                 this.service.getPosizioni(IDViaggio, function (data, IDV) {
                     _this.initPollyLine(data, IDV);
                     _this.scope.viaggiVisualizzati[IDViaggio] = true;
@@ -236,7 +215,6 @@ var Caronte;
             };
             var band_sqr = tolerance * 360.0 / (2.0 * Math.PI * 6378137.0); /* Now in degrees */
             //band_sqr *= band_sqr;
-            //console.log(band_sqr);
             var arr = douglasPeucker(points, band_sqr);
             // always have to push the very last point on so it doesn't get left off
             arr.push(points[points.length - 1]);

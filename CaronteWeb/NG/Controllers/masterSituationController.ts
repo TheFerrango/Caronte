@@ -22,7 +22,7 @@
 			this.initBindMetodi();
 			this.initMappa();
 			this.initDati();
-
+			this.initMenuViaggi();
 		}
 
 		//#region Inizializzazione
@@ -100,63 +100,32 @@
 			];
 
 			this.colorIndex = 0;
+		}
 
-			this.scope.viaggiInCorsoList = [
-				{
-					IDViaggio: 0, FKIDDipendente: 0, FKIDStato: 0, FKIDVeicolo: 0, DescrizioneViaggio: "Viaggio di Lorenzo", IndirizzoArrivo: "",
-					IndirizzoPartenza: "", DataInizioPrevista: null, DataFinePrevista: null,
-					LatitudineArrivoPrevista: 0, LongitudineArrivoPrevista: 0,
-					LatitudinePartenzaPrevista: 0, LongitudinePartenzaPrevista: 0
-				},
-				{ IDViaggio: 1, FKIDDipendente: 0, FKIDStato: 0, FKIDVeicolo: 0, DescrizioneViaggio: "Viaggio di Andrea", IndirizzoArrivo: "", IndirizzoPartenza: "", DataInizioPrevista: null, DataFinePrevista: null, LatitudineArrivoPrevista: 0, LongitudineArrivoPrevista: 0, LatitudinePartenzaPrevista: 0, LongitudinePartenzaPrevista: 0 },
-				{ IDViaggio: 2, FKIDDipendente: 0, FKIDStato: 0, FKIDVeicolo: 0, DescrizioneViaggio: "Viaggio Andrea Città", IndirizzoArrivo: "", IndirizzoPartenza: "", DataInizioPrevista: null, DataFinePrevista: null, LatitudineArrivoPrevista: 0, LongitudineArrivoPrevista: 0, LatitudinePartenzaPrevista: 0, LongitudinePartenzaPrevista: 0 },
-				{ IDViaggio: 3, FKIDDipendente: 0, FKIDStato: 0, FKIDVeicolo: 0, DescrizioneViaggio: "Altro viaggio Andrea", IndirizzoArrivo: "", IndirizzoPartenza: "", DataInizioPrevista: null, DataFinePrevista: null, LatitudineArrivoPrevista: 0, LongitudineArrivoPrevista: 0, LatitudinePartenzaPrevista: 0, LongitudinePartenzaPrevista: 0 },
-			];
+		private initMenuViaggi() {
 
-			console.log(this.scope.viaggiInCorsoList.length);
+			this.service.getViaggi(true,(data) => {
+				this.scope.viaggiInCorsoList = data["Dati"];
 
-			for (var idx = 0; idx < this.scope.viaggiInCorsoList.length; idx++) {
-				console.log(this.scope.viaggiInCorsoList[idx]);
-				this.scope.viaggiVisualizzati[this.scope.viaggiInCorsoList[idx].IDViaggio] = false;
-			}
-
+				for (var idx = 0; idx < this.scope.viaggiInCorsoList.length; idx++) {
+					this.scope.viaggiVisualizzati[this.scope.viaggiInCorsoList[idx].IDViaggio] = false;
+				}
+			});
 		}
 
 		private initPollyLine(puntiLinea, idPerc: number) {
 			var colore = this.availableColors[this.colorIndex];
-
-			console.log(colore);
-
 			this.colorIndex += 1;
 			this.colorIndex = this.colorIndex % 10;
 
 			var coloreLinea = colore.COLORE.clone();
 			coloreLinea.a = 127;
-			var posList: Microsoft.Maps.Location[] = [];
 
-			//var coop = this.simplifyPath(puntiLinea, 0.0001);
+			var posList: Microsoft.Maps.Location[] = [];
 			var coop = this.simplifyPath(puntiLinea, 50);
 
-			// You've got to Pimp. My. Li-iiiiiiine! 
-			//posList.push(new Microsoft.Maps.Location(puntiLinea[0].Latitudine, puntiLinea[0].Longitudine));
-
-			//for (var idx = 1; idx < puntiLinea.length - 1; idx++) {
-			//	if (puntiLinea[idx].Precisione && puntiLinea[idx].Precisione < 200) {
-			//		if (puntiLinea[idx].Precisione && puntiLinea[idx].Precisione < 90 && puntiLinea[idx - 1].Precisione && puntiLinea[idx - 1].Precisione < 200 && puntiLinea[idx + 1].Precisione && puntiLinea[idx + 1].Precisione < 200) {
-			//			var trueLat = (puntiLinea[idx - 1].Latitudine + puntiLinea[idx].Latitudine + puntiLinea[idx + 1].Latitudine) / 3;
-			//			var trueLon = (puntiLinea[idx - 1].Longitudine + puntiLinea[idx].Longitudine + puntiLinea[idx + 1].Longitudine) / 3;
-			//			posList.push(new Microsoft.Maps.Location(trueLat, trueLon));
-			//		}
-			//		else
-			//			posList.push(new Microsoft.Maps.Location(puntiLinea[idx].Latitudine, puntiLinea[idx].Longitudine));
-			//	}
-			//}
-
-			//if (puntiLinea.length > 1)
-			//	posList.push(new Microsoft.Maps.Location(puntiLinea[puntiLinea.length - 1].Latitudine, puntiLinea[puntiLinea.length - 1].Longitudine));
 
 
-			
 			for (var idx = 0; idx < coop.length; idx++)
 				if (coop[idx].Precisione) {
 					if (coop[idx].Precisione < 200)
@@ -171,7 +140,9 @@
 				}),
 			};
 
-			this.scope.viaggiInCorsoList[idPerc].COLORE = colore.COLORE.toHex();
+		
+				this.scope.viaggiInCorsoList.filter(x=> x.IDViaggio == idPerc)[0].COLORE = colore.COLORE.toHex();
+
 
 			this.percorsi[idPerc] = pollyObj;
 		}
@@ -191,15 +162,11 @@
 			}
 		}
 
-		private makeRandomColour(): Microsoft.Maps.Color {
-			return new Microsoft.Maps.Color(255, Math.round(255 * Math.random()), Math.round(255 * Math.random()), Math.round(255 * Math.random()));
-		}
-
+	
 		//#endregion	
 
 		private onViaggioCheck(IDViaggio: number) {
 			if (this.percorsi[IDViaggio] == undefined) {
-				// get data;
 				this.service.getPosizioni(IDViaggio,(data, IDV) => {
 					this.initPollyLine(data, IDV);
 					this.scope.viaggiVisualizzati[IDViaggio] = true;
@@ -290,7 +257,6 @@
 			var band_sqr = tolerance * 360.0 / (2.0 * Math.PI * 6378137.0); /* Now in degrees */
 			//band_sqr *= band_sqr;
 
-			//console.log(band_sqr);
 
 			var arr = douglasPeucker(points, band_sqr);
 			// always have to push the very last point on so it doesn't get left off

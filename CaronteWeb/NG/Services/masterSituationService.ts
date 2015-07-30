@@ -1,17 +1,18 @@
 ﻿module Caronte {
-
     export class masterSituationService {
 		private wc: ng.IHttpService = null;
 		private deferrer: ng.IQService;
+
 		constructor($http: ng.IHttpService, $q: ng.IQService) {
 			this.wc = $http;
 			this.deferrer = $q;
 
 		}
 
-		public getViaggi(func: Function) {
+		public getViaggi(soloInCorso: boolean, func: Function) {
 			var result = this.deferrer.defer();
-			this.wc.get("/api/anagrafica")
+			// + soloInCorso ? "?idStato=2" : ""
+			this.wc.get("/api/viaggio" + (soloInCorso ? "?idStato=2" : ""))
 				.success((data) => {
 				func(data);
 			});
@@ -24,7 +25,7 @@
 			var res = [];
 
 			switch (IDViaggio) {
-				case 0:
+				case 3:
 					res = [{ 'IDPosizione': 0, 'FKIDViaggio': 1, 'Latitudine': 46.116921446722, 'Longitudine': 11.1038746566696 },
 						{ 'IDPosizione': 0, 'FKIDViaggio': 1, 'Latitudine': 46.1168070296113, 'Longitudine': 11.1037423257249 },
 						{ 'IDPosizione': 0, 'FKIDViaggio': 1, 'Latitudine': 46.1168230427709, 'Longitudine': 11.1039306985246 },
@@ -216,7 +217,7 @@
 						{ 'IDPosizione': 0, 'FKIDViaggio': 1, 'Latitudine': 46.2166178571429, 'Longitudine': 11.1185271428571 },
 					];
 					break;
-				case 1:
+				case 4:
 					res = [{ 'IDPosizione': 0, 'FKIDViaggio': 1, 'Latitudine': 46.0335295362867, 'Longitudine': 11.1273917813297 },
 						{ 'IDPosizione': 0, 'FKIDViaggio': 1, 'Latitudine': 46.0340023040771, 'Longitudine': 11.1263496614993 },
 						{ 'IDPosizione': 0, 'FKIDViaggio': 1, 'Latitudine': 46.0344207286835, 'Longitudine': 11.1261017248034 },
@@ -395,7 +396,7 @@
 						{ 'IDPosizione': 0, 'FKIDViaggio': 1, 'Latitudine': 46.116833927663, 'Longitudine': 11.1043098004908 },
 					];
 					break;
-				case 2:
+				case 5:
 					res = [{ 'IDPosizione': 0, 'FKIDViaggio': 1, 'Data': "7/24/2015 1:52:01 PM +02:00", 'Latitudine': 46.1277347794427, 'Longitudine': 11.1088627747858, 'Precisione': 75 },
 						{ 'IDPosizione': 0, 'FKIDViaggio': 1, 'Data': "7/24/2015 1:52:07 PM +02:00", 'Latitudine': 46.1277200734869, 'Longitudine': 11.1090585558318, 'Precisione': 78 },
 						{ 'IDPosizione': 0, 'FKIDViaggio': 1, 'Data': "7/24/2015 1:52:13 PM +02:00", 'Latitudine': 46.1277657498423, 'Longitudine': 11.1090224283813, 'Precisione': 75 },
@@ -447,7 +448,7 @@
 
 					break;
 
-				case 3:
+				case 6:
 					res = [{ 'IDPosizione': 0, 'FKIDViaggio': 1, 'Data': "7/30/2015 8:30:58 AM +02:00", 'Latitudine': 46.0616615464293, 'Longitudine': 11.128964095549, 'Precisione': 60 },
 						{ 'IDPosizione': 0, 'FKIDViaggio': 1, 'Data': "7/30/2015 8:31:01 AM +02:00", 'Latitudine': 46.0616797574418, 'Longitudine': 11.1290043115347, 'Precisione': 60 },
 						{ 'IDPosizione': 0, 'FKIDViaggio': 1, 'Data': "7/30/2015 8:31:13 AM +02:00", 'Latitudine': 46.0616844010852, 'Longitudine': 11.1289820026434, 'Precisione': 58 },
@@ -705,7 +706,7 @@
 					];
 					break;
 
-				case 4:
+				case 7:
 					res = [{ 'IDPosizione': 0, 'FKIDViaggio': 1, 'Data': "7/24/2015 1:52:01 PM +02:00", 'Latitudine': 46.1277347794427, 'Longitudine': 11.1088627747858, 'Precisione': 75 },
 						{ 'IDPosizione': 0, 'FKIDViaggio': 1, 'Data': "7/24/2015 1:52:07 PM +02:00", 'Latitudine': 46.1277200734869, 'Longitudine': 11.1090585558318, 'Precisione': 78 },
 						{ 'IDPosizione': 0, 'FKIDViaggio': 1, 'Data': "7/24/2015 1:52:13 PM +02:00", 'Latitudine': 46.1277657498423, 'Longitudine': 11.1090224283813, 'Precisione': 75 },

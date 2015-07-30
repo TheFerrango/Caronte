@@ -79,7 +79,7 @@ namespace LogPosizioni
 			lon.Text = e.Position.Location.Longitude.ToString();
 			alt.Text = e.Position.Location.Altitude.ToString();
 			pre.Text = e.Position.Location.HorizontalAccuracy.ToString();
-			SaveFile(string.Format("{{ 'IDPosizione' : 0, 'FKIDViaggio' : 1, 'Data': \"{0}\", 'Latitudine': {1}, 'Longitudine': {2}, 'Precisione:' {3}}},", e.Position.Timestamp.ToString(), e.Position.Location.Latitude, e.Position.Location.Longitude, e.Position.Location.HorizontalAccuracy));
+			SaveFile(string.Format("{{ 'IDPosizione' : 0, 'FKIDViaggio' : 1, 'Data': \"{0}\", 'Latitudine': {1}, 'Longitudine': {2}, 'Precisione': {3}}},", e.Position.Timestamp.ToString(), e.Position.Location.Latitude, e.Position.Location.Longitude, e.Position.Location.HorizontalAccuracy));
 		}
 
 		public void SaveFile(string data)

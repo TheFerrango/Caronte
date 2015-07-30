@@ -48,7 +48,7 @@
 				<TextBlock FontSize="24" x:Name="alt"/>
 				<TextBlock FontSize="24" x:Name="pre"/>
 			</StackPanel>
-			<Button x:Name="btnManda" VerticalAlignment="Bottom" Content="Invia dati" FontSize="24" Click="btnManda_Click" HorizontalAlignment="Center"/>
+			<TextBlock FontSize="24" x:Name="filePath" VerticalAlignment="Bottom"/>
 
 		</Grid>
 	</Grid>

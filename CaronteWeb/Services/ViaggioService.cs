@@ -55,6 +55,28 @@ namespace CaronteWeb.Services
 			}
 		}
 
+		public Dictionary<string, object> GetAllFiltered(int? page, int? howMany, int? idStato)
+		{
+			using (CaronteContext caronteCtx = new CaronteContext())
+			{
+				Dictionary<string, object> toRet = new Dictionary<string, object>();
+				IQueryable<ViaggioDTO> viagList = GetAllIQ(caronteCtx).OrderBy(x => x.DataInizioPrevista);
+				if (idStato.HasValue)
+					viagList = viagList.Where(x => x.FKIDStato == idStato.Value);
+				
+				toRet.Add("Totale", viagList.Count());
+
+				if (page.HasValue && howMany.HasValue)
+					viagList = viagList.Skip(page.Value * howMany.Value).Take(howMany.Value);
+
+				
+
+				toRet.Add("Dati", viagList.ToList());
+
+				return toRet;
+			}
+		}
+
 		public ViaggioDTO Get(int ID)
 		{
 			using (CaronteContext caronteCtx = new CaronteContext())
