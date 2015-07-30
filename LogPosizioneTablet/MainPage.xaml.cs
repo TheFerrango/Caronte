@@ -4,12 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.System.Display;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -30,13 +32,13 @@ namespace LogPosizioneTablet
 	{
 		bool isTracking;
 		Geolocator geoLoc;
+		DispatcherTimer disTim;
+		private DisplayRequest dRequest;
 
 		public MainPage()
 		{
 			this.InitializeComponent();
 			isTracking = false;
-			geoLoc = new Geolocator();
-
 		}
 
 		private async void btnTrack_Click(object sender, RoutedEventArgs e)
@@ -45,13 +47,15 @@ namespace LogPosizioneTablet
 			if (isTracking)
 			{
 				btnTrack.Content = "Inizia tracciamento";
-
+				disTim.Stop();
+				dRequest.RequestRelease();
 			}
 			else
 			{
 				var a = await geoLoc.GetGeopositionAsync();
 				btnTrack.Content = "Termina tracciamento";
-
+				disTim.Start();
+				dRequest.RequestActive();
 			}
 
 			isTracking = !isTracking;
@@ -91,16 +95,7 @@ namespace LogPosizioneTablet
 
 				var mailto = new Uri("mailto:?to=theferrango@outlook.com&subject=GPS coords foar Caronte&body=[" + toSend + "]");
 				await Windows.System.Launcher.LaunchUriAsync(mailto);
-
-				//var a = await md.ShowAsync();
-				//if (a.)
-				//	DeleteFile();
-
-				//EmailComposeTask ect = new EmailComposeTask();
-				//ect.To = "theferrango@outlook.com";
-				//ect.Subject = "GPS coords foar Caronte";
-				//ect.Body = "[" + toSend + "]";
-				//ect.Show();
+								
 			}
 			catch
 			{
@@ -110,9 +105,37 @@ namespace LogPosizioneTablet
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
 		{
+			dRequest = new DisplayRequest();
+
+			disTim = new DispatcherTimer();
+			disTim.Interval = new TimeSpan(0, 0, 5);
+			disTim.Tick += disTim_Tick;
+
 			geoLoc = new Geolocator();
-			geoLoc.MovementThreshold = 1;
-			geoLoc.PositionChanged += geoLoc_PositionChanged;
+			//geoLoc.MovementThreshold = 1;
+			//geoLoc.PositionChanged += geoLoc_PositionChanged;
+		}
+
+		async void disTim_Tick(object sender, object e)
+		{
+			var position = await geoLoc.GetGeopositionAsync();
+
+			Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync
+			(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+			{
+				lat.Text = position.Coordinate.Point.Position.Latitude.ToString();
+				lon.Text = position.Coordinate.Point.Position.Longitude.ToString();
+				alt.Text = position.Coordinate.Point.Position.Altitude.ToString();
+				pre.Text = position.Coordinate.Accuracy.ToString();
+			});
+
+
+			await WriteDataToFileAsync(string.Format("{{ 'IDPosizione' : 0, 'FKIDViaggio' : 1, 'Data': \"{0}\", 'Latitudine': {1}, 'Longitudine': {2}, 'Precisione:' {3}}},",
+				position.Coordinate.Timestamp.ToString(), 
+				position.Coordinate.Point.Position.Latitude,
+				position.Coordinate.Point.Position.Longitude,
+				position.Coordinate.Accuracy));
+
 		}
 
 		async void geoLoc_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
@@ -137,7 +160,7 @@ namespace LogPosizioneTablet
 			var folder = ApplicationData.Current.LocalFolder;
 			var file = await folder.CreateFileAsync("posizioni.gps", CreationCollisionOption.OpenIfExists);
 
-			await Windows.Storage.FileIO.AppendTextAsync(file, "");
+			await Windows.Storage.FileIO.AppendTextAsync(file, content);
 
 			return;
 		}
