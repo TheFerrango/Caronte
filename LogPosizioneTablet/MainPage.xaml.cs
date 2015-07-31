@@ -117,17 +117,19 @@ namespace LogPosizioneTablet
 
 		async void geoLoc_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
 		{
+			Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync
+			(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+			{
+				lat.Text = args.Position.Coordinate.Point.Position.Latitude.ToString();
+				lon.Text = args.Position.Coordinate.Point.Position.Longitude.ToString();
+				alt.Text = args.Position.Coordinate.Point.Position.Altitude.ToString();
+				pre.Text = args.Position.Coordinate.Accuracy.ToString();
+			});
+
+
 			if (isTracking)
 			{
-				Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync
-				(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-				{
-					lat.Text = args.Position.Coordinate.Point.Position.Latitude.ToString();
-					lon.Text = args.Position.Coordinate.Point.Position.Longitude.ToString();
-					alt.Text = args.Position.Coordinate.Point.Position.Altitude.ToString();
-					pre.Text = args.Position.Coordinate.Accuracy.ToString();
-				});
-
+			
 
 				await WriteDataToFileAsync(string.Format("{{ 'IDPosizione' : 0, 'FKIDViaggio' : 1, 'Data': \"{0}\", 'Latitudine': {1}, 'Longitudine': {2}, 'Precisione': {3}}},",
 					args.Position.Coordinate.Timestamp.ToString(),

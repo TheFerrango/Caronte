@@ -1,5 +1,5 @@
 ﻿module Caronte {
-	interface IAppCtrlScope extends angular.IScope {
+	export interface ICaronteBaseScope extends angular.IScope {
 		logged: boolean;
 		citOfDay: string;
 		loginObj: any;
@@ -9,11 +9,11 @@
 
 	export class indexController {
 		static $inject = ["$scope", "minosseService"];
-		scope: IAppCtrlScope;
+		scope: ICaronteBaseScope;
 		service: any;
 		quoteList: string[];
 
-		constructor(private $scope: IAppCtrlScope, miNos: any) {
+		constructor(private $scope: ICaronteBaseScope, miNos: any) {
 			this.scope = $scope;
 			this.service = miNos;
 			this.scope.logged = miNos.authentication();

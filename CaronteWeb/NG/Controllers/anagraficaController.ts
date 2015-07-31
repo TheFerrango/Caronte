@@ -1,5 +1,5 @@
 ﻿module Caronte {
-	interface IAppCtrlScope extends angular.IScope{
+	interface IAppCtrlScope extends Caronte.ICaronteBaseScope{
 		currentPage: number;
 		pageNumbers: number[];
 
@@ -157,14 +157,15 @@
 		//#region Aggiunta, modifica ed eliminazione
 
 		private newAnagrafica() {
-			var dlg = $("#dialog").data('dialog');
-			this.scope.popupAna.type = "Aggiungi";
-			this.scope.popupAna.obj = {};
-			this.scope.popupAna.obj.Sesso = true.toString();
-			this.scope.popupAna.obj.Latitude = 44.22;
-			this.scope.popupAna.obj.Longitude = 11.6;
+			//var dlg = $("#dialog").data('dialog');
+			//this.scope.popupAna.type = "Aggiungi";
+			//this.scope.popupAna.obj = {};
+			//this.scope.popupAna.obj.Sesso = true.toString();
+			//this.scope.popupAna.obj.Latitude = 44.22;
+			//this.scope.popupAna.obj.Longitude = 11.6;
 
-			dlg.open()
+			//dlg.open()
+			console.log(JSON.stringify(this.scope.logged, null, 2))
 		}
 
 		private editAnagrafica(anaObj) {

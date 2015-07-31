@@ -1,7 +1,19 @@
 ﻿<div style="height:100%">
 	<div class="tile-area fg-white bg-gray" style="width:1024px">
 		<div class="headerBar bg-grayDarker">
-			<span  class="tile-area-title" style="width:100%; padding-right:160px">Welcome to Project Caronte! <span style="float:right"><span class="mif-exit" ng-click="logoutUser()"></span></span></span>
+			<div class="tile-area-title " style="width:100%; padding-right:160px">
+				Welcome to Project Caronte!
+				<div style="float:right;">
+					<span>Ciao, {{logged.userName}}</span>
+					<a href="#" class="dropdown-toggle">
+						<span class="mif-cogs"/>
+					</a>
+					<ul class="d-menu" data-role="dropdown">
+						<li>Il mio account</li>
+						<li ng-click="logoutUser()"> Logout</li>
+					</ul>
+				</div>
+			</div>
 		</div>
 		<div class="tile-group">
 			<span class="tile-group-title fg-white">Gestione anagrafiche</span>
