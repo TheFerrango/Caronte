@@ -54,12 +54,12 @@ namespace CaronteWeb.Controllers
 		}
 
 		[HttpPost]
-		public IHttpActionResult CreatePosizione([FromBody] List<PosizioneDTO> dto)
+		public IHttpActionResult CreatePosizione([FromBody] PosizioneDTO dto)
 		{
 			try
 			{
-				//return Ok(posServ.New(dto));
-				return Ok(dto.Count);
+				return Ok(posServ.New(dto));
+				//return Ok(dto.Count);
 
 			}
 			catch (Exception e)

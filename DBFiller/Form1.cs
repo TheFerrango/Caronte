@@ -1,5 +1,6 @@
 ﻿using CaronteWeb.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,13 +35,41 @@ namespace DBFiller
 
 		private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
 		{
+			//GeneraEAggiungiAnagrafiche(sender);
+			GeneraEAggiungiPosizioni(sender);
+		}
+
+		private void GeneraEAggiungiPosizioni(object sender)
+		{
+			List<PosizioneDTO> lAna = LeggiFilePosizioni("elencoPosizioni.txt");
+
+			foreach (var item in lAna)
+			{
+				item.Data.AddHours(2);
+				wc.Headers["Content-Type"] = "application/json";
+				wc.UploadString(textBox1.Text + "posizione", JsonConvert.SerializeObject(item));
+				(sender as BackgroundWorker).ReportProgress(1, string.Format("Aggiunta la posizione {0} {1} ", item.Latitudine, item.Longitudine, Environment.NewLine));
+			}
+		}
+
+		private List<PosizioneDTO> LeggiFilePosizioni(string p)
+		{
+			string elePoss = File.ReadAllText(p);
+			List<PosizioneDTO> poss = JsonConvert.DeserializeObject<List<PosizioneDTO>>(elePoss, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy HH:mm:ss" });
+			return poss;
+		}
+
+		#region Anagrafiche
+
+		private void GeneraEAggiungiAnagrafiche(object sender)
+		{
 			List<AnagraficaDTO> lAna = LeggiFileNomi("elencoNomi.txt");
 
 			foreach (var item in lAna)
 			{
 				wc.Headers["Content-Type"] = "application/json";
 				wc.UploadString(textBox1.Text + "anagrafica", JsonConvert.SerializeObject(item));
-				(sender as BackgroundWorker).ReportProgress(1,string.Format("Aggiunta l'anagrafica {0} {1} {2}", item.Nome, item.Cognome, Environment.NewLine) );
+				(sender as BackgroundWorker).ReportProgress(1, string.Format("Aggiunta l'anagrafica {0} {1} {2}", item.Nome, item.Cognome, Environment.NewLine));
 			}
 		}
 
@@ -77,6 +106,6 @@ namespace DBFiller
 
 		}
 
-
+		#endregion
 	}
 }
