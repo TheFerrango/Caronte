@@ -1,5 +1,5 @@
 ﻿module Caronte {
-	export interface IAppCtrlScope extends ng.IScope {
+	export interface IAppCtrlScope extends Caronte.ICaronteBaseScope {
 		currentPage: number;
 		pageNumbers: number[];
 
@@ -86,6 +86,9 @@
 			this.showPage(0);
 			this.scope.popupVia = {};
 			this.scope.popupPas = {};
+
+			this.scope.SetArrowVisibility(true);
+			this.scope.SetTitle("Gestione viaggi");
 
 			Microsoft.Maps.loadModule("Microsoft.Maps.Search");
 

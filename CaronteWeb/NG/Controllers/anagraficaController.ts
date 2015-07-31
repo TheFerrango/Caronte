@@ -42,6 +42,8 @@
 			this.showPage(0);
 			this.scope.popupAna = {};
 			
+			this.scope.SetArrowVisibility(true);
+			this.scope.SetTitle("Gestione Anagrafiche");
 
 			this.initBindMetodi();
 			this.initMappa();

@@ -10,6 +10,8 @@ var Caronte;
             this.howMany = 15;
             this.showPage(0);
             this.scope.popupVei = {};
+            this.scope.SetArrowVisibility(true);
+            this.scope.SetTitle("Gestione Veicoli");
             this.initBindMetodi();
         }
         //#region Inizializzazione

@@ -1,193 +1,178 @@
-﻿<div style="height:100%">
-	<div class="tile-area fg-white bg-gray headerPadding" style="width:1024px">
+﻿
+<div class="leftAlign">
+	<button class="button primary" ng-click="newAnagrafica()">
+		<span class="mif-plus"></span>
+		<span class="labelAlignment"> Nuova anagrafica</span>
+	</button>
+</div>
 
-		<div class="headerBar bg-grayDarker">
-			<div class="tile-area-title">
+<div class="tableContainer">
+	<table class="table striped hovered bordered bg-white fg-black">
+		<thead>
+			<tr>
+				<th width="200">Codice Fiscale</th>
+				<th width="200">Cognome</th>
+				<th width="200">Nome</th>
+				<th width="150">Data di nascita</th>
+				<th>Indirizzo</th>
+				<th width="250">N. Telefono</th>
+				<th width="80"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="anagrafica in anagraficaList">
+				<td>{{anagrafica.CodiceFiscale}}</td>
+				<td>{{anagrafica.Cognome}}</td>
+				<td>{{anagrafica.Nome}}</td>
+				<td>{{ anagrafica.DataNascita | date: 'dd/MM/yyyy'}}</td>
+				<td>{{anagrafica.Indirizzo}}</td>
+				<td>{{anagrafica.Telefono}}</td>
 
-				<span class="mif-arrow-left fg-white" onclick="window.location=''"></span>
-				<span class="labelAlignment">Gestione Anagrafica</span>
-			</div>
+				<td>
+					<span class="mif-pencil fg-grayDark editCell" ng-click="editAnagrafica( anagrafica )"></span>&nbsp;
+					<span class="mif-cancel fg-red editCell" ng-click="removeAnagrafica( anagrafica.IDAnagrafica )"></span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<div class="pagination leftAlign">
+	<span ng-class="{true: 'item', false: 'item disabled'}[currentPage != 0]" ng-click="showPage(0)">Prima</span>
+	<span ng-repeat="nPage in pageNumbers" ng-class="{true: 'item', false: 'item current'}[currentPage != nPage]" ng-click="showPage(nPage)">{{nPage + 1}}</span>
+	<span ng-class="{true: 'item', false: 'item disabled'}[currentPage != pageNumbers.length - 1]" ng-click="showPage(pageNumbers.length-1)">Ultima</span>
+</div>
+
+
+<div data-role="dialog" data-windows-style="true" data-height="100%" id="dialog" class="bg-grayDarker fg-black" style="text-align:center;">
+	<div style="height:100%">
+		<div style="width:100%; height:70px" class="fg-white">
+			<h1>{{popupAna.type}} anagrafica</h1>
 		</div>
+		<form class="bg-white inputFormContainer" data-role="validator" name="toVal" novalidate onkeypress="return event.keyCode != 13;">
 
-		<div class="contentContainer">
+			<div ng-hide="isMapShowing">
+				<table style="width:100%">
+					<tr>
+						<td style="text-align:left">Nome:</td>
+						<td>
+							<div class="input-control text">
+								<input type="text" ng-model="popupAna.obj.Nome" data-validate-func="required" placeholder="Nome" required>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align:left">Cognome:</td>
+						<td>
+							<div class="input-control text">
+								<input type="text" ng-model="popupAna.obj.Cognome" data-validate-func="required" placeholder="Cognome" required>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align:left">Codice fiscale:</td>
+						<td>
+							<div class="input-control text">
+								<input type="text" ng-model="popupAna.obj.CodiceFiscale" data-validate-func="required" placeholder="Codice fiscale" required>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align:left">Data di nascita:</td>
+						<td>
+							<div class="input-control text" data-format="yyyy/mm/dd" data-role="datepicker">
+								<input type="text" id="newDate" value="{{popupAna.obj.DataNascita | date: 'yyyy/MM/dd'}}" data-validate-func="required" required>
+								<button class="button"><span class="mif-calendar"></span></button>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align:left">Sesso:</td>
+						<td>
+							<div class="input-control select full-size">
+								<select ng-model="popupAna.obj.Sesso" required data-validate-func="required" required>
+									<option value="true">Uomo</option>
+									<option value="false">Donna</option>
+								</select>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align:left">Telefono:</td>
+						<td>
+							<div class="input-control tel full-size">
+								<input type="" ng-model="popupAna.obj.Telefono" placeholder="Telefono">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align:left">Cellulare:</td>
+						<td>
+							<div class="input-control tel full-size">
+								<input type="tel" ng-model="popupAna.obj.Cellulare" placeholder="Cellulare">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align:left">Email:</td>
+						<td>
+							<div class="input-control text">
+								<input type="email" ng-model="popupAna.obj.Email" placeholder="email">
+								<span class="input-state-error mif-warning"></span>
+								<span class="input-state-success mif-checkmark"></span>
 
-			<div class="leftAlign">
-				<button class="button primary" ng-click="newAnagrafica()">
-					<span class="mif-plus"></span>
-					<span class="labelAlignment"> Nuova anagrafica</span>
-				</button>
-			</div>
 
-			<div class="tableContainer">
-				<table class="table striped hovered bordered bg-white fg-black">
-					<thead>
-						<tr>
-							<th width="200">Codice Fiscale</th>
-							<th width="200">Cognome</th>
-							<th width="200">Nome</th>
-							<th width="150">Data di nascita</th>
-							<th>Indirizzo</th>
-							<th width="250">N. Telefono</th>
-							<th width="80"></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="anagrafica in anagraficaList">
-							<td>{{anagrafica.CodiceFiscale}}</td>
-							<td>{{anagrafica.Cognome}}</td>
-							<td>{{anagrafica.Nome}}</td>
-							<td>{{ anagrafica.DataNascita | date: 'dd/MM/yyyy'}}</td>
-							<td>{{anagrafica.Indirizzo}}</td>
-							<td>{{anagrafica.Telefono}}</td>
-
-							<td>
-								<span class="mif-pencil fg-grayDark editCell" ng-click="editAnagrafica( anagrafica )"></span>&nbsp;
-								<span class="mif-cancel fg-red editCell" ng-click="removeAnagrafica( anagrafica.IDAnagrafica )"></span>
-							</td>
-						</tr>
-					</tbody>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align:left">Indirizzo:</td>
+						<td>
+							<div class="input-control text">
+								<input type="text" readonly="readonly" ng-model="popupAna.obj.Indirizzo" data-validate-func="required" placeholder="Indirizzo" required>
+								<button class="button" ng-click="showMapDiv()">
+									<span class="mif-map" />
+								</button>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td />
+						<td style="float:right">
+							<button class="button primary" ng-click="okEdit(toVal)">Salva</button>
+							<button class="button warning" ng-click="cancelEdit()">Annulla</button>
+						</td>
+					</tr>
 				</table>
 			</div>
 
-			<div class="pagination leftAlign">
-				<span ng-class="{true: 'item', false: 'item disabled'}[currentPage != 0]" ng-click="showPage(0)">Prima</span>
-				<span ng-repeat="nPage in pageNumbers" ng-class="{true: 'item', false: 'item current'}[currentPage != nPage]" ng-click="showPage(nPage)">{{nPage + 1}}</span>
-				<span ng-class="{true: 'item', false: 'item disabled'}[currentPage != pageNumbers.length - 1]" ng-click="showPage(pageNumbers.length-1)">Ultima</span>
-			</div>
-		</div>
-	</div>
+			<div style="width: 100%; height: 100%;" ng-show="isMapShowing">
 
-	<div data-role="dialog" data-windows-style="true" data-height="100%" id="dialog" class="bg-grayDarker fg-black" style="text-align:center;">
-		<div style="height:100%">
-			<div style="width:100%; height:70px" class="fg-white">
-				<h1>{{popupAna.type}} anagrafica</h1>
-			</div>
-			<form class="bg-white inputFormContainer" data-role="validator" name="toVal" novalidate onkeypress="return event.keyCode != 13;">
+				<table style="margin: 10px;">
+					<tr>
+						<td style="width: 99%;">
+							<div class="input-control text full-size" data-role="input">
+								<input class="ng-pristine ng-untouched ng-valid" style="padding-right: 5px;" type="text" placeholder="Indirizzo" ng-model="popupAna.TmpIndirizzo">
+								<button class="button" ng-click="centerBingMap()">
+									<span class="mif-location">
+									</span>
+								</button>
+							</div>
+						</td>
+						<td>
+							<button class="button primary" ng-click="okMapPosition()">Salva</button>
+						</td>
+						<td>
+							<button class="button warning" ng-click="cancelMapPosition()">Annulla</button>
+						</td>
+					</tr>
+				</table>
+				<div style="height: 70%; position: relative;">
+					<div id="mappaBing" style="width: 100%; height: 100%;">
 
-				<div ng-hide="isMapShowing">
-					<table style="width:100%">
-						<tr>
-							<td style="text-align:left">Nome:</td>
-							<td>
-								<div class="input-control text">
-									<input type="text" ng-model="popupAna.obj.Nome" data-validate-func="required" placeholder="Nome" required>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td style="text-align:left">Cognome:</td>
-							<td>
-								<div class="input-control text">
-									<input type="text" ng-model="popupAna.obj.Cognome" data-validate-func="required" placeholder="Cognome" required>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td style="text-align:left">Codice fiscale:</td>
-							<td>
-								<div class="input-control text">
-									<input type="text" ng-model="popupAna.obj.CodiceFiscale" data-validate-func="required" placeholder="Codice fiscale" required>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td style="text-align:left">Data di nascita:</td>
-							<td>
-								<div class="input-control text" data-format="yyyy/mm/dd" data-role="datepicker">
-									<input type="text" id="newDate" value="{{popupAna.obj.DataNascita | date: 'yyyy/MM/dd'}}" data-validate-func="required" required>
-									<button class="button"><span class="mif-calendar"></span></button>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td style="text-align:left">Sesso:</td>
-							<td>
-								<div class="input-control select full-size">
-									<select ng-model="popupAna.obj.Sesso" required data-validate-func="required" required>
-										<option value="true">Uomo</option>
-										<option value="false">Donna</option>
-									</select>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td style="text-align:left">Telefono:</td>
-							<td>
-								<div class="input-control tel full-size">
-									<input type="" ng-model="popupAna.obj.Telefono" placeholder="Telefono">
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td style="text-align:left">Cellulare:</td>
-							<td>
-								<div class="input-control tel full-size">
-									<input type="tel" ng-model="popupAna.obj.Cellulare" placeholder="Cellulare">
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td style="text-align:left">Email:</td>
-							<td>
-								<div class="input-control text">
-									<input type="email" ng-model="popupAna.obj.Email" placeholder="email">
-									<span class="input-state-error mif-warning"></span>
-									<span class="input-state-success mif-checkmark"></span>
-
-
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td style="text-align:left">Indirizzo:</td>
-							<td>
-								<div class="input-control text">
-									<input type="text" readonly="readonly" ng-model="popupAna.obj.Indirizzo" data-validate-func="required" placeholder="Indirizzo" required>
-									<button class="button" ng-click="showMapDiv()">
-										<span class="mif-map" />
-									</button>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td />
-							<td style="float:right">
-								<button class="button primary" ng-click="okEdit(toVal)">Salva</button>
-								<button class="button warning" ng-click="cancelEdit()">Annulla</button>
-							</td>
-						</tr>
-					</table>
-				</div>
-
-				<div style="width: 100%; height: 100%;" ng-show="isMapShowing">
-
-					<table style="margin: 10px;">
-						<tr>
-							<td style="width: 99%;">
-								<div class="input-control text full-size" data-role="input">
-									<input class="ng-pristine ng-untouched ng-valid" style="padding-right: 5px;" type="text" placeholder="Indirizzo" ng-model="popupAna.TmpIndirizzo">
-									<button class="button" ng-click="centerBingMap()">
-										<span class="mif-location">
-										</span>
-									</button>
-								</div>
-							</td>
-							<td>
-								<button class="button primary" ng-click="okMapPosition()">Salva</button>
-							</td>
-							<td>
-								<button class="button warning" ng-click="cancelMapPosition()">Annulla</button>
-							</td>
-						</tr>
-					</table>
-					<div style="height: 70%;">
-						<div id="mappaBing" style="width: 100%; height: 100%;">
-
-						</div>
 					</div>
 				</div>
-			</form>
-		</div>
+			</div>
+		</form>
 	</div>
-
 </div>

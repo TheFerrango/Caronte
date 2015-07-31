@@ -1,5 +1,5 @@
 ﻿module Caronte {
-	interface IAppCtrlScope extends ng.IScope {
+	interface IAppCtrlScope extends Caronte.ICaronteBaseScope {
 		currentPage: number;
 		pageNumbers: number[];
 				
@@ -31,7 +31,8 @@
 			this.howMany = 15
 			this.showPage(0);
 			this.scope.popupVei = {};
-
+			this.scope.SetArrowVisibility(true);
+			this.scope.SetTitle("Gestione Veicoli");
 		
 			this.initBindMetodi();
 		}

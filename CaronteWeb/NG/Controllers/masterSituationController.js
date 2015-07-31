@@ -5,6 +5,8 @@ var Caronte;
             this.$scope = $scope;
             this.scope = $scope;
             this.service = mastSitServ;
+            this.scope.SetArrowVisibility(true);
+            this.scope.SetTitle("Situazione generale viaggi");
             this.initBindMetodi();
             this.initMappa();
             this.initDati();
@@ -99,7 +101,8 @@ var Caronte;
             var coloreLinea = colore.COLORE.clone();
             coloreLinea.a = 127;
             var posList = [];
-            var coop = this.simplifyPath(puntiLinea, 50);
+            //var coop = this.simplifyPath(puntiLinea, 50);
+            var coop = puntiLinea;
             for (var idx = 0; idx < coop.length; idx++)
                 if (coop[idx].Precisione) {
                     if (coop[idx].Precisione < 200)

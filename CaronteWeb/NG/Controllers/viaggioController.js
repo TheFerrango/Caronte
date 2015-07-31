@@ -14,6 +14,8 @@ var Caronte;
             this.showPage(0);
             this.scope.popupVia = {};
             this.scope.popupPas = {};
+            this.scope.SetArrowVisibility(true);
+            this.scope.SetTitle("Gestione viaggi");
             Microsoft.Maps.loadModule("Microsoft.Maps.Search");
             this.initControlli();
             this.initBindMetodi();

@@ -52,8 +52,8 @@
 <body ng-cloak>
 	<div class="container-fluid" ng-controller="indexController">
 		<div style="height:100%" ng-if="logged">
-			<div class="tile-area fg-white bg-gray headerPadding" style="width:1024px">
-				<div class="headerBar bg-grayDarker">
+			<div class="tile-area fg-white bg-gray " style="width:1024px">
+				<div class="headerBar bg-grayDarker ">
 					<div class="tile-area-title">
 						<span class="mif-arrow-left fg-white" ng-show="showBackArrow" onclick="window.location=''"></span>
 						<span class="labelAlignment">{{controllerPageTitle}}</span>
@@ -64,8 +64,8 @@
 								<span class="mif-cogs" />
 							</div>
 							<div data-role="dropdown" class="dropdownUser bg-gray text-accent">
-								<div class="bg-hover-lightBlue"><span class="mif-user padding10" />Il mio account</div>
-								<div class="bg-hover-lightBlue" ng-click="logoutUser()"><span class="mif-exit padding10" />Logout</div>
+								<div class="bg-hover-lightBlue"><span class="mif-user padding10" /><span style="margin-left:10px">Il mio account</span></div>
+								<div class="bg-hover-lightBlue" ng-click="logoutUser()"><span class="mif-exit padding10" /><span style="margin-left:10px">Logout</span></div>
 							</div>
 
 

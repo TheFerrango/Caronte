@@ -1,130 +1,122 @@
-﻿<div style="height:100%">
-	<div class="tile-area fg-white bg-gray headerPadding" style="width:1024px">
+﻿
 
-		<div class="headerBar bg-grayDarker">
-			<div class="tile-area-title">
-				<span class="mif-arrow-left fg-white" onclick="window.location=''"></span>
-				<span class="labelAlignment">Gestione Veicoli</span>
-			</div>
+<div class="contentContainer">
+	<div class="leftAlign">
+		<button class="button primary" ng-click="newVeicolo()">
+			<span class="mif-plus"></span>
+			<span class="labelAlignment"> Nuovo veicolo</span>
+		</button>
+	</div>
+
+	<div class="tableContainer">
+		<table class="table striped hovered bordered bg-white fg-black">
+			<thead>
+				<tr>
+					<th width="200">Targa</th>
+					<th>Modello</th>
+					<th width="200">Cilindrata</th>
+					<th width="200">Anno produzione</th>
+					<th width="200">Data Aquisto</th>
+					<th width="200">Data Vendita</th>
+
+					<th width="80"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="veicolo in veicoloList">
+					<td>{{veicolo.Targa}}</td>
+					<td>{{veicolo.Modello}}</td>
+					<td>{{veicolo.Cilindrata}}</td>
+					<td>{{veicolo.AnnoProduzione}}</td>
+					<td>{{veicolo.DataAcquisto | date: 'dd/MM/yyyy'}}</td>
+					<td>{{veicolo.DataVendita | date: 'dd/MM/yyyy'}}</td>
+
+					<td>
+						<span class="mif-pencil fg-grayDark editCell" ng-click="editVeicolo( veicolo )"></span>&nbsp;
+						<span class="mif-cancel fg-red editCell" ng-click="removeVeicolo( veicolo.IDVeicolo )"></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="pagination leftAlign">
+		<span ng-class="{true: 'item', false: 'item disabled'}[currentPage != 0]" ng-click="showPage(0)">Prima</span>
+		<span ng-repeat="nPage in pageNumbers" ng-class="{true: 'item', false: 'item current'}[currentPage != nPage]" ng-click="showPage(nPage)">{{nPage + 1}}</span>
+		<span ng-class="{true: 'item', false: 'item disabled'}[currentPage != pageNumbers.length - 1]" ng-click="showPage(pageNumbers.length-1)">Ultima</span>
+	</div>
+</div>
+
+
+<div data-role="dialog" data-windows-style="true" data-height="100%" id="dialog" class="bg-grayDarker fg-black" style="text-align:center;">
+	<div style="height:100%">
+		<div style="width:100%; height:70px" class="fg-white">
+			<h1>{{popupVei.type}} veicolo</h1>
 		</div>
-
-		<div class="contentContainer">
-			<div class="leftAlign">
-				<button class="button primary" ng-click="newVeicolo()">
-					<span class="mif-plus"></span>
-					<span class="labelAlignment"> Nuovo veicolo</span>
-				</button>
-			</div>
-
-			<div class="tableContainer">
-				<table class="table striped hovered bordered bg-white fg-black">
-					<thead>
-						<tr>
-							<th width="200">Targa</th>
-							<th>Modello</th>
-							<th width="200">Cilindrata</th>
-							<th width="200">Anno produzione</th>
-							<th width="200">Data Aquisto</th>
-							<th width="200">Data Vendita</th>
-
-							<th width="80"></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="veicolo in veicoloList">
-							<td>{{veicolo.Targa}}</td>
-							<td>{{veicolo.Modello}}</td>
-							<td>{{veicolo.Cilindrata}}</td>
-							<td>{{veicolo.AnnoProduzione}}</td>
-							<td>{{veicolo.DataAcquisto | date: 'dd/MM/yyyy'}}</td>
-							<td>{{veicolo.DataVendita | date: 'dd/MM/yyyy'}}</td>
-
-							<td>
-								<span class="mif-pencil fg-grayDark editCell" ng-click="editVeicolo( veicolo )"></span>&nbsp;
-								<span class="mif-cancel fg-red editCell" ng-click="removeVeicolo( veicolo.IDVeicolo )"></span>
-							</td>
-						</tr>
-					</tbody>
+		<form class="bg-white inputFormContainer" data-role="validator" name="toVal" novalidate onkeypress="return event.keyCode != 13;">
+			<div>
+				<table style="width:100%">
+					<tr>
+						<td style="text-align:left">Targa:</td>
+						<td>
+							<div class="input-control text full-size">
+								<input type="text" ng-model="popupVei.obj.Targa" data-validate-func="required" required>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align:left">Modello:</td>
+						<td>
+							<div class="input-control text full-size">
+								<input type="text" ng-model="popupVei.obj.Modello" data-validate-func="required" required>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align:left">Cilindrata:</td>
+						<td>
+							<div class="input-control text full-size" data-validate-func="required" required>
+								<input type="number" ng-model="popupVei.obj.Cilindrata">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align:left">Anno di produzione:</td>
+						<td>
+							<div class="input-control text full-size" data-validate-func="required" required>
+								<input type="number" ng-model="popupVei.obj.AnnoProduzione">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align:left">Data acquisto:</td>
+						<td>
+							<div class="input-control text" data-format="yyyy/mm/dd" data-role="datepicker">
+								<input type="text" id="dataAcq" value="{{popupVei.obj.DataAcquisto | date: 'yyyy/MM/dd'}}" data-validate-func="required" required>
+								<button class="button"><span class="mif-calendar"></span></button>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align:left">Data vendita:</td>
+						<td>
+							<div class="input-control text" data-format="yyyy/mm/dd" data-role="datepicker">
+								<input type="text" id="dataVen" value="{{popupVei.obj.DataVendita | date: 'yyyy/MM/dd'}}">
+								<button class="button"><span class="mif-calendar"></span></button>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td />
+						<td style="float:right">
+							<button class="button primary" ng-click="okEdit(toVal)">Salva</button>
+							<button class="button warning" ng-click="cancelEdit()">Annulla</button>
+						</td>
+					</tr>
 				</table>
 			</div>
-			<div class="pagination leftAlign">
-				<span ng-class="{true: 'item', false: 'item disabled'}[currentPage != 0]" ng-click="showPage(0)">Prima</span>
-				<span ng-repeat="nPage in pageNumbers" ng-class="{true: 'item', false: 'item current'}[currentPage != nPage]" ng-click="showPage(nPage)">{{nPage + 1}}</span>
-				<span ng-class="{true: 'item', false: 'item disabled'}[currentPage != pageNumbers.length - 1]" ng-click="showPage(pageNumbers.length-1)">Ultima</span>
-			</div>
-		</div>
+
+
+		</form>
 	</div>
-
-	<div data-role="dialog" data-windows-style="true" data-height="100%" id="dialog" class="bg-grayDarker fg-black" style="text-align:center;">
-		<div style="height:100%">
-			<div style="width:100%; height:70px" class="fg-white">
-				<h1>{{popupVei.type}} veicolo</h1>
-			</div>
-			<form class="bg-white inputFormContainer" data-role="validator" name="toVal" novalidate onkeypress="return event.keyCode != 13;">
-				<div>
-					<table style="width:100%">
-						<tr>
-							<td style="text-align:left">Targa:</td>
-							<td>
-								<div class="input-control text full-size">
-									<input type="text" ng-model="popupVei.obj.Targa" data-validate-func="required" required>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td style="text-align:left">Modello:</td>
-							<td>
-								<div class="input-control text full-size">
-									<input type="text" ng-model="popupVei.obj.Modello" data-validate-func="required" required>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td style="text-align:left">Cilindrata:</td>
-							<td>
-								<div class="input-control text full-size" data-validate-func="required" required>
-									<input type="number" ng-model="popupVei.obj.Cilindrata">
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td style="text-align:left">Anno di produzione:</td>
-							<td>
-								<div class="input-control text full-size" data-validate-func="required" required>
-									<input type="number" ng-model="popupVei.obj.AnnoProduzione">
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td style="text-align:left">Data acquisto:</td>
-							<td>
-								<div class="input-control text" data-format="yyyy/mm/dd" data-role="datepicker">
-									<input type="text" id="dataAcq" value="{{popupVei.obj.DataAcquisto | date: 'yyyy/MM/dd'}}" data-validate-func="required" required>
-									<button class="button"><span class="mif-calendar"></span></button>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td style="text-align:left">Data vendita:</td>
-							<td>
-								<div class="input-control text" data-format="yyyy/mm/dd" data-role="datepicker">
-									<input type="text" id="dataVen" value="{{popupVei.obj.DataVendita | date: 'yyyy/MM/dd'}}">
-									<button class="button"><span class="mif-calendar"></span></button>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td />
-							<td style="float:right">
-								<button class="button primary" ng-click="okEdit(toVal)">Salva</button>
-								<button class="button warning" ng-click="cancelEdit()">Annulla</button>
-							</td>
-						</tr>
-					</table>
-				</div>
-
-
-			</form>
-		</div>
-	</div>
+</div>
 </div>

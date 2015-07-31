@@ -1,5 +1,5 @@
 ﻿module Caronte {
-	interface IAppCtrlScope extends angular.IScope {
+	interface IAppCtrlScope extends Caronte.ICaronteBaseScope {
 		viaggiVisualizzati: boolean[];
 		viaggiInCorsoList: CaronteDTOs.Viaggio[];
 		onViaggioCheck: Function;
@@ -18,6 +18,9 @@
 		constructor(private $scope: IAppCtrlScope, mastSitServ: masterSituationService) {
 			this.scope = $scope;
 			this.service = mastSitServ;
+
+			this.scope.SetArrowVisibility(true);
+			this.scope.SetTitle("Situazione generale viaggi");
 
 			this.initBindMetodi();
 			this.initMappa();
@@ -122,9 +125,9 @@
 			coloreLinea.a = 127;
 
 			var posList: Microsoft.Maps.Location[] = [];
-			var coop = this.simplifyPath(puntiLinea, 50);
+			//var coop = this.simplifyPath(puntiLinea, 50);
 
-
+			var coop = puntiLinea;
 
 			for (var idx = 0; idx < coop.length; idx++)
 				if (coop[idx].Precisione) {
