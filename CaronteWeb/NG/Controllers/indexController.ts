@@ -1,10 +1,15 @@
 ﻿module Caronte {
 	export interface ICaronteBaseScope extends angular.IScope {
 		logged: boolean;
+		showBackArrow: boolean;
+		controllerPageTitle: string;
 		citOfDay: string;
 		loginObj: any;
 		clearForm: Function;
 		submittami: Function;
+		logoutUser: Function;
+		SetTitle: Function;
+		SetArrowVisibility: Function;
 	}
 
 	export class indexController {
@@ -12,7 +17,7 @@
 		scope: ICaronteBaseScope;
 		service: any;
 		quoteList: string[];
-
+		
 		constructor(private $scope: ICaronteBaseScope, miNos: any) {
 			this.scope = $scope;
 			this.service = miNos;
@@ -20,9 +25,11 @@
 			this.initCitazioni();
 			this.scope.citOfDay = this.quoteList[Math.floor(Math.random() * this.quoteList.length)];
 
+			this.SetArrowVisibility(false);
+			this.SetTitle("");
+
 			this.clearForm();
-			this.initBindMetodi();
-			console.log(this.scope.logged);
+			this.initBindMetodi();			
 		}
 
 		//#region Inizializzazione
@@ -103,9 +110,20 @@
 		private initBindMetodi() {
 			this.scope.clearForm = () => this.clearForm();
 			this.scope.submittami = () => this.submittami();
+			this.scope.logoutUser = () => this.logoutUser();
+			this.scope.SetTitle = (titolo) => this.SetTitle(titolo);
+			this.scope.SetArrowVisibility = (isVisible) => this.SetArrowVisibility(isVisible);
 		}
 
 		//#endregion
+
+		private SetTitle(tit: string) {
+			this.scope.controllerPageTitle = tit;
+		}
+
+		private SetArrowVisibility(isVisible: boolean) {
+			this.scope.showBackArrow = isVisible;
+		}
 
 		private clearForm() {
 			this.scope.loginObj = {};
@@ -128,6 +146,11 @@
 					})
 				});
 			//
+		}
+
+		private logoutUser() {
+			this.service.logOut();
+			location.href = "/";
 		}
 	}
 }

@@ -6,7 +6,6 @@
 		constructor($q: ng.IQService, $location: ng.ILocationService, localStorageService: any) {
 
 			this.authInterceptorServiceFactory.request = (config) => {
-				console.log("tama")
 				config.headers = config.headers || {};
 
 				var authData = localStorageService.get('authorizationData');

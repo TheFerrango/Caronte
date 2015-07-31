@@ -10,6 +10,9 @@ var Caronte;
             this.howMany = 15;
             this.showPage(0);
             this.scope.popupPer = {};
+            this.scope.SetArrowVisibility(true);
+            this.scope.SetTitle("Gestione Personale");
+            console.log("personale");
             this.initControlli();
             this.initBindMetodi();
         }

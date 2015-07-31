@@ -6,6 +6,8 @@ var Caronte;
             this.$scope = $scope;
             this.scope = $scope;
             this.minosseSrv = miNos;
+            this.scope.SetArrowVisibility(false);
+            this.scope.SetTitle("Welcome to Project Caronte!");
             this.scope.logoutUser = function () { return _this.logoutUser(); };
         }
         summaryController.prototype.logoutUser = function () {

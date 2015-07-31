@@ -8,9 +8,10 @@ var Caronte;
             this.scope.logged = miNos.authentication();
             this.initCitazioni();
             this.scope.citOfDay = this.quoteList[Math.floor(Math.random() * this.quoteList.length)];
+            this.SetArrowVisibility(false);
+            this.SetTitle("");
             this.clearForm();
             this.initBindMetodi();
-            console.log(this.scope.logged);
         }
         //#region Inizializzazione
         indexController.prototype.initCitazioni = function () {
@@ -20,8 +21,17 @@ var Caronte;
             var _this = this;
             this.scope.clearForm = function () { return _this.clearForm(); };
             this.scope.submittami = function () { return _this.submittami(); };
+            this.scope.logoutUser = function () { return _this.logoutUser(); };
+            this.scope.SetTitle = function (titolo) { return _this.SetTitle(titolo); };
+            this.scope.SetArrowVisibility = function (isVisible) { return _this.SetArrowVisibility(isVisible); };
         };
         //#endregion
+        indexController.prototype.SetTitle = function (tit) {
+            this.scope.controllerPageTitle = tit;
+        };
+        indexController.prototype.SetArrowVisibility = function (isVisible) {
+            this.scope.showBackArrow = isVisible;
+        };
         indexController.prototype.clearForm = function () {
             this.scope.loginObj = {};
             this.scope.loginObj.userName = "";
@@ -40,6 +50,10 @@ var Caronte;
                 });
             });
             //
+        };
+        indexController.prototype.logoutUser = function () {
+            this.service.logOut();
+            location.href = "/";
         };
         indexController.$inject = ["$scope", "minosseService"];
         return indexController;

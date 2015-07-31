@@ -4,7 +4,6 @@ var Caronte;
         function interceptorService($q, $location, localStorageService) {
             this.authInterceptorServiceFactory = {};
             this.authInterceptorServiceFactory.request = function (config) {
-                console.log("tama");
                 config.headers = config.headers || {};
                 var authData = localStorageService.get('authorizationData');
                 if (authData) {

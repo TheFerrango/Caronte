@@ -1,5 +1,5 @@
 ﻿module Caronte {
-	interface IAppCtrlScope extends ng.IScope {
+	interface IAppCtrlScope extends Caronte.ICaronteBaseScope {
 		currentPage: number;
 		pageNumbers: number[];
 
@@ -24,7 +24,7 @@
 	export class personaleController {
 		static $inject = ["$scope", "personaleService"];
 		scope: IAppCtrlScope;
-		service:  personaleService;
+		service: personaleService;
 		totalItems: number;
 		howMany: number;
 
@@ -37,6 +37,11 @@
 			this.howMany = 15
 			this.showPage(0);
 			this.scope.popupPer = {};
+
+			this.scope.SetArrowVisibility(true);
+			this.scope.SetTitle("Gestione Personale");
+
+			console.log("personale");
 
 			this.initControlli();
 			this.initBindMetodi();
@@ -53,7 +58,7 @@
 			this.service.getRuolo((data) => {
 				this.$scope.ruoloList = data["Dati"];
 			});
-			
+
 		}
 
 		private initBindMetodi() {
@@ -131,7 +136,7 @@
 			if (form.$valid) {
 				this.scope.popupPer.obj.DipendenteDal = $("#newDateDal").val();
 				this.scope.popupPer.obj.DipendenteAl = $("#newDateAl").val();
-				
+
 
 				if (this.scope.popupPer.type == "Modifica") {
 					this.service.editPersonale(this.scope.popupPer.obj,

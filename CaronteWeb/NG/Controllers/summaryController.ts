@@ -1,5 +1,5 @@
 ﻿module Caronte {
-	interface IAppCtrlScope extends ng.IScope {
+	interface IAppCtrlScope extends Caronte.ICaronteBaseScope {
 		logoutUser: Function;
 	}
 
@@ -11,6 +11,10 @@
 		constructor(private $scope: IAppCtrlScope, persServ: summaryService, miNos: any) {			
 			this.scope = $scope;
 			this.minosseSrv = miNos;
+
+			this.scope.SetArrowVisibility(false);
+			this.scope.SetTitle("Welcome to Project Caronte!");
+
 			this.scope.logoutUser = () => this.logoutUser();
 		}
 

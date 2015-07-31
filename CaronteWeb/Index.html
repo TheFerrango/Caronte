@@ -21,7 +21,7 @@
 	<script src="NG/Services/minosseService.js"></script>
 
 	<script src="NG/Controllers/indexController.js"></script>
-	
+
 	<script src="NG/Services/masterSituationService.js"></script>
 	<script src="NG/Controllers/masterSituationController.js"></script>
 
@@ -51,7 +51,34 @@
 
 <body ng-cloak>
 	<div class="container-fluid" ng-controller="indexController">
-		<ng-view ng-if="logged"></ng-view>
+		<div style="height:100%" ng-if="logged">
+			<div class="tile-area fg-white bg-gray headerPadding" style="width:1024px">
+				<div class="headerBar bg-grayDarker">
+					<div class="tile-area-title">
+						<span class="mif-arrow-left fg-white" ng-show="showBackArrow" onclick="window.location=''"></span>
+						<span class="labelAlignment">{{controllerPageTitle}}</span>
+						<div style="float:right;">
+							<div class="labelAlignment" style="display:inline-block">Ciao, {{logged.userName}}</div>
+
+							<div class="dropdown-toggle" id="profileDropDown" style="display:inline-block; padding: 0 0 10px 0;">
+								<span class="mif-cogs" />
+							</div>
+							<div data-role="dropdown" class="dropdownUser bg-gray text-accent">
+								<div class="bg-hover-lightBlue"><span class="mif-user padding10" />Il mio account</div>
+								<div class="bg-hover-lightBlue" ng-click="logoutUser()"><span class="mif-exit padding10" />Logout</div>
+							</div>
+
+
+						</div>
+					</div>
+
+				</div>
+				<div class="contentContainer">
+					<ng-view></ng-view>
+				</div>
+			</div>
+		</div>
+
 		<div ng-if="!logged" class="tile-area fg-white bg-gray" ng-include="'SubPages/Login.html'">
 
 		</div>
