@@ -123,6 +123,10 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CSS\metro-responsive.css" />
+    <Content Include="CSS\metro-responsive.min.css" />
+    <Content Include="CSS\metro-schemes.css" />
+    <Content Include="CSS\metro-schemes.min.css" />
     <Content Include="CSS\sitestyle.css" />
     <Content Include="fonts\metro.svg" />
     <Content Include="Scripts\angular-local-storage.min.js" />

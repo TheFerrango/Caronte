@@ -108,14 +108,13 @@ var Caronte;
         //#endregion
         //#region Aggiunta, modifica ed eliminazione
         anagraficaController.prototype.newAnagrafica = function () {
-            //var dlg = $("#dialog").data('dialog');
-            //this.scope.popupAna.type = "Aggiungi";
-            //this.scope.popupAna.obj = {};
-            //this.scope.popupAna.obj.Sesso = true.toString();
-            //this.scope.popupAna.obj.Latitude = 44.22;
-            //this.scope.popupAna.obj.Longitude = 11.6;
-            //dlg.open()
-            console.log(JSON.stringify(this.scope.logged, null, 2));
+            var dlg = $("#dialog").data('dialog');
+            this.scope.popupAna.type = "Aggiungi";
+            this.scope.popupAna.obj = {};
+            this.scope.popupAna.obj.Sesso = true.toString();
+            this.scope.popupAna.obj.Latitude = 44.22;
+            this.scope.popupAna.obj.Longitude = 11.6;
+            dlg.open();
         };
         anagraficaController.prototype.editAnagrafica = function (anaObj) {
             var dlg = $("#dialog").data('dialog');

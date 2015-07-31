@@ -2,6 +2,18 @@
 	height: 100%;
 }
 
+#profileDropDown.dropdown-toggle:before{
+	display:none;
+}
+
+.dropdownUser{
+	border: 1px solid rgb(34, 34, 34);			
+	position:relative !important;
+}
+.dropdownUser > div{
+	padding: 5px;
+}
+
 .login-form {
 	width: 25rem;
 	height: 18.75rem;
