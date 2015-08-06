@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgilio.WindowsPhone", "Vi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogPosizioneTablet", "LogPosizioneTablet\LogPosizioneTablet.csproj", "{BD265219-D36E-4B7A-B0A4-2279ABEEA5D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acheronte", "Acheronte\Acheronte.csproj", "{98ADABCC-0916-480D-A94C-DA9AB48AD149}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Virgilio\Virgilio.Shared\Virgilio.Shared.projitems*{d185c404-346a-4c2b-8b8e-6164159e05c9}*SharedItemsImports = 4
@@ -163,6 +165,16 @@ Global
 		{BD265219-D36E-4B7A-B0A4-2279ABEEA5D7}.Release|x86.ActiveCfg = Release|x86
 		{BD265219-D36E-4B7A-B0A4-2279ABEEA5D7}.Release|x86.Build.0 = Release|x86
 		{BD265219-D36E-4B7A-B0A4-2279ABEEA5D7}.Release|x86.Deploy.0 = Release|x86
+		{98ADABCC-0916-480D-A94C-DA9AB48AD149}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98ADABCC-0916-480D-A94C-DA9AB48AD149}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98ADABCC-0916-480D-A94C-DA9AB48AD149}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{98ADABCC-0916-480D-A94C-DA9AB48AD149}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{98ADABCC-0916-480D-A94C-DA9AB48AD149}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{98ADABCC-0916-480D-A94C-DA9AB48AD149}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98ADABCC-0916-480D-A94C-DA9AB48AD149}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98ADABCC-0916-480D-A94C-DA9AB48AD149}.Release|ARM.ActiveCfg = Release|Any CPU
+		{98ADABCC-0916-480D-A94C-DA9AB48AD149}.Release|x64.ActiveCfg = Release|Any CPU
+		{98ADABCC-0916-480D-A94C-DA9AB48AD149}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

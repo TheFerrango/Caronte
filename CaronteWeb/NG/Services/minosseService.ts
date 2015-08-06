@@ -27,7 +27,7 @@
 					headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 				}).success(function (response: any) {
 					localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName });
-
+                    console.log(response);
 					onSuccess();
 					deferred.resolve(response);
 				}).error(function (err, status) {
