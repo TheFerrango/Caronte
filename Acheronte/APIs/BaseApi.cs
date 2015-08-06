@@ -10,7 +10,9 @@ namespace Acheronte.APIs
   public abstract class BaseApi
   {
     internal HttpClient compraCoop;
-    internal readonly string BaseUrl = "http://serverAddress/";
+
+
+    internal readonly string BaseUrl = "http://172.28.24.157/";
 
     public Uri ComposeUrl( params string[] uriComponents)
     {

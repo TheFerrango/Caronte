@@ -9,18 +9,21 @@ using System.Threading.Tasks;
 
 namespace Acheronte.APIs
 {
-  public class OAuth : BaseApi
-  {
-    public OAuth():base()
+    public class OAuth : BaseApi
     {
-    }
+        public OAuth()
+            : base()
+        {
+        }
 
-    public async Task<AccessToken> GetToken(string username, string password)
-    {
-      compraCoop.DefaultRequestHeaders.Clear();
-      compraCoop.DefaultRequestHeaders.Add("Content-Type", "application/x-www-form-urlencoded");
-      string res = await compraCoop.PostAsync(ComposeUrl("token"), null).Result.Content.ReadAsStringAsync();
-      return JsonConvert.DeserializeObject<AccessToken>(res);
+        public async Task<AccessToken> GetToken(string username, string password)
+        {
+            compraCoop.DefaultRequestHeaders.Clear();
+
+            HttpContent httpCont = new StringContent(string.Format("grant_type=password&username={0}&password={1}", username, password), Encoding.UTF8, "application/x-www-form-urlencoded");
+
+            string res = await compraCoop.PostAsync(ComposeUrl("token"), httpCont).Result.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<AccessToken>(res);
+        }
     }
-  }
 }

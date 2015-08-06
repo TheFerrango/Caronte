@@ -1,4 +1,6 @@
-﻿using Caliburn.Micro;
+﻿using Acheronte.APIs;
+using Acheronte.Models;
+using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -38,10 +40,11 @@ namespace Virgilio.ViewModels
       this.navigationService = navigationService;
     }
 
-    public void BtnLogin()
+    public async void BtnLogin()
     {
-      MessageDialog md = new MessageDialog(Username + " " + Password, "PooC");      
-      md.ShowAsync();
+        OAuth oApi = new OAuth();
+        AccessToken at = await oApi.GetToken(Username, Password);
+
     }
 
     public void BtnCancel()
