@@ -11,7 +11,7 @@
 
 		public getViaggi(soloInCorso: boolean, func: Function) {
 			var result = this.deferrer.defer();
-			// + soloInCorso ? "?idStato=2" : ""
+			
 			this.wc.get("/api/viaggio" + (soloInCorso ? "?idStato=2" : ""))
 				.success((data) => {
 				func(data);
@@ -22,11 +22,11 @@
 		}
 
 		public getPosizioni(IDViaggio: number, func: Function) {
-			
-			//TODO implementa get dal server
-			var res = {};
-			func(res, IDViaggio);
-			
+            this.wc.get("/api/posizione/getbyviaggio/" + IDViaggio)
+                .success((data) => {
+                    func(data, IDViaggio);
+            });
+            
 		}
     }
 }

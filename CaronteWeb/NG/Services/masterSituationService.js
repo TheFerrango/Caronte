@@ -8,7 +8,6 @@ var Caronte;
         }
         masterSituationService.prototype.getViaggi = function (soloInCorso, func) {
             var result = this.deferrer.defer();
-            // + soloInCorso ? "?idStato=2" : ""
             this.wc.get("/api/viaggio" + (soloInCorso ? "?idStato=2" : "")).success(function (data) {
                 func(data);
             });
@@ -16,9 +15,9 @@ var Caronte;
             return result.promise;
         };
         masterSituationService.prototype.getPosizioni = function (IDViaggio, func) {
-            //TODO implementa get dal server
-            var res = {};
-            func(res, IDViaggio);
+            this.wc.get("/api/posizione/getbyviaggio/" + IDViaggio).success(function (data) {
+                func(data, IDViaggio);
+            });
         };
         return masterSituationService;
     })();
