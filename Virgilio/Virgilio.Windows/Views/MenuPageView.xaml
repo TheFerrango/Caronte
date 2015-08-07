@@ -1,0 +1,145 @@
+﻿<Page
+    x:Name="pageRoot"
+    x:Class="Virgilio.Views.MenuPageView"   
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Virgilio.Views"
+    xmlns:common="using:Virgilio.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cal="using:Caliburn.Micro"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
+        <x:String x:Key="AppName">Caronte Mobile</x:String>
+    </Page.Resources>
+
+    <!--
+        This grid acts as a root panel for the page that defines two rows:
+        * Row 0 contains the back button and page title
+        * Row 1 contains the rest of the page layout
+    -->
+    <Grid Background="#FF555555">
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Back button and page title -->
+        <Grid Background="#FF222222" Grid.Row="0">
+            <TextBlock x:Name="pageTitle" Text="{StaticResource AppName}" Style="{StaticResource HeaderTextBlockStyle}" 
+                        IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Center" Margin="50 0 0 0"/>
+            <TextBlock x:Name="userWelcome" Text="{Binding UserWelcome}" Style="{StaticResource HeaderTextBlockStyle}" 
+                        IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Center" Margin="0 0 50 0" HorizontalAlignment="Right"/>
+            
+        </Grid>
+     
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Height="250" Margin="25 5 25 5" Grid.Row="0"  Grid.Column="0" cal:Message.Attach="[Event Tapped] = [Action StartViaggio()]" >
+                <Grid.Background>
+                    <SolidColorBrush Color="#4390df"></SolidColorBrush>
+                </Grid.Background>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
+
+                <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Grid.Row="0">
+                    <Grid>
+                        <Grid  Width="200" Height="200" Visibility="Collapsed" />
+                        <Path Data="M30.148008,19.415998L33.724035,19.415998 34.234037,26.313997 29.381004,26.313997z M30.629031,9.8749987L33.170007,9.8749987 33.532003,14.778001 30.083038,14.778001z M31.195024,2.9420003L32.514039,2.9420003 32.703042,5.4869997 30.91302,5.4869997z M37.940988,9.5366011E-07L63.999044,29.125002 55.569352,29.125002 36.791028,1.916194z M26.06091,0L27.209998,1.916194 8.4313261,29.125 0,29.125z" Stretch="Uniform" Fill="#FFFFFFFF" Width="108" Height="108" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                            <Path.RenderTransform>
+                                <TransformGroup>
+                                    <TransformGroup.Children>
+                                        <RotateTransform Angle="0" />
+                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                    </TransformGroup.Children>
+                                </TransformGroup>
+                            </Path.RenderTransform>
+                        </Path>
+                    </Grid>
+                </Viewbox>
+
+                <Border Grid.Row="1" Background="#16499a"  />
+                <TextBlock VerticalAlignment="Center" Text="Inizia viaggio" FontSize="40" Padding="10, 0, 0, 0" FontWeight="ExtraBold" Grid.Row="1"/>
+            </Grid>
+
+            <Grid Height="250" Margin="25 5 25 5"  Grid.Row="0" Grid.Column="1">
+                <Grid.Background>
+                    <SolidColorBrush Color="#4390df"></SolidColorBrush>
+                </Grid.Background>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
+
+                <Viewbox  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Grid.Row="0">
+                    <Grid>
+                        <Grid Width="200" Height="200" Visibility="Collapsed" />
+                        <Path Data="M558.361,0L596.922,11.863 551.939,58.8882 391.231,122.799 391.231,163.733 641.934,264.623 684,311.648 627.771,318.595 391.231,222.087 391.231,381.65 567.364,408.262 609.795,437.119 578.932,453.791 391.231,429.21 391.231,684 353.933,684 326.941,684 326.941,420.874 144.358,396.934 87.7932,362.627 135.356,343.068 326.941,371.925 326.941,195.796 268.019,171.749 197.067,199.963 163.639,183.291 193.043,141.181 63.3666,88.2788 0,28.5361 0,24.5818 99.3754,46.1707 265.649,113.073 326.941,89.4543 326.941,33.3449 353.933,14.7488 391.231,18.7031 391.231,64.5529z" Stretch="Uniform" Fill="#FFFFFFFF" Width="108" Height="108" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                            <Path.RenderTransform>
+                                <TransformGroup>
+                                    <TransformGroup.Children>
+                                        <RotateTransform Angle="0" />
+                                        <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
+                                    </TransformGroup.Children>
+                                </TransformGroup>
+                            </Path.RenderTransform>
+                        </Path>
+                    </Grid>
+                </Viewbox>
+
+                <Border Grid.Row="1" Background="#16499a"  />
+                <TextBlock VerticalAlignment="Center" Text="I miei viaggi" FontSize="40" Padding="10, 0, 0, 0" FontWeight="ExtraBold" Grid.Row="1"/>
+            </Grid>
+
+            <Grid Height="250" Margin="25 5 25 5"  Grid.Row="1" Grid.Column="0">
+                <Grid.Background>
+                    <SolidColorBrush Color="#4390df"></SolidColorBrush>
+                </Grid.Background>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
+
+                <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Grid.Row="0">
+                    <Grid>
+                        <Grid  Width="200" Height="200" Visibility="Collapsed" />
+                        <Path Data="M6.2463198,11.574L6.2469997,19.160999 2.4530001,15.3682z M18.769285,8.8780001L21.333,8.8780001 21.333,16.597999 6.2469997,16.597999 6.2469997,14.034226 18.769285,14.034226z M0,2.629L15.380999,2.629 15.380999,5.1939839 2.5639029,5.1939839 2.5639029,9.6129997 0,9.6129997z M15.381,0L19.175,3.7928596 15.3817,7.5869997z" Stretch="Uniform" Fill="#FFFFFFFF" Width="200" Height="200" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                            <Path.RenderTransform>
+                                <TransformGroup>
+                                    <TransformGroup.Children>
+                                        <RotateTransform Angle="0" />
+                                        <ScaleTransform ScaleX="0.7" ScaleY="0.7" />
+                                    </TransformGroup.Children>
+                                </TransformGroup>
+                            </Path.RenderTransform>
+                        </Path>
+                    </Grid>
+                </Viewbox>
+
+                <Border Grid.Row="1" Background="#16499a"  />
+                <TextBlock VerticalAlignment="Center" Text="Aggiorna viaggi" FontSize="40" Padding="10, 0, 0, 0" FontWeight="ExtraBold" Grid.Row="1"/>
+            </Grid>
+
+
+        </Grid>
+        
+    </Grid>
+</Page>

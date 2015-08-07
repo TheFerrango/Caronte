@@ -40,9 +40,12 @@
     <TargetPlatform Include="Windows, Version=8.1" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APIs\AnagraficaAPI.cs" />
     <Compile Include="APIs\BaseApi.cs" />
     <Compile Include="APIs\OAuth.cs" />
     <Compile Include="Models\AccessToken.cs" />
+    <Compile Include="Models\AnagraficaDTO.cs" />
+    <Compile Include="Models\PosizioneDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

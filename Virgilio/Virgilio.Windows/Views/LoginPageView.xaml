@@ -1,7 +1,6 @@
 ﻿<Page
     x:Name="pageRoot"
     x:Class="Virgilio.Views.LoginPageView"
-    DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Virgilio.Views"
@@ -12,7 +11,7 @@
 
   <Page.Resources>
     <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
-    <x:String x:Key="AppName">Virgilio (Caronte.Mobile)</x:String>
+    <x:String x:Key="AppName">Caronte Mobile</x:String>
   </Page.Resources>
 
   <!--
@@ -36,10 +35,10 @@
       <TextBlock x:Name="pageTitle" Text="{StaticResource AppName}" Style="{StaticResource HeaderTextBlockStyle}" 
                         IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Center" Margin="50 0 0 0"/>
     </Grid>
-    <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="350">
-      <TextBlock Text="Virgilio Login" FontSize="48">
+    <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="380">
+      <TextBlock Text="Caronte Login" FontSize="48">
       </TextBlock>
-      <Line StrokeThickness="2" Stroke="#FF88B9E3" Fill="Aqua" Height="5" Margin="0 5" X1="0" X2="350"></Line>
+      <Line StrokeThickness="2" Stroke="#FF88B9E3" Fill="Aqua" Height="5" Margin="0 5" X1="0" X2="380"></Line>
       <TextBlock Text="Username:" FontSize="24">
       </TextBlock>
       <TextBox Text="{Binding Username, Mode=TwoWay}"></TextBox>

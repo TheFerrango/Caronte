@@ -30,6 +30,8 @@ namespace Virgilio
   {
     private WinRTContainer container;
 
+      
+
     /// <summary>
     /// Initializes the singleton application object.  This is the first line of authored code
     /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -46,6 +48,8 @@ namespace Virgilio
       container.RegisterWinRTServices();
 
       container.PerRequest<LoginPageViewModel>();
+      container.PerRequest<MenuPageViewModel>();
+      container.PerRequest<TravelingPageViewModel>();
     }
 
     protected override void PrepareViewFirst(Frame rootFrame)

@@ -9,7 +9,7 @@ namespace Acheronte.APIs
 {
   public abstract class BaseApi
   {
-    internal HttpClient compraCoop;
+    internal HttpClient httpClient;
 
 
     internal readonly string BaseUrl = "http://172.28.24.157/";
@@ -22,7 +22,7 @@ namespace Acheronte.APIs
 
     public BaseApi()
     {
-      compraCoop = new HttpClient();
+      httpClient = new HttpClient();
     }
   }
 }

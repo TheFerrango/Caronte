@@ -38,13 +38,20 @@ namespace Virgilio.ViewModels
     public LoginPageViewModel(INavigationService navigationService)
     {
       this.navigationService = navigationService;
+      Username = "gpinelli";
+      Password = "alienware";
     }
 
     public async void BtnLogin()
     {
         OAuth oApi = new OAuth();
         AccessToken at = await oApi.GetToken(Username, Password);
-
+        if (at != null)
+        {
+            Settings.Instance.AccessToken = at;
+            Settings.Instance.Username = Username;
+            navigationService.NavigateToViewModel<MenuPageViewModel>();
+        }
     }
 
     public void BtnCancel()
