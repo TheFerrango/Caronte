@@ -46,8 +46,30 @@ namespace Virgilio.ViewModels
 
         public void StartViaggio()
         {
-            navigationService.NavigateToViewModel<TravelingPageViewModel>();
-            
+            navigationService.NavigateToViewModel<TravelingPageViewModel>();            
+        }
+
+        public void IMieiViaggi()
+        {
+            new MessageDialog("Funzionalità non ancora implementata, riprovare dopo il prossimo aggiornamento", "Non è pronta").ShowAsync();
+        }
+
+        public void Sincronizza()
+        {
+            new MessageDialog("Funzionalità non ancora implementata, riprovare dopo il prossimo aggiornamento", "Non è pronta").ShowAsync();
+        }
+
+        public void BarAbout()
+        {
+            new MessageDialog("Caronte Mobile, il client mobile per la piattaforma Caronte. \n(C) Copyright Lorenzo Lotto 2015", "Informazioni su Caronte Mobile").ShowAsync();
+        }
+
+        public void BarLogout()
+        {
+            Settings.Instance.AccessToken = null;
+            Settings.Instance.AnagraficaUtente = null;
+            Settings.Instance.Username = "";
+            navigationService.GoBack();
         }
     }
 }

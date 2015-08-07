@@ -28,7 +28,13 @@ namespace Virgilio
     /// </summary>
   public sealed partial class App
   {
-    private WinRTContainer container;
+      private WinRTContainer container;
+
+      public WinRTContainer Container
+      {
+          get { return container; }
+          set { container = value; }
+      }
 
       
 
@@ -44,7 +50,7 @@ namespace Virgilio
     protected override void Configure()
     {
       container = new WinRTContainer();
-
+        
       container.RegisterWinRTServices();
 
       container.PerRequest<LoginPageViewModel>();

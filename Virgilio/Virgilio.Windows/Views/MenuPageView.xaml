@@ -37,15 +37,16 @@
                         IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Center" Margin="50 0 0 0"/>
             <TextBlock x:Name="userWelcome" Text="{Binding UserWelcome}" Style="{StaticResource HeaderTextBlockStyle}" 
                         IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Center" Margin="0 0 50 0" HorizontalAlignment="Right"/>
-            
+
         </Grid>
-     
+
         <Grid Grid.Row="1">
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -80,7 +81,7 @@
                 <TextBlock VerticalAlignment="Center" Text="Inizia viaggio" FontSize="40" Padding="10, 0, 0, 0" FontWeight="ExtraBold" Grid.Row="1"/>
             </Grid>
 
-            <Grid Height="250" Margin="25 5 25 5"  Grid.Row="0" Grid.Column="1">
+            <Grid Height="250" Margin="25 5 25 5"  Grid.Row="0" Grid.Column="1" cal:Message.Attach="[Event Tapped] = [Action IMieiViaggi()]">
                 <Grid.Background>
                     <SolidColorBrush Color="#4390df"></SolidColorBrush>
                 </Grid.Background>
@@ -109,7 +110,7 @@
                 <TextBlock VerticalAlignment="Center" Text="I miei viaggi" FontSize="40" Padding="10, 0, 0, 0" FontWeight="ExtraBold" Grid.Row="1"/>
             </Grid>
 
-            <Grid Height="250" Margin="25 5 25 5"  Grid.Row="1" Grid.Column="0">
+            <Grid Height="250" Margin="25 5 25 5"  Grid.Row="1" Grid.Column="0" cal:Message.Attach="[Event Tapped] = [Action Sincronizza()]">
                 <Grid.Background>
                     <SolidColorBrush Color="#4390df"></SolidColorBrush>
                 </Grid.Background>
@@ -140,6 +141,28 @@
 
 
         </Grid>
-        
+
     </Grid>
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton x:Uid="Logout" x:Name="BarAbout" Label="Informazioni su" Icon="Help" />
+
+            <AppBarButton x:Uid="Logout" x:Name="BarLogout" Label="Logout" >
+                <AppBarButton.ContentTemplate>
+                    <DataTemplate>
+
+                        <Path Data="M15.7025384902954,4.82313871383667L19.1142730712891,8.23585510253906 15.7025384902954,11.6510200500488 15.7025384902954,9.38291358947754 9.36462783813477,9.38291358947754 9.36462783813477,7.08757448196411 15.7025384902954,7.08757448196411 15.7025384902954,4.82313871383667z M0,0L14.6258897781372,0 14.6258897781372,6.29869413375854 12.9576320648193,6.29869413375854 12.9576320648193,1.73857522010803 2.6584198474884,1.73857522010803 5.45772933959961,3.5685498714447 5.45772933959961,14.7348947525024 12.9576320648193,14.7348947525024 12.9576320648193,10.1747770309448 14.6258897781372,10.1747770309448 14.6258897781372,16.473461151123 5.45772933959961,16.473461151123 5.45772933959961,20 0,16.473461151123 0,0z" 
+                  Width="20" Height="20" Stretch="Uniform" StrokeThickness="2" Fill="#FFF">
+
+                        </Path>
+                    </DataTemplate>
+                </AppBarButton.ContentTemplate>
+            </AppBarButton>
+
+        </CommandBar>
+
+
+    </Page.BottomAppBar>
+
 </Page>

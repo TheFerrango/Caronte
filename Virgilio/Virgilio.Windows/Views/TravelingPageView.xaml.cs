@@ -13,6 +13,10 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Caliburn.Micro;
+using Windows.Devices.Geolocation;
+using Bing.Maps;
+using Windows.UI;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
@@ -21,86 +25,88 @@ namespace Virgilio.Views
     /// <summary>
     /// A basic page that provides characteristics common to most applications.
     /// </summary>
-    public sealed partial class TravelingPageView : Page
+    public sealed partial class TravelingPageView : Page, IHandle<Geoposition>
     {
-
-        private NavigationHelper navigationHelper;
-        private ObservableDictionary defaultViewModel = new ObservableDictionary();
-
-        /// <summary>
-        /// This can be changed to a strongly typed view model.
-        /// </summary>
-        public ObservableDictionary DefaultViewModel
-        {
-            get { return this.defaultViewModel; }
-        }
-
-        /// <summary>
-        /// NavigationHelper is used on each page to aid in navigation and 
-        /// process lifetime management
-        /// </summary>
-        public NavigationHelper NavigationHelper
-        {
-            get { return this.navigationHelper; }
-        }
-
+        private IEventAggregator eventAggregator;
+        bool IsHandlerAttached;
+        Pushpin posizioneAttuale;
+        
 
         public TravelingPageView()
         {
             this.InitializeComponent();
-            this.navigationHelper = new NavigationHelper(this);
-            this.navigationHelper.LoadState += navigationHelper_LoadState;
-            this.navigationHelper.SaveState += navigationHelper_SaveState;
+            IsHandlerAttached = false;
+            eventAggregator = ((Virgilio.App)App.Current).Container.GetAllInstances(typeof(IEventAggregator)).FirstOrDefault() as IEventAggregator;
+
         }
 
-        /// <summary>
-        /// Populates the page with content passed during navigation. Any saved state is also
-        /// provided when recreating a page from a prior session.
-        /// </summary>
-        /// <param name="sender">
-        /// The source of the event; typically <see cref="NavigationHelper"/>
-        /// </param>
-        /// <param name="e">Event data that provides both the navigation parameter passed to
-        /// <see cref="Frame.Navigate(Type, Object)"/> when this page was initially requested and
-        /// a dictionary of state preserved by this page during an earlier
-        /// session. The state will be null the first time a page is visited.</param>
-        private void navigationHelper_LoadState(object sender, LoadStateEventArgs e)
+
+        public void Handle(Geoposition message)
         {
+            this.mappaBing.Center = new Location(message.Coordinate.Point.Position.Latitude, message.Coordinate.Point.Position.Longitude);
+
+            MapLayer.SetPosition(posizioneAttuale, new Location(message.Coordinate.Point.Position.Latitude, message.Coordinate.Point.Position.Longitude));
+
+
         }
 
-        /// <summary>
-        /// Preserves state associated with this page in case the application is suspended or the
-        /// page is discarded from the navigation cache.  Values must conform to the serialization
-        /// requirements of <see cref="SuspensionManager.SessionState"/>.
-        /// </summary>
-        /// <param name="sender">The source of the event; typically <see cref="NavigationHelper"/></param>
-        /// <param name="e">Event data that provides an empty dictionary to be populated with
-        /// serializable state.</param>
-        private void navigationHelper_SaveState(object sender, SaveStateEventArgs e)
+        private void pageRoot_Loaded(object sender, RoutedEventArgs e)
         {
+            InitPosAttuale();
+
+            if (!IsHandlerAttached)
+                eventAggregator.Subscribe(this);
+
+            CaricaVecchietti(46.1180784982862, 11.1018951790751);
+            CaricaVecchietti(46.1166560803036, 11.1042649765213);
+            
         }
 
-        #region NavigationHelper registration
-
-        /// The methods provided in this section are simply used to allow
-        /// NavigationHelper to respond to the page's navigation methods.
-        /// 
-        /// Page specific logic should be placed in event handlers for the  
-        /// <see cref="GridCS.Common.NavigationHelper.LoadState"/>
-        /// and <see cref="GridCS.Common.NavigationHelper.SaveState"/>.
-        /// The navigation parameter is available in the LoadState method 
-        /// in addition to page state preserved during an earlier session.
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void InitPosAttuale()
         {
-            navigationHelper.OnNavigatedTo(e);
+            posizioneAttuale = new Pushpin()
+            {
+                Template = this.Resources["FurgoneTemplate"] as ControlTemplate
+
+            };
+
+            MapLayer.SetPositionAnchor(posizioneAttuale, new Point(56,56));
+
+            posizioneAttuale.Width = 112;
+            posizioneAttuale.Height = 112;
+
+            mappaBing.Children.Add(posizioneAttuale);
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        private void pageRoot_Unloaded(object sender, RoutedEventArgs e)
         {
-            navigationHelper.OnNavigatedFrom(e);
+            if (IsHandlerAttached)
+                eventAggregator.Unsubscribe(this);
         }
 
-        #endregion
+        private void CaricaVecchietti(double lat, double lon)
+        {
+
+            Pushpin posizione;
+
+            
+
+          
+
+            posizione = new Pushpin()
+            {
+                Template = this.Resources["PushpinTemplate"] as ControlTemplate
+            };
+
+            MapLayer.SetPosition(posizione, new Location(lat, lon));
+            MapLayer.SetPositionAnchor(posizione, new Point(28, 28));
+
+            //posizione.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            //posizione.Background = new SolidColorBrush(Colors.DarkMagenta);
+            posizione.Width = 56;
+            posizione.Height = 56;
+            mappaBing.Children.Add(posizione);
+        }
+
     }
 }

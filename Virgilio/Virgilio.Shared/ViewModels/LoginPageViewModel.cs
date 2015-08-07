@@ -45,13 +45,22 @@ namespace Virgilio.ViewModels
     public async void BtnLogin()
     {
         OAuth oApi = new OAuth();
-        AccessToken at = await oApi.GetToken(Username, Password);
-        if (at != null)
+        try
         {
-            Settings.Instance.AccessToken = at;
-            Settings.Instance.Username = Username;
-            navigationService.NavigateToViewModel<MenuPageViewModel>();
+            AccessToken at = await oApi.GetToken(Username, Password);
+            if (!String.IsNullOrWhiteSpace(at.access_token))
+            {
+                Settings.Instance.AccessToken = at;
+                Settings.Instance.Username = Username;
+                navigationService.NavigateToViewModel<MenuPageViewModel>();
+            }
+            else new MessageDialog("Impossibile completare il login. Controllare le credeziali di accesso e riprovare", "Errore").ShowAsync();
         }
+        catch 
+        {
+            new MessageDialog("Impossibile completare il login. Controllare lo stato della connettività e riprovare più tardi", "Errore").ShowAsync();
+        }
+        
     }
 
     public void BtnCancel()

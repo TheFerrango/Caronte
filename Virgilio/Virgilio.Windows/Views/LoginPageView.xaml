@@ -9,47 +9,44 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-  <Page.Resources>
-    <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
-    <x:String x:Key="AppName">Caronte Mobile</x:String>
-  </Page.Resources>
+    <Page.Resources>
+        <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
+        <x:String x:Key="AppName">Caronte Mobile</x:String>
+    </Page.Resources>
 
-  <!--
+    <!--
         This grid acts as a root panel for the page that defines two rows:
         * Row 0 contains the back button and page title
         * Row 1 contains the rest of the page layout
     -->
-  <Grid Background="#FF555555">
-    <Grid.ChildrenTransitions>
-      <TransitionCollection>
-        <EntranceThemeTransition/>
-      </TransitionCollection>
-    </Grid.ChildrenTransitions>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="100"/>
-      <RowDefinition Height="*"/>
-    </Grid.RowDefinitions>
+    <Grid Background="#FF555555">
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-    <!-- Back button and page title -->
-    <Grid Background="#FF222222" Grid.Row="0">
-      <TextBlock x:Name="pageTitle" Text="{StaticResource AppName}" Style="{StaticResource HeaderTextBlockStyle}" 
+        <!-- Back button and page title -->
+        <Grid Background="#FF222222" Grid.Row="0">
+            <TextBlock x:Name="pageTitle" Text="{StaticResource AppName}" Style="{StaticResource HeaderTextBlockStyle}" 
                         IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Center" Margin="50 0 0 0"/>
-    </Grid>
-    <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="380">
-      <TextBlock Text="Caronte Login" FontSize="48">
-      </TextBlock>
-      <Line StrokeThickness="2" Stroke="#FF88B9E3" Fill="Aqua" Height="5" Margin="0 5" X1="0" X2="380"></Line>
-      <TextBlock Text="Username:" FontSize="24">
-      </TextBlock>
-      <TextBox Text="{Binding Username, Mode=TwoWay}"></TextBox>
-      <TextBlock Text="Password:" FontSize="24">
-      </TextBlock>
-      <PasswordBox Password="{Binding Password, Mode=TwoWay}"></PasswordBox>
-      <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
-        <Button x:Name="BtnLogin" Content="Login" Background="#FF2086BF" BorderBrush="#FF2086BF"></Button>
-        <Button x:Name="BtnCancel" Content="Cancel" Background="#FFFA6800" BorderBrush="#FFFA6800"></Button>
+        </Grid>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="380">
+            <TextBlock Text="Caronte Login" FontSize="48"/>
+            <Line StrokeThickness="2" Stroke="#FF88B9E3" Fill="Aqua" Height="5" Margin="0 5" X1="0" X2="380"/>
+            <TextBlock Text="Username:" FontSize="24"/>
+            <TextBox Text="{Binding Username, Mode=TwoWay}"  IsTextPredictionEnabled="False"/>
+            <TextBlock Text="Password:" FontSize="24"/>
+            <PasswordBox Password="{Binding Password, Mode=TwoWay}" IsPasswordRevealButtonEnabled="True" />
+            <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+                <Button x:Name="BtnLogin" Content="Login" Background="#FF2086BF" BorderBrush="#FF2086BF"/>
+                <Button x:Name="BtnCancel" Content="Cancel" Background="#FFFA6800" BorderBrush="#FFFA6800" TabIndex="0"/>
 
-      </StackPanel>
-    </StackPanel>
-  </Grid>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
 </Page>
