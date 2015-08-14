@@ -24,6 +24,8 @@ namespace Virgilio
         public AccessToken AccessToken { get; set; }
 
         public AnagraficaDTO AnagraficaUtente { get; set; }
+        public DipendenteDTO DipendenteInfo { get; set; }
+
 
         public string Username { get; set; }
     }

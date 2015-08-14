@@ -131,19 +131,20 @@ namespace Virgilio.ViewModels
 
             LoadingMessage = "Caricamento dei dati relativi al dipendente";
             await Task.Delay(TimeSpan.FromSeconds(1));               
-            DipendenteDTO ddto = await diAPI.GetDipendenteByUsername(Settings.Instance.Username);
-            Settings.Instance.AnagraficaUtente = await anAPI.GetAnagrafica(ddto.FKIDAnagrafica.Value);
+           
+            Settings.Instance.DipendenteInfo = await diAPI.GetDipendenteByUsername(Settings.Instance.Username);
+            Settings.Instance.AnagraficaUtente = await anAPI.GetAnagrafica(Settings.Instance.DipendenteInfo.FKIDAnagrafica.Value);
 
             LoadingMessage = "Caricamento dei viaggi pianificati";
-            await Task.Delay(TimeSpan.FromSeconds(1));               
+            await Task.Delay(TimeSpan.FromSeconds(1));
 
-            var viaggi = await viAPI.GetViaggiByAutista(ddto.IDDipendente);
+            var viaggi = await viAPI.GetViaggiByAutista(Settings.Instance.DipendenteInfo.IDDipendente);
 
             List<PartecipanteDTO> totParts = new List<PartecipanteDTO>();
 
             foreach (ViaggioDTO viaggio  in viaggi)
             {
-                LoadingMessage = String.Format("Caricamento dei dati passeggeri per il viaggio {0}", viaggio.DescrizioneViaggio);
+                LoadingMessage = String.Format("Caricamento dei dati passeggeri per il viaggio:\n{0}", viaggio.DescrizioneViaggio);
                 totParts.AddRange(await paAPI.GetPartecipantiViaggio(viaggi[0].IDViaggio));
                 await Task.Delay(TimeSpan.FromSeconds(1));
             }
@@ -151,7 +152,7 @@ namespace Virgilio.ViewModels
             LoadingMessage = "Salvataggio dei dati in corso";
             
             Helpers.DBManager dbMan = new Helpers.DBManager();
-            await dbMan.cmDB.InsertAsync(ddto);
+            await dbMan.cmDB.InsertAsync(Settings.Instance.DipendenteInfo);
             await dbMan.cmDB.InsertAsync(Settings.Instance.AnagraficaUtente);
             await dbMan.cmDB.InsertAllAsync(viaggi);
             await dbMan.cmDB.InsertAllAsync(totParts);

@@ -50,12 +50,14 @@ namespace Virgilio.ViewModels
 
         public void IMieiViaggi()
         {
-            new MessageDialog("Funzionalità non ancora implementata, riprovare dopo il prossimo aggiornamento", "Non è pronta").ShowAsync();
+           // new MessageDialog("Funzionalità non ancora implementata, riprovare dopo il prossimo aggiornamento", "Non è pronta").ShowAsync();
+            navigationService.NavigateToViewModel<ViaggioSelectionPageViewModel>();            
+
         }
 
         public void Sincronizza()
         {
-            //new MessageDialog("Funzionalità non ancora implementata, riprovare dopo il prossimo aggiornamento", "Non è pronta").ShowAsync();
+            new MessageDialog("Funzionalità non ancora implementata, riprovare dopo il prossimo aggiornamento", "Non è pronta").ShowAsync();
             //Helpers.DBManager dbMan = new Helpers.DBManager();
         }
 

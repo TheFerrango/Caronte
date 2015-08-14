@@ -13,6 +13,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Acheronte.Models;
+using Caliburn.Micro;
+using Bing.Maps;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
@@ -21,86 +24,55 @@ namespace Virgilio.Views
     /// <summary>
     /// A basic page that provides characteristics common to most applications.
     /// </summary>
-    public sealed partial class ViaggioSelectionPageView : Page
+    public sealed partial class ViaggioSelectionPageView : Page, IHandle<ViaggioDTO>
     {
 
-        private NavigationHelper navigationHelper;
-        private ObservableDictionary defaultViewModel = new ObservableDictionary();
-
-        /// <summary>
-        /// This can be changed to a strongly typed view model.
-        /// </summary>
-        public ObservableDictionary DefaultViewModel
-        {
-            get { return this.defaultViewModel; }
-        }
-
-        /// <summary>
-        /// NavigationHelper is used on each page to aid in navigation and 
-        /// process lifetime management
-        /// </summary>
-        public NavigationHelper NavigationHelper
-        {
-            get { return this.navigationHelper; }
-        }
+      private IEventAggregator eventAggregator;
+        bool IsHandlerAttached;
+        Pushpin posizioneStart, posizioneEnd;
 
 
         public ViaggioSelectionPageView()
         {
             this.InitializeComponent();
-            this.navigationHelper = new NavigationHelper(this);
-            this.navigationHelper.LoadState += navigationHelper_LoadState;
-            this.navigationHelper.SaveState += navigationHelper_SaveState;
+            IsHandlerAttached = false;
+            eventAggregator = ((Virgilio.App)App.Current).Container.GetAllInstances(typeof(IEventAggregator)).FirstOrDefault() as IEventAggregator;
+
         }
 
-        /// <summary>
-        /// Populates the page with content passed during navigation. Any saved state is also
-        /// provided when recreating a page from a prior session.
-        /// </summary>
-        /// <param name="sender">
-        /// The source of the event; typically <see cref="NavigationHelper"/>
-        /// </param>
-        /// <param name="e">Event data that provides both the navigation parameter passed to
-        /// <see cref="Frame.Navigate(Type, Object)"/> when this page was initially requested and
-        /// a dictionary of state preserved by this page during an earlier
-        /// session. The state will be null the first time a page is visited.</param>
-        private void navigationHelper_LoadState(object sender, LoadStateEventArgs e)
+
+        private void pageRoot_Loaded(object sender, RoutedEventArgs e)
         {
+            
+            if (!IsHandlerAttached)
+                eventAggregator.Subscribe(this);
+            posizioneStart = new Pushpin();
+            posizioneEnd = new Pushpin();
+            mappaBing.Children.Add(posizioneStart);
+            mappaBing.Children.Add(posizioneEnd);
+            
         }
 
-        /// <summary>
-        /// Preserves state associated with this page in case the application is suspended or the
-        /// page is discarded from the navigation cache.  Values must conform to the serialization
-        /// requirements of <see cref="SuspensionManager.SessionState"/>.
-        /// </summary>
-        /// <param name="sender">The source of the event; typically <see cref="NavigationHelper"/></param>
-        /// <param name="e">Event data that provides an empty dictionary to be populated with
-        /// serializable state.</param>
-        private void navigationHelper_SaveState(object sender, SaveStateEventArgs e)
+     
+
+        private void pageRoot_Unloaded(object sender, RoutedEventArgs e)
         {
+            if (IsHandlerAttached)
+                eventAggregator.Unsubscribe(this);
         }
 
-        #region NavigationHelper registration
+     
 
-        /// The methods provided in this section are simply used to allow
-        /// NavigationHelper to respond to the page's navigation methods.
-        /// 
-        /// Page specific logic should be placed in event handlers for the  
-        /// <see cref="GridCS.Common.NavigationHelper.LoadState"/>
-        /// and <see cref="GridCS.Common.NavigationHelper.SaveState"/>.
-        /// The navigation parameter is available in the LoadState method 
-        /// in addition to page state preserved during an earlier session.
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        public void Handle(ViaggioDTO message)
         {
-            navigationHelper.OnNavigatedTo(e);
-        }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            navigationHelper.OnNavigatedFrom(e);
-        }
+            //this.mappaBing.Center = new Location(message.LatitudinePartenzaPrevista, message.LongitudinePartenzaPrevista);
 
-        #endregion
+            MapLayer.SetPosition(posizioneStart, new Location(message.LatitudinePartenzaPrevista, message.LongitudinePartenzaPrevista));
+            MapLayer.SetPosition(posizioneEnd, new Location(message.LatitudineArrivoPrevista, message.LongitudineArrivoPrevista));
+
+            
+
+        }
     }
 }

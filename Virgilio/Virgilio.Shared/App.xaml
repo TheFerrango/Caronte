@@ -2,5 +2,14 @@
   x:Class="Virgilio.App"
    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:micro="using:Caliburn.Micro">  
+  xmlns:micro="using:Caliburn.Micro">
+    <micro:CaliburnApplication.Resources>
+        <ResourceDictionary>
+            <SolidColorBrush x:Key="ListViewItemSelectedPointerOverBackgroundThemeBrush" Color="Red" />
+            <SolidColorBrush x:Key="ListViewItemSelectedPointerOverBorderThemeBrush" Color="Yellow" />
+            <SolidColorBrush x:Key="ListViewItemSelectedBackgroundThemeBrush" Color="#4390df" />
+            <SolidColorBrush x:Key="ProgressBarIndeterminateForegroundThemeBrush" Color="#4390df" />
+        </ResourceDictionary>
+    </micro:CaliburnApplication.Resources>
+
 </micro:CaliburnApplication>

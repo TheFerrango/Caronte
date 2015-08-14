@@ -1,18 +1,23 @@
 ﻿<Page
     x:Name="pageRoot"
     x:Class="Virgilio.Views.ViaggioSelectionPageView"
-    DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}"
+    
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Virgilio.Views"
     xmlns:common="using:Virgilio.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:maps="using:Bing.Maps"
+    xmlns:cal="using:Caliburn.Micro"
+    xmlns:convs="using:Virgilio.Converters"
+    mc:Ignorable="d" Loaded="pageRoot_Loaded" Unloaded="pageRoot_Unloaded">
 
     <Page.Resources>
         <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
-        <x:String x:Key="AppName">My Application</x:String>
+        <x:String x:Key="AppName">Selezione viaggio</x:String>
+        <convs:DateTimeOffsetToDateTimeStringConverter x:Key="strDateTime"/>
+        <cal:BooleanToVisibilityConverter x:Key="boolToVisibility"/>
     </Page.Resources>
 
     <!--
@@ -20,31 +25,101 @@
         * Row 0 contains the back button and page title
         * Row 1 contains the rest of the page layout
     -->
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="#FF555555">
         <Grid.ChildrenTransitions>
             <TransitionCollection>
                 <EntranceThemeTransition/>
             </TransitionCollection>
         </Grid.ChildrenTransitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="140"/>
+            <RowDefinition Height="100"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Back button and page title -->
-        <Grid>
+        <Grid  Background="#FF222222" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="backButton" Margin="39,59,39,0" Command="{Binding NavigationHelper.GoBackCommand, ElementName=pageRoot}"
-                        Style="{StaticResource NavigationBackButtonNormalStyle}"
-                        VerticalAlignment="Top"
+
+            <Button x:Name="backButton" Margin="39,0,30,0" Style="{StaticResource NavigationBackButtonNormalStyle}"
+                        VerticalAlignment="Center"
                         AutomationProperties.Name="Back"
                         AutomationProperties.AutomationId="BackButton"
                         AutomationProperties.ItemType="Navigation Button"/>
             <TextBlock x:Name="pageTitle" Text="{StaticResource AppName}" Style="{StaticResource HeaderTextBlockStyle}" Grid.Column="1" 
-                        IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,30,40"/>
+                        IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Center" />
+
+        </Grid>
+        <Grid Grid.Row="1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="450"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <ListView Grid.Column="0" ItemsSource="{Binding ViaggiDisponibili}" Margin="0 0 5 0" cal:Message.Attach="[Event SelectionChanged] = [Action ViaggioSelected($source,$eventArgs )]" >
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+
+
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Background="#FF222222" Margin="5" HorizontalAlignment="Stretch">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding DescrizioneViaggio}" FontSize="32" HorizontalAlignment="Center" Margin="5 5 5 0" />
+                            <TextBlock Grid.Row="1" Grid.Column="0"  Text="{Binding DataInizioPrevista, Converter={StaticResource strDateTime}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5 0 5 5"/>
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding DataFinePrevista, Converter={StaticResource strDateTime}}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5 0 5 5"/>
+
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Grid Grid.Column="1" Visibility="{Binding ShowColumnMappa, Converter={StaticResource boolToVisibility}}">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <maps:Map Grid.Row="0" VerticalAlignment="Stretch" Margin="0 5 5 0" x:Name="mappaBing"
+                          Credentials="H9DGPIMHAQEJCYCvhRut~QXD1euhRup_H-PVjP_VrQA~AoOY9BDB1DFmcagMSk0xDWI0sJ8AVgE6i_uHN9tqRG5hGbQDiXHJGd9iayZQbLUc" />
+                <StackPanel Grid.Row="1" Margin="5">
+                    <TextBlock Margin="0 5 0 0">
+                        <Run FontSize="24" FontWeight="SemiBold" Text="Indirizzo partenza: "></Run>
+                        <Run FontSize="24" Text="{Binding SelectedViaggio.IndirizzoPartenza}"></Run>
+                    </TextBlock>
+                    <TextBlock Margin="0 5 0 0">
+                        <Run FontSize="24" FontWeight="SemiBold" Text="Orario partenza: "></Run>
+                        <Run FontSize="24" Text="{Binding SelectedViaggio.DataInizioPrevista, Converter={StaticResource strDateTime}}"></Run>
+                    </TextBlock>
+                    <TextBlock Margin="0 5 0 0">
+                        <Run FontSize="24" FontWeight="SemiBold" Text="Indirizzo destinazione: "></Run>
+                        
+                        <Run FontSize="24" Text="{Binding SelectedViaggio.IndirizzoArrivo}"></Run>
+                    </TextBlock>
+                    <TextBlock Margin="0 5 0 0">
+                        <Run FontSize="24" FontWeight="SemiBold" Text="Orario arrivo: "></Run>
+                        <Run FontSize="24" Text="{Binding SelectedViaggio.DataFinePrevista, Converter={StaticResource strDateTime}}"></Run>
+                    </TextBlock>
+                    <TextBlock Margin="0 5 0 0">
+                        <Run FontSize="24" FontWeight="SemiBold" Text="Partecipanti viaggio: "></Run>
+                        <Run FontSize="24" Text="{Binding TotalePartecipanti}"></Run>
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
         </Grid>
     </Grid>
 </Page>
