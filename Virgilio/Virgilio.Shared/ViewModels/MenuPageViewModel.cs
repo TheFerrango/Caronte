@@ -55,7 +55,8 @@ namespace Virgilio.ViewModels
 
         public void Sincronizza()
         {
-            new MessageDialog("Funzionalità non ancora implementata, riprovare dopo il prossimo aggiornamento", "Non è pronta").ShowAsync();
+            //new MessageDialog("Funzionalità non ancora implementata, riprovare dopo il prossimo aggiornamento", "Non è pronta").ShowAsync();
+            //Helpers.DBManager dbMan = new Helpers.DBManager();
         }
 
         public void BarAbout()

@@ -139,15 +139,23 @@ namespace Virgilio.ViewModels
 
             var viaggi = await viAPI.GetViaggiByAutista(ddto.IDDipendente);
 
+            List<PartecipanteDTO> totParts = new List<PartecipanteDTO>();
+
             foreach (ViaggioDTO viaggio  in viaggi)
             {
                 LoadingMessage = String.Format("Caricamento dei dati passeggeri per il viaggio {0}", viaggio.DescrizioneViaggio);
-                var ana = await paAPI.GetPartecipantiViaggio(viaggi[0].IDViaggio);
-                await Task.Delay(TimeSpan.FromSeconds(1));               
+                totParts.AddRange(await paAPI.GetPartecipantiViaggio(viaggi[0].IDViaggio));
+                await Task.Delay(TimeSpan.FromSeconds(1));
             }
 
             LoadingMessage = "Salvataggio dei dati in corso";
-            await Task.Delay(TimeSpan.FromSeconds(5));               
+            
+            Helpers.DBManager dbMan = new Helpers.DBManager();
+            await dbMan.cmDB.InsertAsync(ddto);
+            await dbMan.cmDB.InsertAsync(Settings.Instance.AnagraficaUtente);
+            await dbMan.cmDB.InsertAllAsync(viaggi);
+            await dbMan.cmDB.InsertAllAsync(totParts);
+
             ShowLoading = false;
             return toRet;
         }
