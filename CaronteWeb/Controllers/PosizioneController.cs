@@ -40,6 +40,7 @@ namespace CaronteWeb.Controllers
 		}
 
 		[HttpGet]
+        
 		public IHttpActionResult GetPosizioneSingolo(int id)
 		{
 			try

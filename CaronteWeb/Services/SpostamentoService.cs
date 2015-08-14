@@ -117,5 +117,13 @@ namespace CaronteWeb.Services
 				return true;
 			}
 		}
+
+        public List<SpostamentoDTO> GetPartecipantiViaggio(int idViaggio)
+        {
+            using (CaronteContext caronteCtx = new CaronteContext())
+            {
+                return GetAllIQ(caronteCtx).Where(x => x.FKIDViaggio == idViaggio).ToList();
+            }
+        }
 	}
 }

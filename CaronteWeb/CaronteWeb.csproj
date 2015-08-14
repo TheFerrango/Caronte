@@ -23,6 +23,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <TypeScriptToolsVersion>1.4</TypeScriptToolsVersion>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -91,8 +92,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Cors">
-      <HintPath>..\packages\Microsoft.AspNet.Cors.5.0.0\lib\net45\System.Web.Cors.dll</HintPath>
+    <Reference Include="System.Web.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.3\lib\net45\System.Web.Cors.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -131,7 +133,6 @@
     <Content Include="fonts\metro.svg" />
     <Content Include="Scripts\angular-local-storage.min.js" />
     <Content Include="Scripts\angular-bing-maps.js" />
-    <Content Include="Scripts\angular-mocks.js" />
     <TypeScriptCompile Include="NG\Controllers\masterSituationController.ts" />
     <TypeScriptCompile Include="NG\Controllers\indexController.ts" />
     <TypeScriptCompile Include="NG\Controllers\anagraficaController.ts" />
@@ -152,6 +153,7 @@
     <TypeScriptCompile Include="NG\Services\anagraficaService.ts" />
     <TypeScriptCompile Include="NG\Services\personaleService.ts" />
     <TypeScriptCompile Include="Scripts\app.ts" />
+    <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular-route.js" />
     <Content Include="Scripts\angular-route.min.js" />
     <Content Include="Scripts\angular.js" />
@@ -220,6 +222,7 @@
     <Compile Include="Database\Stato.cs" />
     <Compile Include="Database\Veicolo.cs" />
     <Compile Include="Database\Viaggio.cs" />
+    <Compile Include="Helpers\Filter.cs" />
     <Compile Include="Models\AnagraficaDTO.cs" />
     <Compile Include="Models\DipendenteDTO.cs" />
     <Compile Include="Models\IDTO.cs" />
@@ -248,10 +251,10 @@
     <Content Include="fonts\metro.ttf" />
     <Content Include="fonts\metro.woff" />
     <Content Include="fonts\selection.json" />
-    <Content Include="Scripts\angular.min.js.map" />
-    <Content Include="Scripts\angular-route.min.js.map" />
     <None Include="Properties\PublishProfiles\IIS Locale.pubxml" />
     <None Include="Properties\PublishProfiles\IIS.pubxml" />
+    <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Scripts\angular-route.min.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

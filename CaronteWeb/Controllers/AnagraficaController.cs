@@ -75,19 +75,19 @@ namespace CaronteWeb.Controllers
 			}
 		}
 
-        [HttpGet]
-        [ActionName("getbyusername")]
-        public IHttpActionResult getbyusername(string id)
-        {
-            try
-            {
-                return Ok(anaService.GetByUsername(id));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+        //[HttpGet]
+        //[ActionName("getbyusername")]
+        //public IHttpActionResult getbyusername(string id)
+        //{
+        //    try
+        //    {
+        //        return Ok(anaService.GetByUsername(id));
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return BadRequest(e.Message);
+        //    }
+        //}
 
 	}
 }

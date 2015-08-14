@@ -22,7 +22,8 @@ namespace CaronteWeb.Controllers
 			}
 		}
 
-		[HttpGet]
+		[HttpGet]        
+        [ActionName("getdipendentesingolo")]
 		public IHttpActionResult GetDipendenteSingolo(int id)
 		{
 			try
@@ -73,5 +74,19 @@ namespace CaronteWeb.Controllers
 				return BadRequest(e.Message);
 			}
 		}
+
+        [HttpGet]
+        [ActionName("getbyusername")]
+        public IHttpActionResult getbyusername(string id)
+        {
+            try
+            {
+                return Ok(dipServ.GetByUsername(id));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 	}
 }

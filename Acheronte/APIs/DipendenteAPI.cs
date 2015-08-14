@@ -3,29 +3,29 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Acheronte.APIs
 {
-    public class AnagraficaAPI : BaseApi
+    public class DipendenteAPI: BaseApi
     {
-        private AccessToken Token;
 
-        public AnagraficaAPI(AccessToken at) :
+           private AccessToken Token;
+
+        public DipendenteAPI(AccessToken at) :
             base()
         {
             Token = at;
         }
 
-        public async Task<AnagraficaDTO> GetAnagrafica(int IDAnagrafica)
+        public async Task<DipendenteDTO> GetDipendenteByUsername(string username)
         {
             httpClient.DefaultRequestHeaders.Clear();
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token.access_token);
-            string res = await httpClient.GetStringAsync(ComposeUrl("api", "anagrafica", IDAnagrafica.ToString()));
-            return JsonConvert.DeserializeObject<AnagraficaDTO>(res);
+            string res = await httpClient.GetStringAsync(ComposeUrl("api", "dipendente", "getbyusername", username));
+            return JsonConvert.DeserializeObject<DipendenteDTO>(res);
         }
     }
 }

@@ -124,5 +124,13 @@ namespace CaronteWeb.Services
 				return true;
 			}
 		}
+
+        public DipendenteDTO GetByUsername(string username)
+        {
+            using (CaronteContext caronteCtx = new CaronteContext())
+            {
+                return GetAllIQ(caronteCtx).FirstOrDefault(x => x.Username == username);
+            }
+        }
 	}
 }

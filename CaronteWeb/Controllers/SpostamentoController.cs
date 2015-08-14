@@ -22,6 +22,8 @@ namespace CaronteWeb.Controllers
 			}
 		}
 
+       
+
 		[HttpGet]
 		public IHttpActionResult GetSpostamentoSingolo(int id)
 		{
@@ -77,5 +79,19 @@ namespace CaronteWeb.Controllers
 				return BadRequest(e.Message);
 			}
 		}
+
+        [HttpGet] 
+        [ActionName("getpartecipantiviaggio")]
+        public IHttpActionResult GetPartecipantiViaggio(int id)
+        {
+            try
+            {
+                return Ok(sposServ.GetPartecipantiViaggio(id));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 	}
 }

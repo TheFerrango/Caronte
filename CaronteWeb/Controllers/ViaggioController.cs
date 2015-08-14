@@ -15,6 +15,7 @@ namespace CaronteWeb.Controllers
 			try
 			{
 				return Ok(viagServ.GetAllFiltered(page,howMany, IDStato));
+
 			}
 			catch (Exception e)
 			{
@@ -77,5 +78,20 @@ namespace CaronteWeb.Controllers
 				return BadRequest(e.Message);
 			}
 		}
+
+        [HttpGet]
+        [ActionName("getviaggibyautista")]
+        public IHttpActionResult GetViaggiByAutista(int id)
+        {
+            try
+            {
+                return Ok(viagServ.GetViaggiByAutista(id));
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 	}
 }

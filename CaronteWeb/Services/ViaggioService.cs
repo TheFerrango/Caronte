@@ -55,7 +55,7 @@ namespace CaronteWeb.Services
 			}
 		}
 
-		public Dictionary<string, object> GetAllFiltered(int? page, int? howMany, int? idStato)
+        public Dictionary<string, object> GetAllFiltered(int? page, int? howMany, int? idStato)
 		{
 			using (CaronteContext caronteCtx = new CaronteContext())
 			{
@@ -63,7 +63,7 @@ namespace CaronteWeb.Services
 				IQueryable<ViaggioDTO> viagList = GetAllIQ(caronteCtx).OrderBy(x => x.DataInizioPrevista);
 				if (idStato.HasValue)
 					viagList = viagList.Where(x => x.FKIDStato == idStato.Value);
-				
+                				
 				toRet.Add("Totale", viagList.Count());
 
 				if (page.HasValue && howMany.HasValue)
@@ -116,5 +116,13 @@ namespace CaronteWeb.Services
 				return true;
 			}
 		}
+
+        public List<ViaggioDTO> GetViaggiByAutista(int IDAutista)
+        {
+            using (CaronteContext caronteCtx = new CaronteContext())
+            {
+                return GetAllIQ(caronteCtx).Where(x => x.FKIDDipendente == IDAutista && x.FKIDStato < 3).ToList();
+            }
+        }
 	}
 }

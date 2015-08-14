@@ -42,10 +42,16 @@
   <ItemGroup>
     <Compile Include="APIs\AnagraficaAPI.cs" />
     <Compile Include="APIs\BaseApi.cs" />
+    <Compile Include="APIs\DipendenteAPI.cs" />
     <Compile Include="APIs\OAuth.cs" />
+    <Compile Include="APIs\PartecipantiAPI.cs" />
+    <Compile Include="APIs\ViaggioAPI.cs" />
     <Compile Include="Models\AccessToken.cs" />
     <Compile Include="Models\AnagraficaDTO.cs" />
+    <Compile Include="Models\DipendenteDTO.cs" />
     <Compile Include="Models\PosizioneDTO.cs" />
+    <Compile Include="Models\PartecipanteDTO.cs" />
+    <Compile Include="Models\ViaggioDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
