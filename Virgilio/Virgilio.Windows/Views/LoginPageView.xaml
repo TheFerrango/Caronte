@@ -7,11 +7,16 @@
     xmlns:common="using:Virgilio.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cal="using:Caliburn.Micro"
+    xmlns:convs="using:Virgilio.Converters"
     mc:Ignorable="d">
 
     <Page.Resources>
         <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
         <x:String x:Key="AppName">Caronte Mobile</x:String>
+        <cal:BooleanToVisibilityConverter x:Key="boolToVisible"/>
+        <convs:BooleanToInvisibilityConverter x:Key="boolToInVisible" />
+        
     </Page.Resources>
 
     <!--
@@ -35,7 +40,8 @@
             <TextBlock x:Name="pageTitle" Text="{StaticResource AppName}" Style="{StaticResource HeaderTextBlockStyle}" 
                         IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Center" Margin="50 0 0 0"/>
         </Grid>
-        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="380">
+        <!--Visibility="{Binding ShowLoading, Converter={StaticResource boolToInVisible}}"-->
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="380" Visibility="{Binding ShowLoading, Converter={StaticResource boolToInVisible}}">
             <TextBlock Text="Caronte Login" FontSize="48"/>
             <Line StrokeThickness="2" Stroke="#FF88B9E3" Fill="Aqua" Height="5" Margin="0 5" X1="0" X2="380"/>
             <TextBlock Text="Username:" FontSize="24"/>
@@ -48,5 +54,17 @@
 
             </StackPanel>
         </StackPanel>
+        <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="600" Visibility="{Binding ShowLoading, Converter={StaticResource boolToVisible}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <ProgressBar Grid.Row="0" IsIndeterminate="True" />
+
+            <TextBlock Grid.Row="1" Text="{Binding LoadingMessage}" FontSize="24" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+          
+        </Grid>
+
     </Grid>
 </Page>

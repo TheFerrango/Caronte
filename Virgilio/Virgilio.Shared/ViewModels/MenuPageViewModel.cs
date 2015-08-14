@@ -11,10 +11,7 @@ namespace Virgilio.ViewModels
     public class MenuPageViewModel : Screen
     {
         private readonly INavigationService navigationService;
-        private AnagraficaAPI anAPI;
-        private DipendenteAPI diAPI;
-        private ViaggioAPI viAPI;
-        private PartecipantiAPI paAPI;
+     
         private string userWelcome;
 
         public string UserWelcome
@@ -30,10 +27,7 @@ namespace Virgilio.ViewModels
         public MenuPageViewModel(INavigationService navigationService)
         {
             this.navigationService = navigationService;
-            anAPI = new AnagraficaAPI(Settings.Instance.AccessToken);
-            diAPI = new DipendenteAPI(Settings.Instance.AccessToken);
-            viAPI = new ViaggioAPI(Settings.Instance.AccessToken);
-            paAPI = new PartecipantiAPI(Settings.Instance.AccessToken);
+           
             UserWelcome = "";
         }
 
@@ -43,13 +37,7 @@ namespace Virgilio.ViewModels
 
             if (Settings.Instance.AnagraficaUtente == null)
             {
-                DipendenteDTO ddto = await diAPI.GetDipendenteByUsername(Settings.Instance.Username);
-                Settings.Instance.AnagraficaUtente = await anAPI.GetAnagrafica(ddto.FKIDAnagrafica.Value);
-                var viaggi = await viAPI.GetViaggiByAutista(ddto.IDDipendente);
-                if (viaggi.Count > 0)
-                {
-                    var ana = await paAPI.GetPartecipantiViaggio(viaggi[0].IDViaggio);
-                }
+               
             }
 
             UserWelcome = String.Format("Benvenut{0} {1}", Settings.Instance.AnagraficaUtente.Sesso ? "o" : "a", Settings.Instance.AnagraficaUtente.Nome);

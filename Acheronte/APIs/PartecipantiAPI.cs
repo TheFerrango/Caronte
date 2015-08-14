@@ -19,12 +19,12 @@ namespace Acheronte.APIs
             Token = at;
         }
 
-        public async Task<List<AnagraficaDTO>> GetPartecipantiViaggio(int IDViaggio)
+        public async Task<List<PartecipanteDTO>> GetPartecipantiViaggio(int IDViaggio)
         {
             httpClient.DefaultRequestHeaders.Clear();
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token.access_token);
             string res = await httpClient.GetStringAsync(ComposeUrl("api", "spostamento", "getpartecipantiviaggio", IDViaggio.ToString()));
-            return JsonConvert.DeserializeObject<List<AnagraficaDTO>>(res);
+            return JsonConvert.DeserializeObject<List<PartecipanteDTO>>(res);
         }
     }
 }
