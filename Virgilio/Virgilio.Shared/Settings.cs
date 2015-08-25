@@ -26,6 +26,7 @@ namespace Virgilio
         public AnagraficaDTO AnagraficaUtente { get; set; }
         public DipendenteDTO DipendenteInfo { get; set; }
 
+        public ViaggioDTO SelectedViaggio { get; set; }
 
         public string Username { get; set; }
     }

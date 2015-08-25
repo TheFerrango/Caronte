@@ -145,7 +145,7 @@ namespace Virgilio.ViewModels
             foreach (ViaggioDTO viaggio  in viaggi)
             {
                 LoadingMessage = String.Format("Caricamento dei dati passeggeri per il viaggio:\n{0}", viaggio.DescrizioneViaggio);
-                totParts.AddRange(await paAPI.GetPartecipantiViaggio(viaggi[0].IDViaggio));
+                totParts.AddRange(await paAPI.GetPartecipantiViaggio(viaggio.IDViaggio));
                 await Task.Delay(TimeSpan.FromSeconds(1));
             }
 

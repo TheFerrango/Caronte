@@ -23,7 +23,7 @@ namespace Virgilio.ViewModels
 
         public bool ShowColumnMappa { get { return _SelectedViaggio != null; } }
 
-        private string TotalePartecipanti
+        public string TotalePartecipanti
         {
             get { return elencoPartecipanti != null ? elencoPartecipanti.Count.ToString() : "caricamento dei partecipanti in corso"; }
         }
@@ -64,15 +64,25 @@ namespace Virgilio.ViewModels
             ViaggiDisponibili = new ObservableCollection<ViaggioDTO>(await dbMan.cmDB.Table<ViaggioDTO>().Where(x => x.FKIDDipendente == Settings.Instance.DipendenteInfo.IDDipendente).ToListAsync());
         }
 
-        public void ViaggioSelected(object cosa, SelectionChangedEventArgs manda)
+        public async void ViaggioSelected(object cosa, SelectionChangedEventArgs manda)
         {
             if (manda.AddedItems.Count == 1)
             {
-                SelectedViaggio = manda.AddedItems[0] as ViaggioDTO;
-                eventAggregator.PublishOnUIThread(SelectedViaggio);
+                ViaggioDTO selViaggio = manda.AddedItems[0] as ViaggioDTO;
+                elencoPartecipanti = await dbMan.cmDB.Table<PartecipanteDTO>().Where(p => p.FKIDViaggio == selViaggio.IDViaggio).ToListAsync();
+                SelectedViaggio = selViaggio;
+                eventAggregator.PublishOnUIThread(SelectedViaggio);                
             }
             else
+            {
                 SelectedViaggio = null;
+                elencoPartecipanti = new List<PartecipanteDTO>();
+            }
+        }
+
+        public void BarSetViaggio()
+        {
+            Settings.Instance.SelectedViaggio = SelectedViaggio;
         }
 
         public void backButton()

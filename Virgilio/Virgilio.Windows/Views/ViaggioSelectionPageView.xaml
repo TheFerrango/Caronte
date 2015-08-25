@@ -18,6 +18,19 @@
         <x:String x:Key="AppName">Selezione viaggio</x:String>
         <convs:DateTimeOffsetToDateTimeStringConverter x:Key="strDateTime"/>
         <cal:BooleanToVisibilityConverter x:Key="boolToVisibility"/>
+
+        <ControlTemplate x:Key="StartTemplate" TargetType="maps:Pushpin">
+            <Grid x:Name="ContentGrid" Width="64" Height="64" Margin="0">
+                <Image Source="/Assets/Sprites/Start.png" Stretch="Fill"/>
+            </Grid>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="FinishTemplate" TargetType="maps:Pushpin">
+            <Grid x:Name="ContentGrid" Width="64" Height="64" Margin="0">
+                <Image Source="/Assets/Sprites/Finish.png" Stretch="Fill"/>
+            </Grid>
+        </ControlTemplate>
+
     </Page.Resources>
 
     <!--
@@ -87,14 +100,14 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <Grid Grid.Column="1" Visibility="{Binding ShowColumnMappa, Converter={StaticResource boolToVisibility}}">
+            <Grid Grid.Column="1"  Visibility="{Binding ShowColumnMappa, Converter={StaticResource boolToVisibility}}">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <maps:Map Grid.Row="0" VerticalAlignment="Stretch" Margin="0 5 5 0" x:Name="mappaBing"
+                <maps:Map Grid.Row="0" VerticalAlignment="Stretch" Margin="0 5 5 0" x:Name="mappaBing" 
                           Credentials="H9DGPIMHAQEJCYCvhRut~QXD1euhRup_H-PVjP_VrQA~AoOY9BDB1DFmcagMSk0xDWI0sJ8AVgE6i_uHN9tqRG5hGbQDiXHJGd9iayZQbLUc" />
                 <StackPanel Grid.Row="1" Margin="5">
                     <TextBlock Margin="0 5 0 0">
@@ -121,5 +134,14 @@
                 </StackPanel>
             </Grid>
         </Grid>
+
     </Grid>
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton x:Uid="SetDefault" x:Name="BarSetViaggio" IsEnabled="{Binding ShowColumnMappa}" Label="Imposta come viaggio" Icon="Flag" />
+
+        </CommandBar>
+
+
+    </Page.BottomAppBar>
 </Page>

@@ -17,6 +17,8 @@ using Caliburn.Micro;
 using Windows.Devices.Geolocation;
 using Bing.Maps;
 using Windows.UI;
+using System.Collections.ObjectModel;
+using Acheronte.Models;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
@@ -25,7 +27,7 @@ namespace Virgilio.Views
     /// <summary>
     /// A basic page that provides characteristics common to most applications.
     /// </summary>
-    public sealed partial class TravelingPageView : Page, IHandle<Geoposition>
+    public sealed partial class TravelingPageView : Page, IHandle<Geoposition>, IHandle<ObservableCollection<PartecipanteDTO>>
     {
         private IEventAggregator eventAggregator;
         bool IsHandlerAttached;
@@ -57,8 +59,8 @@ namespace Virgilio.Views
             if (!IsHandlerAttached)
                 eventAggregator.Subscribe(this);
 
-            CaricaVecchietti(46.1180784982862, 11.1018951790751);
-            CaricaVecchietti(46.1166560803036, 11.1042649765213);
+            //CaricaVecchietti(46.1180784982862, 11.1018951790751);
+            //CaricaVecchietti(46.1166560803036, 11.1042649765213);
             
         }
 
@@ -87,11 +89,7 @@ namespace Virgilio.Views
         private void CaricaVecchietti(double lat, double lon)
         {
 
-            Pushpin posizione;
-
-            
-
-          
+            Pushpin posizione;          
 
             posizione = new Pushpin()
             {
@@ -108,5 +106,13 @@ namespace Virgilio.Views
             mappaBing.Children.Add(posizione);
         }
 
+
+        public void Handle(ObservableCollection<PartecipanteDTO> message)
+        {
+            foreach (PartecipanteDTO part in message)
+            {
+                CaricaVecchietti(part.LatitudineSalitaPrevista, part.LongitudineSalitaPrevista);
+            }
+        }
     }
 }

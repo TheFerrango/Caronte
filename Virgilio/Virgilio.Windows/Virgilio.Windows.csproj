@@ -133,6 +133,8 @@
     <Content Include="Assets\Logo.scale-100.png" />
     <Content Include="Assets\SmallLogo.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\Sprites\Finish.png" />
+    <Content Include="Assets\Sprites\Start.png" />
     <Content Include="Assets\Sprites\Van.png" />
     <Content Include="Assets\Sprites\Vecchietto.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
