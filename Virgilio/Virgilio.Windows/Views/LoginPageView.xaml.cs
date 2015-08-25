@@ -1,4 +1,4 @@
-﻿using Virgilio.Common;
+﻿using CaronteMobile.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Navigation;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
-namespace Virgilio.Views
+namespace CaronteMobile.Views
 {
   /// <summary>
   /// A basic page that provides characteristics common to most applications.

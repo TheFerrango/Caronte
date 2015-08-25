@@ -20,11 +20,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogPosizioni", "LogPosizion
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Virgilio", "Virgilio", "{F5CA18AF-8BEC-4582-92CC-0D0CE0D225E1}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Virgilio.Shared", "Virgilio\Virgilio.Shared\Virgilio.Shared.shproj", "{F9B337F0-9FDC-40BF-B546-57F6CE1A3935}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CaronteMobile.Shared", "Virgilio\Virgilio.Shared\CaronteMobile.Shared.shproj", "{F9B337F0-9FDC-40BF-B546-57F6CE1A3935}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgilio.Windows", "Virgilio\Virgilio.Windows\Virgilio.Windows.csproj", "{82758C36-913C-451A-B221-1C6C043F568F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaronteMobile.Windows", "Virgilio\Virgilio.Windows\CaronteMobile.Windows.csproj", "{82758C36-913C-451A-B221-1C6C043F568F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgilio.WindowsPhone", "Virgilio\Virgilio.WindowsPhone\Virgilio.WindowsPhone.csproj", "{D185C404-346A-4C2B-8B8E-6164159E05C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaronteMobile.WindowsPhone", "Virgilio\Virgilio.WindowsPhone\CaronteMobile.WindowsPhone.csproj", "{D185C404-346A-4C2B-8B8E-6164159E05C9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogPosizioneTablet", "LogPosizioneTablet\LogPosizioneTablet.csproj", "{BD265219-D36E-4B7A-B0A4-2279ABEEA5D7}"
 EndProject

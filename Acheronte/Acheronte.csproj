@@ -45,6 +45,7 @@
     <Compile Include="APIs\DipendenteAPI.cs" />
     <Compile Include="APIs\OAuth.cs" />
     <Compile Include="APIs\PartecipantiAPI.cs" />
+    <Compile Include="APIs\PosizioneAPI.cs" />
     <Compile Include="APIs\ViaggioAPI.cs" />
     <Compile Include="Models\AccessToken.cs" />
     <Compile Include="Models\AnagraficaDTO.cs" />

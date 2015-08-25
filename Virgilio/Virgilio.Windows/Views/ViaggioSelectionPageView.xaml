@@ -1,16 +1,16 @@
 ﻿<Page
     x:Name="pageRoot"
-    x:Class="Virgilio.Views.ViaggioSelectionPageView"
+    x:Class="CaronteMobile.Views.ViaggioSelectionPageView"
     
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Virgilio.Views"
-    xmlns:common="using:Virgilio.Common"
+    xmlns:local="using:CaronteMobile.Views"
+    xmlns:common="using:CaronteMobile.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:maps="using:Bing.Maps"
     xmlns:cal="using:Caliburn.Micro"
-    xmlns:convs="using:Virgilio.Converters"
+    xmlns:convs="using:CaronteMobile.Converters"
     mc:Ignorable="d" Loaded="pageRoot_Loaded" Unloaded="pageRoot_Unloaded">
 
     <Page.Resources>

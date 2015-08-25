@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Virgilio.ViewModels;
-using Virgilio.Views;
+using CaronteMobile.ViewModels;
+using CaronteMobile.Views;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -19,10 +19,11 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.ApplicationSettings;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
-namespace Virgilio
+namespace CaronteMobile
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
@@ -61,6 +62,7 @@ namespace Virgilio
 
             Helpers.DBManager dbMan = new Helpers.DBManager();
             await dbMan.MakeStartupChecks();
+            Settings.Instance.MaxBufferSeconds = 30;
         }
 
         private void RegisterViewModels()
@@ -100,5 +102,24 @@ namespace Virgilio
         {
             container.BuildUp(instance);
         }
+
+        protected override void OnWindowCreated(WindowCreatedEventArgs args)
+        {
+            SettingsPane.GetForCurrentView().CommandsRequested += OnCommandsRequested;
+        }
+
+        private void OnCommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)
+        {
+
+            args.Request.ApplicationCommands.Add(new SettingsCommand(
+                "ImpRete", "Impostazioni di rete", (handler) => ShowCustomSettingFlyout()));
+        }
+
+        public void ShowCustomSettingFlyout()
+        {
+            AppSettingsView CustomSettingFlyout = new AppSettingsView();
+            CustomSettingFlyout.Show();
+        }
+
     }
 }

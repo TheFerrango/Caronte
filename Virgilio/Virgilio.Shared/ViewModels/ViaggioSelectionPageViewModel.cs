@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 
-namespace Virgilio.ViewModels
+namespace CaronteMobile.ViewModels
 {
     public class ViaggioSelectionPageViewModel : Screen
     {

@@ -2,8 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Windows.Networking.Connectivity;
 
-namespace Virgilio
+namespace CaronteMobile
 {
     public class Settings
     {
@@ -21,6 +22,12 @@ namespace Virgilio
             }
         }
 
+        public static bool IsConnectedToInternet()
+        {
+            ConnectionProfile connectionProfile = NetworkInformation.GetInternetConnectionProfile();
+            return (connectionProfile != null && connectionProfile.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess);
+        }
+
         public AccessToken AccessToken { get; set; }
 
         public AnagraficaDTO AnagraficaUtente { get; set; }
@@ -29,5 +36,7 @@ namespace Virgilio
         public ViaggioDTO SelectedViaggio { get; set; }
 
         public string Username { get; set; }
+
+        public int MaxBufferSeconds { get; set; }
     }
 }

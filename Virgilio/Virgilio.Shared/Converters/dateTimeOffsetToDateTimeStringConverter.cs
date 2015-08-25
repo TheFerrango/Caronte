@@ -3,7 +3,7 @@ using System.Windows;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
-namespace Virgilio.Converters
+namespace CaronteMobile.Converters
 {
     public class DateTimeOffsetToDateTimeStringConverter : IValueConverter
   {

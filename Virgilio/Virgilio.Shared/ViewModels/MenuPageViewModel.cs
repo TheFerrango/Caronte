@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using Windows.UI.Popups;
 
-namespace Virgilio.ViewModels
+namespace CaronteMobile.ViewModels
 {
     public class MenuPageViewModel : Screen
     {

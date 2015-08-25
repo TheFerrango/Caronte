@@ -1,4 +1,4 @@
-﻿using Virgilio.Common;
+﻿using CaronteMobile.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
-namespace Virgilio.Views
+namespace CaronteMobile.Views
 {
     /// <summary>
     /// A basic page that provides characteristics common to most applications.
@@ -37,8 +37,7 @@ namespace Virgilio.Views
         {
             this.InitializeComponent();
             IsHandlerAttached = false;
-            eventAggregator = ((Virgilio.App)App.Current).Container.GetAllInstances(typeof(IEventAggregator)).FirstOrDefault() as IEventAggregator;
-
+            eventAggregator = ((CaronteMobile.App)App.Current).Container.GetAllInstances(typeof(IEventAggregator)).FirstOrDefault() as IEventAggregator;
         }
 
 

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Virgilio.Helpers
+namespace CaronteMobile.Helpers
 {
     public class DBManager
     {
