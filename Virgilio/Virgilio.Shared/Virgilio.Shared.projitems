@@ -6,7 +6,7 @@
     <SharedGUID>f9b337f0-9fdc-40bf-b546-57f6ce1a3935</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Virgilio</Import_RootNamespace>
+    <Import_RootNamespace>CaronteMobile</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml">
@@ -17,7 +17,12 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Converters\dateTimeOffsetToDateTimeStringConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\booleanToInvisibilityConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\DBManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\Anagrafica.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\DBManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\Dipendente.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\Partecipante.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\Posizione.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\Viaggio.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SQLite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SQLiteAsync.cs" />

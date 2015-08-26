@@ -19,6 +19,7 @@ using Bing.Maps;
 using Windows.UI;
 using System.Collections.ObjectModel;
 using Acheronte.Models;
+using CaronteMobile.Database;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
@@ -27,7 +28,7 @@ namespace CaronteMobile.Views
     /// <summary>
     /// A basic page that provides characteristics common to most applications.
     /// </summary>
-    public sealed partial class TravelingPageView : Page, IHandle<Geoposition>, IHandle<ObservableCollection<PartecipanteDTO>>
+    public sealed partial class TravelingPageView : Page, IHandle<Geoposition>, IHandle<ObservableCollection<Partecipante>>
     {
         private IEventAggregator eventAggregator;
         bool IsHandlerAttached;
@@ -107,9 +108,9 @@ namespace CaronteMobile.Views
         }
 
 
-        public void Handle(ObservableCollection<PartecipanteDTO> message)
+        public void Handle(ObservableCollection<Partecipante> message)
         {
-            foreach (PartecipanteDTO part in message)
+            foreach (Partecipante part in message)
             {
                 CaricaVecchietti(part.LatitudineSalitaPrevista, part.LongitudineSalitaPrevista);
             }

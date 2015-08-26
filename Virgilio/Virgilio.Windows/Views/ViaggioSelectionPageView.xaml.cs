@@ -13,10 +13,11 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Acheronte.Models;
+
 using Caliburn.Micro;
 using Bing.Maps;
 using System.Threading.Tasks;
+using CaronteMobile.Database;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
@@ -25,7 +26,7 @@ namespace CaronteMobile.Views
     /// <summary>
     /// A basic page that provides characteristics common to most applications.
     /// </summary>
-    public sealed partial class ViaggioSelectionPageView : Page, IHandle<ViaggioDTO>
+    public sealed partial class ViaggioSelectionPageView : Page, IHandle<Viaggio>
     {
 
         private IEventAggregator eventAggregator;
@@ -80,7 +81,7 @@ namespace CaronteMobile.Views
 
 
 
-        public async void Handle(ViaggioDTO message)
+        public async void Handle(Viaggio message)
         {
             Location posPartenza = new Location(message.LatitudinePartenzaPrevista, message.LongitudinePartenzaPrevista);
             Location posArrivo = new Location(message.LatitudineArrivoPrevista, message.LongitudineArrivoPrevista);

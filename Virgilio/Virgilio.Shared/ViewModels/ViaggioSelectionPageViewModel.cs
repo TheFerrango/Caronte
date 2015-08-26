@@ -1,6 +1,7 @@
 ﻿using Acheronte.APIs;
 using Acheronte.Models;
 using Caliburn.Micro;
+using CaronteMobile.Database;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,10 +17,10 @@ namespace CaronteMobile.ViewModels
         private readonly INavigationService navigationService;
         private readonly IEventAggregator eventAggregator;
 
-        Helpers.DBManager dbMan;
-        private ObservableCollection<ViaggioDTO> _ViaggiDisponibili;
-        private ViaggioDTO _SelectedViaggio;
-        private List<PartecipanteDTO> elencoPartecipanti;
+        Database.DBManager dbMan;
+        private ObservableCollection<Viaggio> _ViaggiDisponibili;
+        private Viaggio _SelectedViaggio;
+        private List<Partecipante> elencoPartecipanti;
 
         public bool ShowColumnMappa { get { return _SelectedViaggio != null; } }
 
@@ -28,7 +29,7 @@ namespace CaronteMobile.ViewModels
             get { return elencoPartecipanti != null ? elencoPartecipanti.Count.ToString() : "caricamento dei partecipanti in corso"; }
         }
 
-        public ViaggioDTO SelectedViaggio
+        public Viaggio SelectedViaggio
         {
             get { return _SelectedViaggio; }
             set
@@ -40,7 +41,7 @@ namespace CaronteMobile.ViewModels
             }
         }
 
-        public ObservableCollection<ViaggioDTO> ViaggiDisponibili
+        public ObservableCollection<Viaggio> ViaggiDisponibili
         {
             get { return _ViaggiDisponibili; }
             set
@@ -54,29 +55,29 @@ namespace CaronteMobile.ViewModels
         {
             this.navigationService = navigationService;
             this.eventAggregator = eventAggregator;
-            ViaggiDisponibili = new ObservableCollection<ViaggioDTO>();
-            dbMan = new Helpers.DBManager();
+            ViaggiDisponibili = new ObservableCollection<Viaggio>();
+            dbMan = new Database.DBManager();
         }
 
         protected override async void OnViewAttached(object view, object context)
         {
             base.OnViewAttached(view, context);
-            ViaggiDisponibili = new ObservableCollection<ViaggioDTO>(await dbMan.cmDB.Table<ViaggioDTO>().Where(x => x.FKIDDipendente == Settings.Instance.DipendenteInfo.IDDipendente).ToListAsync());
+            ViaggiDisponibili = new ObservableCollection<Viaggio>(await dbMan.cmDB.Table<Viaggio>().Where(x => x.FKIDDipendente == Settings.Instance.DipendenteInfo.IDDipendente).ToListAsync());
         }
 
         public async void ViaggioSelected(object cosa, SelectionChangedEventArgs manda)
         {
             if (manda.AddedItems.Count == 1)
             {
-                ViaggioDTO selViaggio = manda.AddedItems[0] as ViaggioDTO;
-                elencoPartecipanti = await dbMan.cmDB.Table<PartecipanteDTO>().Where(p => p.FKIDViaggio == selViaggio.IDViaggio).ToListAsync();
+                Viaggio selViaggio = manda.AddedItems[0] as Viaggio;
+                elencoPartecipanti = await dbMan.cmDB.Table<Partecipante>().Where(p => p.FKIDViaggio == selViaggio.IDViaggio).ToListAsync();
                 SelectedViaggio = selViaggio;
                 eventAggregator.PublishOnUIThread(SelectedViaggio);                
             }
             else
             {
                 SelectedViaggio = null;
-                elencoPartecipanti = new List<PartecipanteDTO>();
+                elencoPartecipanti = new List<Partecipante>();
             }
         }
 

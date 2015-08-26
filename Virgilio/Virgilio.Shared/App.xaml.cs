@@ -60,7 +60,7 @@ namespace CaronteMobile
             RegisterViewModels();
 
 
-            Helpers.DBManager dbMan = new Helpers.DBManager();
+			Database.DBManager dbMan = new Database.DBManager();
             await dbMan.MakeStartupChecks();
             Settings.Instance.MaxBufferSeconds = 30;
         }

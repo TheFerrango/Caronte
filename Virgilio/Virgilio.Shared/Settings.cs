@@ -1,4 +1,5 @@
 ﻿using Acheronte.Models;
+using CaronteMobile.Database;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -30,10 +31,10 @@ namespace CaronteMobile
 
         public AccessToken AccessToken { get; set; }
 
-        public AnagraficaDTO AnagraficaUtente { get; set; }
-        public DipendenteDTO DipendenteInfo { get; set; }
+        public Anagrafica AnagraficaUtente { get; set; }
+        public Dipendente DipendenteInfo { get; set; }
 
-        public ViaggioDTO SelectedViaggio { get; set; }
+        public Viaggio SelectedViaggio { get; set; }
 
         public string Username { get; set; }
 

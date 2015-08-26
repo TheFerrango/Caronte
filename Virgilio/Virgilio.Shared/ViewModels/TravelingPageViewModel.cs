@@ -11,6 +11,7 @@ using Windows.Devices.Geolocation;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using System.Threading.Tasks;
+using CaronteMobile.Database;
 
 
 namespace CaronteMobile.ViewModels
@@ -21,16 +22,16 @@ namespace CaronteMobile.ViewModels
 
 		private readonly INavigationService navigationService;
 		private readonly IEventAggregator eventAggregator;
-		private Helpers.DBManager dbMan;
+		private Database.DBManager dbMan;
 		private PosizioneAPI posAPI;
-		private ViaggioDTO viaggioInCorso;
+		private Viaggio viaggioInCorso;
 		private Geolocator geoLoc;
 		private Location currentPosition;
-		private ObservableCollection<PartecipanteDTO> listaPasseggeri;
-		private List<PosizioneDTO> bufferPosizioni;
+		private ObservableCollection<Partecipante> listaPasseggeri;
+		private List<Posizione> bufferPosizioni;
 		private DispatcherTimer bufferTimer;
 
-		public ObservableCollection<PartecipanteDTO> ListaPasseggeri
+		public ObservableCollection<Partecipante> ListaPasseggeri
 		{
 			get { return listaPasseggeri; }
 			set
@@ -40,7 +41,7 @@ namespace CaronteMobile.ViewModels
 			}
 		}
 
-		public ViaggioDTO ViaggioInCorso
+		public Viaggio ViaggioInCorso
 		{
 			get { return viaggioInCorso; }
 			set
@@ -78,10 +79,10 @@ namespace CaronteMobile.ViewModels
 			this.eventAggregator = eventAggregator;
 			geoLoc = new Geolocator();
 			bufferTimer = new DispatcherTimer();
-			dbMan = new Helpers.DBManager();
+			dbMan = new Database.DBManager();
 			CurrentPosition = new Location(0, 0);
-			ListaPasseggeri = new ObservableCollection<PartecipanteDTO>();
-			bufferPosizioni = new List<PosizioneDTO>();
+			ListaPasseggeri = new ObservableCollection<Partecipante>();
+			bufferPosizioni = new List<Posizione>();
 			posAPI = new PosizioneAPI(Settings.Instance.AccessToken);
 		}
 
@@ -91,7 +92,7 @@ namespace CaronteMobile.ViewModels
 			ViaggioInCorso = Settings.Instance.SelectedViaggio;
 			List<PartecipanteDTO> partTotali = await dbMan.cmDB.Table<PartecipanteDTO>().Where(part => part.FKIDViaggio == ViaggioInCorso.IDViaggio).ToListAsync();
 
-			ListaPasseggeri = new ObservableCollection<PartecipanteDTO>(partTotali.Where(p => p.FKIDStato < 3).ToList());
+			ListaPasseggeri = new ObservableCollection<Partecipante>(partTotali.Where(p => p.FKIDStato < 3).Select(x=>Partecipante.ToEntity(x)).ToList());
 
 			eventAggregator.PublishOnUIThread(ListaPasseggeri);
 
@@ -119,7 +120,7 @@ namespace CaronteMobile.ViewModels
 			{
 				bufferTimer.Stop();
 
-				List<PosizioneDTO> precedenti = await CheckPosizioniSalvate();
+				List<Posizione> precedenti = await CheckPosizioniSalvate();
 
 				if (precedenti.Count > 0)
 					bufferPosizioni.AddRange(precedenti);
@@ -138,17 +139,17 @@ namespace CaronteMobile.ViewModels
 			}
 		}
 
-		private async Task<List<PosizioneDTO>> CheckPosizioniSalvate()
+		private async Task<List<Posizione>> CheckPosizioniSalvate()
 		{
-			List<int> idViaggi = (await dbMan.cmDB.Table<ViaggioDTO>().Where(via => via.FKIDDipendente == Settings.Instance.DipendenteInfo.IDDipendente).ToListAsync()).Select(x => x.IDViaggio).ToList();
-			return await dbMan.cmDB.Table<PosizioneDTO>().Where(pos => idViaggi.Contains(pos.FKIDViaggio.Value)).ToListAsync();
+			List<int> idViaggi = (await dbMan.cmDB.Table<Viaggio>().Where(via => via.FKIDDipendente == Settings.Instance.DipendenteInfo.IDDipendente).ToListAsync()).Select(x => x.IDViaggio).ToList();
+			return await dbMan.cmDB.Table<Posizione>().Where(pos => idViaggi.Contains(pos.FKIDViaggio.Value)).ToListAsync();
 		}
 
-		private async Task<bool> UploadPosizioni(List<PosizioneDTO> posizioni)
+		private async Task<bool> UploadPosizioni(List<Posizione> posizioni)
 		{
 			try
 			{
-				bool res = await posAPI.SendPositionData(posizioni);
+				bool res = await posAPI.SendPositionData(posizioni.Select(p=>p.ToDTO()).ToList());
 				if (res)
 					posizioni.Clear();
 			}
@@ -159,7 +160,7 @@ namespace CaronteMobile.ViewModels
 			return true;
 		}
 
-		private async Task<bool> SavePosizioni(List<PosizioneDTO> posizioni)
+		private async Task<bool> SavePosizioni(List<Posizione> posizioni)
 		{
 			try
 			{
@@ -175,7 +176,7 @@ namespace CaronteMobile.ViewModels
 		void geoLoc_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
 		{
 			eventAggregator.PublishOnUIThread(args.Position);
-			bufferPosizioni.Add(new PosizioneDTO()
+			bufferPosizioni.Add(new Posizione()
 			{
 				Data = DateTime.UtcNow,
 				FKIDViaggio = Settings.Instance.SelectedViaggio.IDViaggio,
