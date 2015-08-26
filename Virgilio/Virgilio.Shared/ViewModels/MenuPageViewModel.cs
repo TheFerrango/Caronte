@@ -1,7 +1,9 @@
 ﻿using Acheronte.APIs;
 using Acheronte.Models;
 using Caliburn.Micro;
+using CaronteMobile.Database;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using Windows.UI.Popups;
@@ -43,8 +45,14 @@ namespace CaronteMobile.ViewModels
             UserWelcome = String.Format("Benvenut{0} {1}", Settings.Instance.AnagraficaUtente.Sesso ? "o" : "a", Settings.Instance.AnagraficaUtente.Nome);
         }
 
-        public void StartViaggio()
+        public async void StartViaggio()
         {
+			if (Settings.Instance.SelectedViaggio == null)
+			{
+				Database.DBManager dbMan = new Database.DBManager();
+				List<Viaggio> viaggiUtente = await dbMan.cmDB.Table<Viaggio>().Where(x => x.FKIDDipendente == Settings.Instance.DipendenteInfo.IDDipendente).ToListAsync();
+				viaggiUtente.OrderByDescending(x => DateTime.Now - x.DataInizioPrevista);
+			}
             navigationService.NavigateToViewModel<TravelingPageViewModel>();            
         }
 

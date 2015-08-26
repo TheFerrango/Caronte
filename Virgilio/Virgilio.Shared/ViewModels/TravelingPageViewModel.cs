@@ -90,9 +90,9 @@ namespace CaronteMobile.ViewModels
 		{
 			base.OnViewAttached(view, context);
 			ViaggioInCorso = Settings.Instance.SelectedViaggio;
-			List<PartecipanteDTO> partTotali = await dbMan.cmDB.Table<PartecipanteDTO>().Where(part => part.FKIDViaggio == ViaggioInCorso.IDViaggio).ToListAsync();
+			List<Partecipante> partTotali = await dbMan.cmDB.Table<Partecipante>().Where(part => part.FKIDViaggio == ViaggioInCorso.IDViaggio).ToListAsync();
 
-			ListaPasseggeri = new ObservableCollection<Partecipante>(partTotali.Where(p => p.FKIDStato < 3).Select(x=>Partecipante.ToEntity(x)).ToList());
+			ListaPasseggeri = new ObservableCollection<Partecipante>(partTotali.Where(p => p.FKIDStato < 3).ToList());
 
 			eventAggregator.PublishOnUIThread(ListaPasseggeri);
 

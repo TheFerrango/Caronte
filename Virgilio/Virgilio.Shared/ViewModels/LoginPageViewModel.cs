@@ -191,14 +191,42 @@ namespace CaronteMobile.ViewModels
 
 			if (await dbMan.cmDB.Table<Anagrafica>().Where(a => a.IDAnagrafica == Settings.Instance.AnagraficaUtente.IDAnagrafica).CountAsync() > 0)
 				await dbMan.cmDB.UpdateAsync(Settings.Instance.AnagraficaUtente);
-			await dbMan.cmDB.InsertAsync(Settings.Instance.AnagraficaUtente);
+			else await dbMan.cmDB.InsertAsync(Settings.Instance.AnagraficaUtente);
 
 			List<int> idNuoviViaggi = viaggi.Select(v => v.IDViaggio).ToList();
+
 			List<Viaggio> viaggiPresenti = await dbMan.cmDB.Table<Viaggio>().Where(v => idNuoviViaggi.Contains(v.IDViaggio)).ToListAsync();
+			List<int> idViaggiEditabili= viaggiPresenti.Where(x=>x.FKIDStato == 1).Select(x=>x.IDViaggio).ToList();
+			List<int> idViaggiNonEdit = viaggiPresenti.Select(x=>x.IDViaggio).Except(idViaggiEditabili).ToList();
 
-			await dbMan.cmDB.InsertAllAsync(viaggi.Select(v => Viaggio.ToEntity(v)).ToList());
+			foreach (Viaggio viag in viaggi.Select(v => Viaggio.ToEntity(v)).ToList())
+			{
+				if (!idViaggiNonEdit.Contains(viag.IDViaggio))
+				{
+					if(idViaggiEditabili.Contains(viag.IDViaggio))
+						await dbMan.cmDB.UpdateAsync(viag);
+					else await dbMan.cmDB.InsertAsync(viag);
+				}
+			}
 
-			await dbMan.cmDB.InsertAllAsync(totParts.Select(p => Partecipante.ToEntity(p)).ToList());
+			
+			List<Partecipante> partecipantiPresenti = await dbMan.cmDB.Table<Partecipante>().ToListAsync();
+
+			List<int> idPassEdit = partecipantiPresenti.Where(p=>idViaggiEditabili.Contains(p.FKIDViaggio.Value))
+				.Select(x=>x.IDSpostamento).ToList();
+			List<int> idPassNonEdit = partecipantiPresenti.Where(p => idViaggiNonEdit.Contains(p.FKIDViaggio.Value))
+				.Select(x=>x.IDSpostamento).ToList();
+
+
+			foreach (Partecipante part in totParts.Select(p => Partecipante.ToEntity(p)).ToList()) 
+			{
+				if (!idPassNonEdit.Contains(part.IDSpostamento))
+				{
+					if (idPassEdit.Contains(part.IDSpostamento))
+						await dbMan.cmDB.UpdateAsync(part);
+					else await dbMan.cmDB.InsertAsync(part);
+				}
+			}
 
 			ShowLoading = false;
 			return toRet;
