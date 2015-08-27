@@ -27,12 +27,16 @@ namespace CaronteMobile
 
         private async void SliderInteval_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            Settings.Instance.MaxBufferSeconds = Convert.ToInt32(e.NewValue);
-            while (secsText == null)
-            {
-                await Task.Delay(TimeSpan.FromMilliseconds(10));
-            }
-            secsText.Text = Settings.Instance.MaxBufferSeconds.ToString();
+			if (e.OldValue != 0)
+			{
+
+				Settings.Instance.MaxBufferSeconds = Convert.ToInt32(e.NewValue);
+				while (secsText == null)
+				{
+					await Task.Delay(TimeSpan.FromMilliseconds(10));
+				}
+				secsText.Text = Settings.Instance.MaxBufferSeconds.ToString();
+			}
         }
 
         private void SettingsFlyout_Loaded(object sender, RoutedEventArgs e)

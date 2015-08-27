@@ -32,6 +32,34 @@ namespace CaronteMobile.Database
 		public string NOMINATIVO { set; get; }
 		public string STATO_DESC { set; get; }
 
+		public PartecipanteDTO ToDTO()
+		{
+			return new PartecipanteDTO()
+			{
+				IDSpostamento = this.IDSpostamento,
+				FKIDAnagrafica = this.FKIDAnagrafica,
+				FKIDViaggio = this.FKIDViaggio,
+				FKIDStato = this.FKIDStato,
+				DescrizioneViaggio = string.IsNullOrWhiteSpace(this.DescrizioneViaggio) ? null : this.DescrizioneViaggio,
+				IndirizzoSalita = this.IndirizzoSalita,
+				IndirizzoDiscesa = this.IndirizzoDiscesa,
+				DataSalitaPrevista = this.DataSalitaPrevista,
+				DataDiscesaPrevista = this.DataDiscesaPrevista,
+				DataSalitaEffettiva = this.DataSalitaEffettiva,
+				DataDiscesaEffettiva = this.DataDiscesaEffettiva,
+				LatitudineSalitaPrevista = this.LatitudineSalitaPrevista,
+				LongitudineSalitaPrevista = this.LongitudineSalitaPrevista,
+				LatitudineDiscesaPrevista = this.LatitudineDiscesaPrevista,
+				LongitudineDiscesaPrevista = this.LongitudineDiscesaPrevista,
+				LatitudineSalitaEffettiva = this.LatitudineSalitaEffettiva,
+				LongitudineSalitaEffettiva = this.LongitudineSalitaEffettiva,
+				LatitudineDiscesaEffettiva = this.LatitudineDiscesaEffettiva,
+				LongitudineDiscesaEffettiva = this.LongitudineDiscesaEffettiva,
+
+				NOMINATIVO = this.NOMINATIVO,
+				STATO_DESC = this.STATO_DESC,
+			};
+		}
 
 		public static Partecipante ToEntity(PartecipanteDTO dto)
 		{

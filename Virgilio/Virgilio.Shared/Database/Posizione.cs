@@ -20,6 +20,7 @@ namespace CaronteMobile.Database
 		{
 			return new PosizioneDTO()
 			{
+				IDPosizione = this.IDPosizione,
 				FKIDViaggio = this.FKIDViaggio,
 				Data = this.Data,
 				Latitudine = this.Latitudine,
@@ -32,6 +33,7 @@ namespace CaronteMobile.Database
 		{
 			return new Posizione()
 			{
+				IDPosizione = dto.IDPosizione,
 				FKIDViaggio = dto.FKIDViaggio,
 				Data = dto.Data,
 				Latitudine = dto.Latitudine,

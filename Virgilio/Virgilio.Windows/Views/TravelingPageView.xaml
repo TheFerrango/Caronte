@@ -173,10 +173,10 @@
 
                                 <Image Source="/Assets/Sprites/Vecchietto.png" Height="52"  />
                                 <StackPanel Grid.Column="1" >
-                                    <TextBlock Text="{Binding NOMINATIVO}" FontSize="24" Foreground="White" HorizontalAlignment="Left" Margin="5 0 5 0" />
+                                    <TextBlock Text="{Binding PartecipanteObj.NOMINATIVO}" FontSize="24" Foreground="White" HorizontalAlignment="Left" Margin="5 0 5 0" />
                                     <TextBlock FontSize="16" Foreground="White" HorizontalAlignment="Left" Margin="5 0 5 0">
                                         <Run Text="Sale in:" />
-                                        <Run Text="{Binding IndirizzoSalita}"/>
+                                        <Run Text="{Binding PartecipanteObj.IndirizzoSalita}"/>
                                     </TextBlock>
                                     <TextBlock Text="Alle ore: 09:45" FontSize="12" Foreground="White" HorizontalAlignment="Left" Margin="5 0 5 0" />
                                 </StackPanel>

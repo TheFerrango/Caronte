@@ -31,6 +31,35 @@ namespace CaronteMobile.Database
 
         public string STATO_DESC { set; get; }
 
+		public ViaggioDTO ToDTO()
+		{
+			return new ViaggioDTO()
+			{
+				IDViaggio = this.IDViaggio,
+				FKIDDipendente = this.FKIDDipendente,
+				FKIDStato = this.FKIDStato,
+				FKIDVeicolo = this.FKIDVeicolo,
+				DescrizioneViaggio = string.IsNullOrWhiteSpace(this.DescrizioneViaggio) ? null : this.DescrizioneViaggio,
+				IndirizzoPartenza = this.IndirizzoPartenza,
+				IndirizzoArrivo = this.IndirizzoArrivo,
+				DataInizioPrevista = this.DataInizioPrevista,
+				DataFinePrevista = this.DataFinePrevista,
+				DataInizioEffettiva = this.DataInizioEffettiva,
+				DataFineEffettiva = this.DataFineEffettiva,
+				LatitudinePartenzaPrevista = this.LatitudinePartenzaPrevista,
+				LongitudinePartenzaPrevista = this.LongitudinePartenzaPrevista,
+				LatitudineArrivoPrevista = this.LatitudineArrivoPrevista,
+				LongitudineArrivoPrevista = this.LongitudineArrivoPrevista,
+				LatitudinePartenzaEffettiva = this.LatitudinePartenzaEffettiva,
+				LongitudinePartenzaEffettiva = this.LongitudinePartenzaEffettiva,
+				LatitudineArrivoEffettiva = this.LatitudineArrivoEffettiva,
+				LongitudineArrivoEffettiva = this.LongitudineArrivoEffettiva,
+
+				STATO_DESC = this.STATO_DESC
+			};
+		}
+
+
 		public static Viaggio ToEntity(ViaggioDTO dto)
 		{
 			return new Viaggio()

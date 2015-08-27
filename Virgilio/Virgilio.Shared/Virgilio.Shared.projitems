@@ -26,6 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Settings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SQLite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SQLiteAsync.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Support\Spostamento.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ViaggioSelectionPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\TravelingPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MenuPageViewModel.cs" />

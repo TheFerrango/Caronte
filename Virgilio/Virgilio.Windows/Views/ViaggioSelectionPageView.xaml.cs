@@ -39,14 +39,22 @@ namespace CaronteMobile.Views
             this.InitializeComponent();
             IsHandlerAttached = false;
             eventAggregator = ((CaronteMobile.App)App.Current).Container.GetAllInstances(typeof(IEventAggregator)).FirstOrDefault() as IEventAggregator;
+			if (!IsHandlerAttached)
+			{
+				eventAggregator.Subscribe(this);
+				IsHandlerAttached = true;
+			}
         }
 
 
         private void pageRoot_Loaded(object sender, RoutedEventArgs e)
         {
 
-            if (!IsHandlerAttached)
-                eventAggregator.Subscribe(this);
+			if (!IsHandlerAttached)
+			{
+				eventAggregator.Subscribe(this);
+				IsHandlerAttached = true;
+			}
 
             posizioneStart = new Pushpin();
             //{
@@ -77,6 +85,7 @@ namespace CaronteMobile.Views
         {
             if (IsHandlerAttached)
                 eventAggregator.Unsubscribe(this);
+			IsHandlerAttached = false;
         }
 
 

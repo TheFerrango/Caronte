@@ -122,6 +122,9 @@
     <Compile Include="Views\TravelingPageView.xaml.cs">
       <DependentUpon>TravelingPageView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\PasseggeroStatusChanger.xaml.cs">
+      <DependentUpon>PasseggeroStatusChanger.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ViaggioSelectionPageView.xaml.cs">
       <DependentUpon>ViaggioSelectionPageView.xaml</DependentUpon>
     </Compile>
@@ -190,6 +193,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\TravelingPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\PasseggeroStatusChanger.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

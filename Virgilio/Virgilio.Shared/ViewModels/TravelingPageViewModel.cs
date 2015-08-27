@@ -12,6 +12,9 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using System.Threading.Tasks;
 using CaronteMobile.Database;
+using CaronteMobile.Views.UserControls;
+using Windows.UI.Xaml.Controls.Primitives;
+using CaronteMobile.Support;
 
 
 namespace CaronteMobile.ViewModels
@@ -27,11 +30,11 @@ namespace CaronteMobile.ViewModels
 		private Viaggio viaggioInCorso;
 		private Geolocator geoLoc;
 		private Location currentPosition;
-		private ObservableCollection<Partecipante> listaPasseggeri;
+		private ObservableCollection<Spostamento> listaPasseggeri;
 		private List<Posizione> bufferPosizioni;
 		private DispatcherTimer bufferTimer;
 
-		public ObservableCollection<Partecipante> ListaPasseggeri
+		public ObservableCollection<Spostamento> ListaPasseggeri
 		{
 			get { return listaPasseggeri; }
 			set
@@ -81,7 +84,7 @@ namespace CaronteMobile.ViewModels
 			bufferTimer = new DispatcherTimer();
 			dbMan = new Database.DBManager();
 			CurrentPosition = new Location(0, 0);
-			ListaPasseggeri = new ObservableCollection<Partecipante>();
+			ListaPasseggeri = new ObservableCollection<Spostamento>();
 			bufferPosizioni = new List<Posizione>();
 			posAPI = new PosizioneAPI(Settings.Instance.AccessToken);
 		}
@@ -90,11 +93,8 @@ namespace CaronteMobile.ViewModels
 		{
 			base.OnViewAttached(view, context);
 			ViaggioInCorso = Settings.Instance.SelectedViaggio;
-			List<Partecipante> partTotali = await dbMan.cmDB.Table<Partecipante>().Where(part => part.FKIDViaggio == ViaggioInCorso.IDViaggio).ToListAsync();
 
-			ListaPasseggeri = new ObservableCollection<Partecipante>(partTotali.Where(p => p.FKIDStato < 3).ToList());
-
-			eventAggregator.PublishOnUIThread(ListaPasseggeri);
+			await ReloadListaPartecipanti();
 
 			geoLoc.MovementThreshold = 5;
 			geoLoc.PositionChanged += geoLoc_PositionChanged;
@@ -142,7 +142,8 @@ namespace CaronteMobile.ViewModels
 		private async Task<List<Posizione>> CheckPosizioniSalvate()
 		{
 			List<int> idViaggi = (await dbMan.cmDB.Table<Viaggio>().Where(via => via.FKIDDipendente == Settings.Instance.DipendenteInfo.IDDipendente).ToListAsync()).Select(x => x.IDViaggio).ToList();
-			return await dbMan.cmDB.Table<Posizione>().Where(pos => idViaggi.Contains(pos.FKIDViaggio.Value)).ToListAsync();
+			List<Posizione> listPoss = await dbMan.cmDB.Table<Posizione>().ToListAsync();
+			return listPoss.Where(pos => pos.FKIDViaggio.HasValue && idViaggi.Contains(pos.FKIDViaggio.Value)).ToList();
 		}
 
 		private async Task<bool> UploadPosizioni(List<Posizione> posizioni)
@@ -188,9 +189,29 @@ namespace CaronteMobile.ViewModels
 
 		#endregion
 
-		public void PasseggeroSelected(object dataSource)
+		public void PasseggeroSelected(Spostamento dataContext)
 		{
+			
+			Popup pop = new Popup();
+			pop.Closed += pop_Closed;
+			pop.Child = new PasseggeroStatusChanger(pop, dataContext, currentPosition);
+			pop.HorizontalOffset = (Window.Current.Bounds.Width - 800) / 2;
+			pop.VerticalOffset = (Window.Current.Bounds.Height - 500) / 2;
+			pop.IsOpen = true;
+		}
 
+		async void pop_Closed(object sender, object e)
+		{
+			await ReloadListaPartecipanti();
+		}
+
+		private async Task ReloadListaPartecipanti()
+		{
+			List<Partecipante> partTotali = await dbMan.cmDB.Table<Partecipante>().Where(part => part.FKIDViaggio == ViaggioInCorso.IDViaggio).ToListAsync();
+
+			ListaPasseggeri = new ObservableCollection<Spostamento>(partTotali.Where(p => p.FKIDStato < 3).Select(p=>Spostamento.FromPartecipante(p)).ToList());
+
+			eventAggregator.PublishOnUIThread(ListaPasseggeri);
 		}
 
 		public void backButton()

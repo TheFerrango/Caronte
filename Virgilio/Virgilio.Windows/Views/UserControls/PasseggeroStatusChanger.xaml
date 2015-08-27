@@ -1,0 +1,56 @@
+﻿<UserControl
+    x:Class="CaronteMobile.Views.UserControls.PasseggeroStatusChanger"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CaronteMobile.Views.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+	Loaded="UserControl_Loaded"
+	Width="800"
+	Height="500">
+
+	<Grid Background="#4390df">
+		<Grid Background="#555555" Margin="2">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+
+			<Grid Grid.Row="0" Background="#222222">
+				<Button x:Name="backButton" Margin="10 5 0 5" Style="{StaticResource NavigationBackButtonNormalStyle}" VerticalAlignment="Center" Tapped="backButton_Tapped"/>
+				<TextBlock Text="Gestione passeggeri" Style="{StaticResource SubheaderTextBlockStyle}" Margin="70 5 0 10"/>
+			</Grid>
+
+			<Grid Grid.Row="1" Margin="10">
+				<StackPanel>
+					<TextBlock Text="Il passeggero:" Style="{StaticResource SubheaderTextBlockStyle}" FontWeight="SemiBold" Margin="0 0 0 5"/>
+					<Grid >
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="100"/>
+							<ColumnDefinition Width="*"/>
+						</Grid.ColumnDefinitions>
+						
+						<Image Grid.Column="0" Source="/Assets/Sprites/Vecchietto.png"/>
+						<StackPanel Grid.Column="1">
+							<TextBlock x:Name="lblNomePass" Text="Vecchietto Arzillo" Style="{StaticResource SubheaderTextBlockStyle}" />
+
+						</StackPanel>
+						
+					</Grid>
+					<TextBlock x:Name="lblSaleScende" Style="{StaticResource SubheaderTextBlockStyle}" />
+					<TextBlock x:Name="lblOrario" Style="{StaticResource SubheaderTextBlockStyle}" />
+
+				</StackPanel>
+			</Grid>
+
+			<Grid Grid.Row="2" Background="#222222">
+				<Button x:Name="forwardButton" Margin="10 5 10 5"  Style="{StaticResource NavigationBackButtonNormalStyle}" VerticalAlignment="Center" HorizontalAlignment="Right" Tapped="forwardButton_Tapped" RenderTransformOrigin="0.5,0.5">
+					<Button.RenderTransform>
+					<RotateTransform Angle="180" CenterX="0.5" CenterY="0.5"/></Button.RenderTransform>
+				</Button>
+			</Grid>
+		</Grid>
+    </Grid>
+</UserControl>

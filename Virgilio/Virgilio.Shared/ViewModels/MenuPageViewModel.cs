@@ -47,13 +47,19 @@ namespace CaronteMobile.ViewModels
 
         public async void StartViaggio()
         {
+			
 			if (Settings.Instance.SelectedViaggio == null)
 			{
 				Database.DBManager dbMan = new Database.DBManager();
 				List<Viaggio> viaggiUtente = await dbMan.cmDB.Table<Viaggio>().Where(x => x.FKIDDipendente == Settings.Instance.DipendenteInfo.IDDipendente).ToListAsync();
-				viaggiUtente.OrderByDescending(x => DateTime.Now - x.DataInizioPrevista);
+				Viaggio primo = viaggiUtente.OrderByDescending(x => DateTime.Now - x.DataInizioPrevista).FirstOrDefault();
+				if(primo != null)
+					Settings.Instance.SelectedViaggio = primo;
 			}
+			if(Settings.Instance.SelectedViaggio  != null)
             navigationService.NavigateToViewModel<TravelingPageViewModel>();            
+			else
+				await new MessageDialog(String.Format("Nessun viaggio presente per l'utente corrente ({0}).", Settings.Instance.DipendenteInfo.NOMINATIVO), "Nessun viaggio trovato").ShowAsync();
         }
 
         public void IMieiViaggi()
