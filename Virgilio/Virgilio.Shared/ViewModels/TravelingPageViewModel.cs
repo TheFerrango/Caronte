@@ -71,6 +71,9 @@ namespace CaronteMobile.ViewModels
 		{
 			base.OnViewAttached(view, context);
 			ViaggioInCorso = Settings.Instance.SelectedViaggio;
+			viaggioInCorso.FKIDStato = 2;
+
+			await dbMan.cmDB.UpdateAsync(viaggioInCorso);
 
 			await ReloadListaPartecipanti();
 
@@ -82,9 +85,16 @@ namespace CaronteMobile.ViewModels
 			bufferTimer.Start();
 		}
 
-		protected override void OnDeactivate(bool close)
+		protected override async void OnDeactivate(bool close)
 		{
 			bufferTimer.Stop();
+			if(ListaPasseggeri.Count == 0)
+			{
+				viaggioInCorso.FKIDStato = 3;
+			}
+			Settings.Instance.SelectedViaggio = null;
+			await dbMan.cmDB.UpdateAsync(viaggioInCorso);
+
 			base.OnDeactivate(close);
 		}
 
