@@ -1,8 +1,6 @@
 using Acheronte.Models;
 using SQLite;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CaronteMobile.Database
 {

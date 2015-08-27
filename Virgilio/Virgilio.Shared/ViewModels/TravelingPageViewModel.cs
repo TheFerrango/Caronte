@@ -1,20 +1,16 @@
 ﻿using Acheronte.APIs;
-using Acheronte.Models;
-using Bing.Maps;
 using Caliburn.Micro;
+using CaronteMobile.Database;
+using CaronteMobile.Support;
+using CaronteMobile.Views.UserControls;
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
-using Windows.Devices.Geolocation;
-using Windows.UI.Popups;
-using Windows.UI.Xaml;
+using System.Linq;
 using System.Threading.Tasks;
-using CaronteMobile.Database;
-using CaronteMobile.Views.UserControls;
+using Windows.Devices.Geolocation;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls.Primitives;
-using CaronteMobile.Support;
 
 
 namespace CaronteMobile.ViewModels
@@ -29,7 +25,7 @@ namespace CaronteMobile.ViewModels
 		private PosizioneAPI posAPI;
 		private Viaggio viaggioInCorso;
 		private Geolocator geoLoc;
-		private Location currentPosition;
+		private Geoposition currentPosition;
 		private ObservableCollection<Spostamento> listaPasseggeri;
 		private List<Posizione> bufferPosizioni;
 		private DispatcherTimer bufferTimer;
@@ -52,25 +48,7 @@ namespace CaronteMobile.ViewModels
 				viaggioInCorso = value;
 				NotifyOfPropertyChange();
 			}
-		}
-
-		private Location CurrentPosition
-		{
-			set
-			{
-				currentPosition = value;
-			}
-		}
-
-		public double CenterLatitude
-		{
-			get { return currentPosition != null ? currentPosition.Latitude : 0; }
-		}
-
-		public double CenterLongitude
-		{
-			get { return currentPosition != null ? currentPosition.Longitude : 0; }
-		}
+		}		
 
 		#endregion
 
@@ -83,7 +61,7 @@ namespace CaronteMobile.ViewModels
 			geoLoc = new Geolocator();
 			bufferTimer = new DispatcherTimer();
 			dbMan = new Database.DBManager();
-			CurrentPosition = new Location(0, 0);
+			currentPosition = null;
 			ListaPasseggeri = new ObservableCollection<Spostamento>();
 			bufferPosizioni = new List<Posizione>();
 			posAPI = new PosizioneAPI(Settings.Instance.AccessToken);
@@ -177,6 +155,7 @@ namespace CaronteMobile.ViewModels
 		void geoLoc_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
 		{
 			eventAggregator.PublishOnUIThread(args.Position);
+			currentPosition = args.Position;
 			bufferPosizioni.Add(new Posizione()
 			{
 				Data = DateTime.UtcNow,
@@ -209,7 +188,7 @@ namespace CaronteMobile.ViewModels
 		{
 			List<Partecipante> partTotali = await dbMan.cmDB.Table<Partecipante>().Where(part => part.FKIDViaggio == ViaggioInCorso.IDViaggio).ToListAsync();
 
-			ListaPasseggeri = new ObservableCollection<Spostamento>(partTotali.Where(p => p.FKIDStato < 3).Select(p=>Spostamento.FromPartecipante(p)).ToList());
+			ListaPasseggeri = new ObservableCollection<Spostamento>(partTotali.Where(p => p.FKIDStato < 3).Select(p=>Spostamento.FromPartecipante(p)).OrderByDescending(x=>(x.Orario -DateTime.Now)) .ToList());
 
 			eventAggregator.PublishOnUIThread(ListaPasseggeri);
 		}

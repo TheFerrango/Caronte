@@ -3,9 +3,8 @@ using Acheronte.Models;
 using Caliburn.Micro;
 using CaronteMobile.Database;
 using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 

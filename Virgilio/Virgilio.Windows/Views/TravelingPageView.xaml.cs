@@ -1,26 +1,13 @@
-﻿using CaronteMobile.Common;
-using System;
+﻿using Bing.Maps;
+using Caliburn.Micro;
+using CaronteMobile.Support;
 using System.Collections.Generic;
-using System.IO;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Devices.Geolocation;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using Caliburn.Micro;
-using Windows.Devices.Geolocation;
-using Bing.Maps;
-using Windows.UI;
-using System.Collections.ObjectModel;
-using Acheronte.Models;
-using CaronteMobile.Database;
-using CaronteMobile.Support;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
@@ -41,7 +28,7 @@ namespace CaronteMobile.Views
 			this.InitializeComponent();
 			pushpinVecchietti = new Dictionary<int, Pushpin>();
 			IsHandlerAttached = false;
-			eventAggregator = ((CaronteMobile.App)App.Current).Container.GetAllInstances(typeof(IEventAggregator)).FirstOrDefault() as IEventAggregator;
+			eventAggregator = Settings.Instance.GetEventAggregator();
 			if (!IsHandlerAttached)
 			{
 				eventAggregator.Subscribe(this);
@@ -61,17 +48,12 @@ namespace CaronteMobile.Views
 
 		private void pageRoot_Loaded(object sender, RoutedEventArgs e)
 		{
-			
 			InitPosAttuale();
 			if (!IsHandlerAttached)
 			{
 				eventAggregator.Subscribe(this);
 				IsHandlerAttached = true;
 			}
-
-			//CaricaVecchietti(46.1180784982862, 11.1018951790751);
-			//CaricaVecchietti(46.1166560803036, 11.1042649765213);
-
 		}
 
 		private void InitPosAttuale()
@@ -79,7 +61,6 @@ namespace CaronteMobile.Views
 			posizioneAttuale = new Pushpin()
 			{
 				Template = this.Resources["FurgoneTemplate"] as ControlTemplate
-
 			};
 
 			MapLayer.SetPositionAnchor(posizioneAttuale, new Point(56, 56));
@@ -99,7 +80,6 @@ namespace CaronteMobile.Views
 
 		private Pushpin CaricaVecchietti(double lat, double lon)
 		{
-
 			Pushpin posizione;
 
 			posizione = new Pushpin()
@@ -110,17 +90,24 @@ namespace CaronteMobile.Views
 			MapLayer.SetPosition(posizione, new Location(lat, lon));
 			MapLayer.SetPositionAnchor(posizione, new Point(28, 28));
 
-			//posizione.Visibility = Windows.UI.Xaml.Visibility.Visible;
-			//posizione.Background = new SolidColorBrush(Colors.DarkMagenta);
 			posizione.Width = 56;
 			posizione.Height = 56;
 			mappaBing.Children.Add(posizione);
+
 			return posizione;
 		}
 
 
 		public void Handle(ObservableCollection<Spostamento> message)
 		{
+			List<int> toRemove = pushpinVecchietti.Keys.Except(message.Select(x => x.PartecipanteObj.IDSpostamento).ToList()).ToList();
+
+			foreach (int idSpos in toRemove)
+			{
+				mappaBing.Children.Remove(pushpinVecchietti[idSpos]);
+				pushpinVecchietti.Remove(idSpos);
+			}
+
 			foreach (Spostamento part in message)
 			{
 				if (pushpinVecchietti.ContainsKey(part.PartecipanteObj.IDSpostamento))

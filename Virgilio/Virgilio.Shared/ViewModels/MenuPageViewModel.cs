@@ -1,11 +1,8 @@
-﻿using Acheronte.APIs;
-using Acheronte.Models;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using CaronteMobile.Database;
 using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using Windows.UI.Popups;
 
 namespace CaronteMobile.ViewModels

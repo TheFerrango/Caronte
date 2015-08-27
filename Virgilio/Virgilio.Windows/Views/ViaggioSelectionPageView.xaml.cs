@@ -1,170 +1,151 @@
-﻿using CaronteMobile.Common;
+﻿using Bing.Maps;
+using Caliburn.Micro;
+using CaronteMobile.Database;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-
-using Caliburn.Micro;
-using Bing.Maps;
-using System.Threading.Tasks;
-using CaronteMobile.Database;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
 namespace CaronteMobile.Views
 {
-    /// <summary>
-    /// A basic page that provides characteristics common to most applications.
-    /// </summary>
-    public sealed partial class ViaggioSelectionPageView : Page, IHandle<Viaggio>
-    {
+	/// <summary>
+	/// A basic page that provides characteristics common to most applications.
+	/// </summary>
+	public sealed partial class ViaggioSelectionPageView : Page, IHandle<Viaggio>
+	{
 
-        private IEventAggregator eventAggregator;
-        bool IsHandlerAttached;
-        Pushpin posizioneStart, posizioneEnd;
-
-
-        public ViaggioSelectionPageView()
-        {
-            this.InitializeComponent();
-            IsHandlerAttached = false;
-            eventAggregator = ((CaronteMobile.App)App.Current).Container.GetAllInstances(typeof(IEventAggregator)).FirstOrDefault() as IEventAggregator;
-			if (!IsHandlerAttached)
-			{
-				eventAggregator.Subscribe(this);
-				IsHandlerAttached = true;
-			}
-        }
+		private IEventAggregator eventAggregator;
+		bool IsHandlerAttached;
+		Pushpin posizioneStart, posizioneEnd;
 
 
-        private void pageRoot_Loaded(object sender, RoutedEventArgs e)
-        {
-
-			if (!IsHandlerAttached)
-			{
-				eventAggregator.Subscribe(this);
-				IsHandlerAttached = true;
-			}
-
-            posizioneStart = new Pushpin();
-            //{
-            //    Template = this.Resources["StartTemplate"] as ControlTemplate,
-            //    Width = 128,
-            //    Height = 128
-            //};
-
-            posizioneEnd = new Pushpin();
-            //{
-            //    Template = this.Resources["FinishTemplate"] as ControlTemplate,
-            //    Width = 128,
-            //    Height = 128
-            //};
-
-            //MapLayer.SetPositionAnchor(posizioneStart, new Point(64, 64));
-            //MapLayer.SetPositionAnchor(posizioneEnd, new Point(64, 64));
-
-
-            mappaBing.Children.Add(posizioneStart);
-            mappaBing.Children.Add(posizioneEnd);           
-
-        }
-
-
-
-        private void pageRoot_Unloaded(object sender, RoutedEventArgs e)
-        {
-            if (IsHandlerAttached)
-                eventAggregator.Unsubscribe(this);
+		public ViaggioSelectionPageView()
+		{
+			this.InitializeComponent();
 			IsHandlerAttached = false;
-        }
+			eventAggregator = Settings.Instance.GetEventAggregator();
+			if (!IsHandlerAttached)
+			{
+				eventAggregator.Subscribe(this);
+				IsHandlerAttached = true;
+			}
+		}
 
 
+		private void pageRoot_Loaded(object sender, RoutedEventArgs e)
+		{
 
-        public async void Handle(Viaggio message)
-        {
-            Location posPartenza = new Location(message.LatitudinePartenzaPrevista, message.LongitudinePartenzaPrevista);
-            Location posArrivo = new Location(message.LatitudineArrivoPrevista, message.LongitudineArrivoPrevista);
+			if (!IsHandlerAttached)
+			{
+				eventAggregator.Subscribe(this);
+				IsHandlerAttached = true;
+			}
 
-            MapLayer.SetPosition(posizioneStart, posPartenza);
-            MapLayer.SetPosition(posizioneEnd, posArrivo);
+			posizioneStart = new Pushpin();
+			//{
+			//    Template = this.Resources["StartTemplate"] as ControlTemplate,
+			//    Width = 128,
+			//    Height = 128
+			//};
+			//MapLayer.SetPositionAnchor(posizioneStart, new Point(64, 64));
 
-            LocationCollection lc = new LocationCollection();
-            lc.Add(posPartenza);
-            lc.Add(posArrivo);
+			posizioneEnd = new Pushpin();
+			//{
+			//    Template = this.Resources["FinishTemplate"] as ControlTemplate,
+			//    Width = 128,
+			//    Height = 128
+			//};
+			//MapLayer.SetPositionAnchor(posizioneEnd, new Point(64, 64));
 
-            while (mappaBing.ActualWidth < 1)
-            {
-                await Task.Delay(TimeSpan.FromMilliseconds(10));  
-            }
+			mappaBing.Children.Add(posizioneStart);
+			mappaBing.Children.Add(posizioneEnd);
+		}
 
-            var bounds = new LocationRect(lc);
-            mappaBing.SetView(bounds.Center, AdattaZoomMappa(lc, mappaBing.ActualWidth, mappaBing.ActualHeight, 10));
-        }
+		private void pageRoot_Unloaded(object sender, RoutedEventArgs e)
+		{
+			if (IsHandlerAttached)
+				eventAggregator.Unsubscribe(this);
+			IsHandlerAttached = false;
+		}
 
-        private double AdattaZoomMappa(IList<Location> locations, double mapWidth, double mapHeight, int buffer)
-        {
+		public async void Handle(Viaggio message)
+		{
+			Location posPartenza = new Location(message.LatitudinePartenzaPrevista, message.LongitudinePartenzaPrevista);
+			Location posArrivo = new Location(message.LatitudineArrivoPrevista, message.LongitudineArrivoPrevista);
 
-            Location center = new Location();
-            double zoomLevel = 0;
+			MapLayer.SetPosition(posizioneStart, posPartenza);
+			MapLayer.SetPosition(posizioneEnd, posArrivo);
 
-            double maxLat = -85;
-            double minLat = 85;
-            double maxLon = -180;
-            double minLon = 180;
+			LocationCollection lc = new LocationCollection();
+			lc.Add(posPartenza);
+			lc.Add(posArrivo);
 
-            //calculate bounding rectangle
-            for (int i = 0; i < locations.Count; i++)
-            {
-                if (locations[i].Latitude > maxLat)
-                {
-                    maxLat = locations[i].Latitude;
-                }
+			while (mappaBing.ActualWidth < 1)
+			{
+				await Task.Delay(TimeSpan.FromMilliseconds(10));
+			}
 
-                if (locations[i].Latitude < minLat)
-                {
-                    minLat = locations[i].Latitude;
-                }
+			var bounds = new LocationRect(lc);
+			mappaBing.SetView(bounds.Center, AdattaZoomMappa(lc, mappaBing.ActualWidth, mappaBing.ActualHeight, 10));
+		}
 
-                if (locations[i].Longitude > maxLon)
-                {
-                    maxLon = locations[i].Longitude;
-                }
+		private double AdattaZoomMappa(IList<Location> locations, double mapWidth, double mapHeight, int buffer)
+		{
 
-                if (locations[i].Longitude < minLon)
-                {
-                    minLon = locations[i].Longitude;
-                }
-            }
+			Location center = new Location();
+			double zoomLevel = 0;
 
-            center.Latitude = (maxLat + minLat) / 2;
-            center.Longitude = (maxLon + minLon) / 2;
+			double maxLat = -85;
+			double minLat = 85;
+			double maxLon = -180;
+			double minLon = 180;
 
-            double zoom1 = 0, zoom2 = 0;
+			//calculate bounding rectangle
+			for (int i = 0; i < locations.Count; i++)
+			{
+				if (locations[i].Latitude > maxLat)
+				{
+					maxLat = locations[i].Latitude;
+				}
 
-            //Determine the best zoom level based on the map scale and bounding coordinate information
-            if (maxLon != minLon && maxLat != minLat)
-            {
-                //best zoom level based on map width
-                zoom1 = Math.Log(360.0 / 256.0 * (mapWidth - 2 * buffer) / (maxLon - minLon)) / Math.Log(2);
-                //best zoom level based on map height
-                zoom2 = Math.Log(180.0 / 256.0 * (mapHeight - 2 * buffer) / (maxLat - minLat)) / Math.Log(2);
-            }
+				if (locations[i].Latitude < minLat)
+				{
+					minLat = locations[i].Latitude;
+				}
 
-            //use the most zoomed out of the two zoom levels
-            zoomLevel = (zoom1 < zoom2) ? zoom1 : zoom2;
+				if (locations[i].Longitude > maxLon)
+				{
+					maxLon = locations[i].Longitude;
+				}
 
-            return zoomLevel;
-        }
-    }
+				if (locations[i].Longitude < minLon)
+				{
+					minLon = locations[i].Longitude;
+				}
+			}
+
+			center.Latitude = (maxLat + minLat) / 2;
+			center.Longitude = (maxLon + minLon) / 2;
+
+			double zoom1 = 0, zoom2 = 0;
+
+			//Determine the best zoom level based on the map scale and bounding coordinate information
+			if (maxLon != minLon && maxLat != minLat)
+			{
+				//best zoom level based on map width
+				zoom1 = Math.Log(360.0 / 256.0 * (mapWidth - 2 * buffer) / (maxLon - minLon)) / Math.Log(2);
+				//best zoom level based on map height
+				zoom2 = Math.Log(180.0 / 256.0 * (mapHeight - 2 * buffer) / (maxLat - minLat)) / Math.Log(2);
+			}
+
+			//use the most zoomed out of the two zoom levels
+			zoomLevel = (zoom1 < zoom2) ? zoom1 : zoom2;
+
+			return zoomLevel;
+		}
+	}
 
 }

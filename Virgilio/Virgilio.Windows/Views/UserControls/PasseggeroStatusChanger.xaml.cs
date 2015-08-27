@@ -1,20 +1,11 @@
-﻿using Bing.Maps;
-using CaronteMobile.Database;
+﻿using CaronteMobile.Database;
 using CaronteMobile.Support;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.Devices.Geolocation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -24,9 +15,9 @@ namespace CaronteMobile.Views.UserControls
 	{
 		Popup containerPopup;
 		Spostamento partecipante;
-		Location location;
+		Geoposition location;
 		Database.DBManager dbMan;
-		public PasseggeroStatusChanger(Popup containerPopup, Spostamento partecipante, Location location)
+		public PasseggeroStatusChanger(Popup containerPopup, Spostamento partecipante, Geoposition location)
 		{
 			this.InitializeComponent();
 			this.containerPopup = containerPopup;
@@ -55,13 +46,13 @@ namespace CaronteMobile.Views.UserControls
 		{
 			if (partecipante.PartecipanteObj.FKIDStato == 1)
 			{
-				partecipante.PartecipanteObj.LatitudineSalitaEffettiva = location.Latitude;
-				partecipante.PartecipanteObj.LongitudineSalitaEffettiva = location.Longitude;
+				partecipante.PartecipanteObj.LatitudineSalitaEffettiva = location.Coordinate.Point.Position.Latitude;
+				partecipante.PartecipanteObj.LongitudineSalitaEffettiva = location.Coordinate.Point.Position.Longitude;
 				partecipante.PartecipanteObj.DataSalitaEffettiva = DateTimeOffset.Now;
 			}else
 			{
-				partecipante.PartecipanteObj.LatitudineDiscesaEffettiva = location.Latitude;
-				partecipante.PartecipanteObj.LongitudineDiscesaEffettiva = location.Longitude;
+				partecipante.PartecipanteObj.LatitudineDiscesaEffettiva = location.Coordinate.Point.Position.Latitude;
+				partecipante.PartecipanteObj.LongitudineDiscesaEffettiva = location.Coordinate.Point.Position.Longitude;
 				partecipante.PartecipanteObj.DataDiscesaEffettiva = DateTimeOffset.Now;
 
 			}
