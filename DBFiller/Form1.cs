@@ -47,7 +47,7 @@ namespace DBFiller
 			{
 				item.Data.AddHours(2);
 				wc.Headers["Content-Type"] = "application/json";
-				wc.UploadString(textBox1.Text + "posizione", JsonConvert.SerializeObject(item));
+				wc.UploadString(textBox1.Text + "posizione", "["+JsonConvert.SerializeObject(item)+"]");
 				(sender as BackgroundWorker).ReportProgress(1, string.Format("Aggiunta la posizione {0} {1} ", item.Latitudine, item.Longitudine, Environment.NewLine));
 			}
 		}

@@ -1,16 +1,18 @@
 var Caronte;
 (function (Caronte) {
     var masterSituationController = (function () {
-        function masterSituationController($scope, mastSitServ) {
+        function masterSituationController($scope, mastSitServ, hubProxy) {
             this.$scope = $scope;
             this.scope = $scope;
             this.service = mastSitServ;
+            this.hubProxy = hubProxy;
             this.scope.SetArrowVisibility(true);
             this.scope.SetTitle("Situazione generale viaggi");
             this.initBindMetodi();
             this.initMappa();
             this.initDati();
             this.initMenuViaggi();
+            this.initSignalR();
         }
         //#region Inizializzazione
         masterSituationController.prototype.initBindMetodi = function () {
@@ -135,6 +137,11 @@ var Caronte;
                 }
             }
         };
+        masterSituationController.prototype.initSignalR = function () {
+            this.hubProxy.getHub().on("broadcastMessage", function (data) {
+                console.log(data);
+            });
+        };
         //#endregion	
         masterSituationController.prototype.onViaggioCheck = function (IDViaggio) {
             var _this = this;
@@ -223,7 +230,7 @@ var Caronte;
             arr.push(points[points.length - 1]);
             return arr;
         };
-        masterSituationController.$inject = ["$scope", "masterSituationService"];
+        masterSituationController.$inject = ["$scope", "masterSituationService", "hubProxy"];
         return masterSituationController;
     })();
     Caronte.masterSituationController = masterSituationController;

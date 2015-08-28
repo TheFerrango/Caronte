@@ -1,5 +1,7 @@
 ﻿using CaronteWeb.Models;
+using CaronteWeb.RT;
 using CaronteWeb.Services;
+using Microsoft.AspNet.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Web.Http;
@@ -63,6 +65,11 @@ namespace CaronteWeb.Controllers
                 {
                     posServ.New(item);
                 }
+
+				var posHub = GlobalHost.ConnectionManager.GetHubContext<ViaggiInCorsoHub>();
+
+				posHub.Clients.All.BroadcastPositions(dto);
+
 				//return Ok(posServ.New(dto));
 				return Ok(true);
 

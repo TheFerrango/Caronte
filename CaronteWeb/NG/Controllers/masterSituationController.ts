@@ -6,18 +6,20 @@
 	}
 
 	export class masterSituationController {
-		static $inject = ["$scope", "masterSituationService"];
+		static $inject = ["$scope", "masterSituationService", "hubProxy"];
 		scope: IAppCtrlScope;
 		service: masterSituationService;
+		hubProxy: ViagginCorsoHubProxy
 		percorsi: CaronteDTOs.PolylineHolder[];
 		mapOptions: Microsoft.Maps.ViewOptions;
 		mapObj: Microsoft.Maps.Map;
 		availableColors: CaronteDTOs.ColorHolder[];
 		colorIndex: number;
 
-		constructor(private $scope: IAppCtrlScope, mastSitServ: masterSituationService) {
+		constructor(private $scope: IAppCtrlScope, mastSitServ: masterSituationService, hubProxy: any) {
 			this.scope = $scope;
 			this.service = mastSitServ;
+			this.hubProxy = hubProxy;
 
 			this.scope.SetArrowVisibility(true);
 			this.scope.SetTitle("Situazione generale viaggi");
@@ -26,6 +28,7 @@
 			this.initMappa();
 			this.initDati();
 			this.initMenuViaggi();
+			this.initSignalR();
 		}
 
 		//#region Inizializzazione
@@ -143,8 +146,8 @@
 				}),
 			};
 
-		
-				this.scope.viaggiInCorsoList.filter(x=> x.IDViaggio == idPerc)[0].COLORE = colore.COLORE.toHex();
+
+			this.scope.viaggiInCorsoList.filter(x=> x.IDViaggio == idPerc)[0].COLORE = colore.COLORE.toHex();
 
 
 			this.percorsi[idPerc] = pollyObj;
@@ -165,7 +168,11 @@
 			}
 		}
 
-	
+		private initSignalR() {
+			this.hubProxy.getHub().on("broadcastMessage",(data) => {console.log(data) })			
+			
+		}	
+
 		//#endregion	
 
 		private onViaggioCheck(IDViaggio: number) {
