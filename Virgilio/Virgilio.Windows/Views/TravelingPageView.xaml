@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:CaronteMobile.Views"
     xmlns:common="using:CaronteMobile.Common"
+	xmlns:conv="using:CaronteMobile.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:maps="using:Bing.Maps"
@@ -13,13 +14,21 @@
 
     <Page.Resources>
 
-        <ControlTemplate x:Key="PushpinTemplate" TargetType="maps:Pushpin">
+		<conv:DateTimeOffsetToDateTimeStringConverter x:Key="dateToStr"/>
+		
+        <ControlTemplate x:Key="SalitaTemplate" TargetType="maps:Pushpin">
             <Grid x:Name="ContentGrid" Width="56" Height="56" Margin="0">
                 <Image Source="/Assets/Sprites/Vecchietto.png" Stretch="Fill"/>
             </Grid>
         </ControlTemplate>
 
-        <ControlTemplate x:Key="FurgoneTemplate" TargetType="maps:Pushpin">
+		<ControlTemplate x:Key="DiscesaTemplate" TargetType="maps:Pushpin">
+			<Grid x:Name="ContentGrid" Width="56" Height="56" Margin="0">
+				<Image Source="/Assets/Sprites/TrafficStop.png" Stretch="Fill"/>
+			</Grid>
+		</ControlTemplate>
+
+		<ControlTemplate x:Key="FurgoneTemplate" TargetType="maps:Pushpin">
             <Grid x:Name="ContentGrid" Width="112" Height="112" Margin="0">
                 <Image Source="/Assets/Sprites/Van.png" Stretch="Fill"/>
             </Grid>
@@ -175,11 +184,15 @@
                                 <StackPanel Grid.Column="1" >
                                     <TextBlock Text="{Binding PartecipanteObj.NOMINATIVO}" FontSize="24" Foreground="White" HorizontalAlignment="Left" Margin="5 0 5 0" />
                                     <TextBlock FontSize="16" Foreground="White" HorizontalAlignment="Left" Margin="5 0 5 0">
-                                        <Run Text="Sale in:" />
-                                        <Run Text="{Binding PartecipanteObj.IndirizzoSalita}"/>
+                                        <Run Text="{Binding Azione}" />
+                                        <Run Text=" in: " />
+                                        <Run Text="{Binding Indirizzo}"/>
                                     </TextBlock>
-                                    <TextBlock Text="Alle ore: 09:45" FontSize="12" Foreground="White" HorizontalAlignment="Left" Margin="5 0 5 0" />
-                                </StackPanel>
+									<TextBlock FontSize="12" Foreground="White" HorizontalAlignment="Left" Margin="5 0 5 0" >
+										<Run Text="Alle ore: "/>
+										<Run Text="{Binding Orario, Converter={StaticResource dateToStr}}" />
+									</TextBlock>
+								</StackPanel>
 
                             </Grid>
                         </DataTemplate>

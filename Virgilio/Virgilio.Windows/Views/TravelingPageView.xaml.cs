@@ -78,13 +78,13 @@ namespace CaronteMobile.Views
 			IsHandlerAttached = false;
 		}
 
-		private Pushpin CaricaVecchietti(double lat, double lon)
+		private Pushpin CaricaVecchietti(double lat, double lon, bool salita = true)
 		{
 			Pushpin posizione;
 
 			posizione = new Pushpin()
 			{
-				Template = this.Resources["PushpinTemplate"] as ControlTemplate
+				Template = this.Resources[ salita ? "SalitaTemplate" : "DiscesaTemplate"] as ControlTemplate
 			};
 
 			MapLayer.SetPosition(posizione, new Location(lat, lon));
@@ -111,8 +111,12 @@ namespace CaronteMobile.Views
 			foreach (Spostamento part in message)
 			{
 				if (pushpinVecchietti.ContainsKey(part.PartecipanteObj.IDSpostamento))
+				{
+					if(part.PartecipanteObj.FKIDStato == 2)
+						pushpinVecchietti[part.PartecipanteObj.IDSpostamento].Template = this.Resources["DiscesaTemplate"] as ControlTemplate;
 					MapLayer.SetPosition(pushpinVecchietti[part.PartecipanteObj.IDSpostamento], new Location(part.Latitudine, part.Longitudine));
-				else pushpinVecchietti.Add(part.PartecipanteObj.IDSpostamento, CaricaVecchietti(part.Latitudine, part.Longitudine));
+				}
+				else pushpinVecchietti.Add(part.PartecipanteObj.IDSpostamento, CaricaVecchietti(part.Latitudine, part.Longitudine, part.PartecipanteObj.FKIDStato == 1));
 			}
 		}
 	}

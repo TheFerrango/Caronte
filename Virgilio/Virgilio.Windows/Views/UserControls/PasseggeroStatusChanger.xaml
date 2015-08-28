@@ -33,8 +33,8 @@
 						</Grid.ColumnDefinitions>
 						
 						<Image Grid.Column="0" Source="/Assets/Sprites/Vecchietto.png"/>
-						<StackPanel Grid.Column="1">
-							<TextBlock x:Name="lblNomePass" Text="Vecchietto Arzillo" Style="{StaticResource SubheaderTextBlockStyle}" />
+						<StackPanel Grid.Column="1" VerticalAlignment="Center">
+							<TextBlock x:Name="lblNomePass" Text="Luca Noriller" Style="{StaticResource SubheaderTextBlockStyle}" />
 
 						</StackPanel>
 						
@@ -46,6 +46,8 @@
 			</Grid>
 
 			<Grid Grid.Row="2" Background="#222222">
+				<TextBlock x:Name="lblAction" Text="" Style="{StaticResource SubheaderTextBlockStyle}" Margin="0 5 70 10" HorizontalAlignment="Right"/>
+
 				<Button x:Name="forwardButton" Margin="10 5 10 5"  Style="{StaticResource NavigationBackButtonNormalStyle}" VerticalAlignment="Center" HorizontalAlignment="Right" Tapped="forwardButton_Tapped" RenderTransformOrigin="0.5,0.5">
 					<Button.RenderTransform>
 					<RotateTransform Angle="180" CenterX="0.5" CenterY="0.5"/></Button.RenderTransform>

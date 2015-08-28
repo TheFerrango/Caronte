@@ -40,6 +40,7 @@ namespace CaronteMobile.Views.UserControls
 			lblOrario.Text = String.Format("Alle ore: {0}. (orario previsto: {1})", 
 				DateTime.Now.ToString("HH:mm"), 
 				partecipante.PartecipanteObj.FKIDStato == 1 ? partecipante.PartecipanteObj.DataSalitaPrevista.ToString("HH:mm") : partecipante.PartecipanteObj.DataDiscesaPrevista.ToString("HH:mm"));
+			lblAction.Text = partecipante.PartecipanteObj.FKIDStato == 1 ? "Salita" : "Discesa";
 		}
 
 		private void forwardButton_Tapped(object sender, TappedRoutedEventArgs e)
