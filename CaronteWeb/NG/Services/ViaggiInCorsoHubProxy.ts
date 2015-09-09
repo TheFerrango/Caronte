@@ -36,7 +36,7 @@
 		}
 
 		constructor($q: ng.IQService, $rootScope: any) {
-			this.connection = (<any>$).hubConnection("/localhost/");
+            this.connection = (<any>$).hubConnection("/localhost:52274/");
 			this.proxy = this.connection.viaggiInCorsoHub;
 
 			this.connection.start().done(() => { }); 

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaronteWeb", "CaronteWeb\CaronteWeb.csproj", "{3FB4ABF1-3F6A-4CEB-BF6A-503C659615CD}"
 EndProject
@@ -32,6 +32,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acheronte", "Acheronte\Ache
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Virgilio\Virgilio.Shared\Virgilio.Shared.projitems*{d185c404-346a-4c2b-8b8e-6164159e05c9}*SharedItemsImports = 4
 		Virgilio\Virgilio.Shared\Virgilio.Shared.projitems*{82758c36-913c-451a-b221-1c6c043f568f}*SharedItemsImports = 4
 		Virgilio\Virgilio.Shared\Virgilio.Shared.projitems*{f9b337f0-9fdc-40bf-b546-57f6ce1a3935}*SharedItemsImports = 13
 	EndGlobalSection

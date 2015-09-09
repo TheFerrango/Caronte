@@ -4,7 +4,7 @@ var Caronte;
         function ViagginCorsoHubProxy($q, $rootScope) {
             var _this = this;
             this.ViaggioInCorsoItem = {};
-            this.connection = $.hubConnection("/localhost/");
+            this.connection = $.hubConnection("/localhost:52274/");
             this.proxy = this.connection.viaggiInCorsoHub;
             this.connection.start().done(function () {
             });

@@ -133,6 +133,10 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\CaronteEDB.mdf" />
+    <Content Include="App_Data\CaronteEDB_log.ldf">
+      <DependentUpon>CaronteEDB.mdf</DependentUpon>
+    </Content>
     <Content Include="CSS\metro-responsive.css" />
     <Content Include="CSS\metro-responsive.min.css" />
     <Content Include="CSS\metro-schemes.css" />
@@ -277,9 +281,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

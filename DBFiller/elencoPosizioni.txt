@@ -1,0 +1,1 @@
+[{IDPosizione:"0", FKIDViaggio :"5", Data :"02/04/2015 14:30:12",Latitudine :20,Longitudine :20,Precisione :20}]
