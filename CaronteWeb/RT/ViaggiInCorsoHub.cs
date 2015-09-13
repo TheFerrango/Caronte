@@ -23,6 +23,6 @@ namespace CaronteWeb.RT
 		public override Task OnConnected()
 		{
 			return (base.OnConnected());
-		}
+		}    
 	}
 }

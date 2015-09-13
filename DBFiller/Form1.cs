@@ -11,101 +11,103 @@ using System.Windows.Forms;
 
 namespace DBFiller
 {
-	public partial class Form1 : Form
-	{
-		public Form1()
-		{
-			InitializeComponent();
-			backgroundWorker1.ProgressChanged += backgroundWorker1_ProgressChanged;
-		}
+  public partial class Form1 : Form
+  {
+    public Form1()
+    {
+      InitializeComponent();
+      backgroundWorker1.ProgressChanged += backgroundWorker1_ProgressChanged;
+    }
 
-		void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
-		{
-			textBox2.Text += e.UserState as string;
-		}
+    void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+    {
+      textBox2.Text += e.UserState as string;
+    }
 
-		WebClient wc = new WebClient();
+    WebClient wc = new WebClient();
 
-		private void button1_Click(object sender, EventArgs e)
-		{
-			backgroundWorker1.WorkerReportsProgress = true;
-			
-			backgroundWorker1.RunWorkerAsync();
-		}
+    private void button1_Click(object sender, EventArgs e)
+    {
+      backgroundWorker1.WorkerReportsProgress = true;
 
-		private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
-		{
-			//GeneraEAggiungiAnagrafiche(sender);
-			GeneraEAggiungiPosizioni(sender);
-		}
+      backgroundWorker1.RunWorkerAsync();
+    }
 
-		private void GeneraEAggiungiPosizioni(object sender)
-		{
-			List<PosizioneDTO> lAna = LeggiFilePosizioni("elencoPosizioni.txt");
+    private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+    {
+      //GeneraEAggiungiAnagrafiche(sender);
+      GeneraEAggiungiPosizioni(sender);
+    }
 
-			foreach (var item in lAna)
-			{
-				item.Data.AddHours(2);
-				wc.Headers["Content-Type"] = "application/json";
-				wc.UploadString(textBox1.Text + "posizione", "["+JsonConvert.SerializeObject(item)+"]");
-				(sender as BackgroundWorker).ReportProgress(1, string.Format("Aggiunta la posizione {0} {1} ", item.Latitudine, item.Longitudine, Environment.NewLine));
-			}
-		}
+    private void GeneraEAggiungiPosizioni(object sender)
+    {
+      List<PosizioneDTO> lAna = LeggiFilePosizioni("elencoPosizioni.txt");
 
-		private List<PosizioneDTO> LeggiFilePosizioni(string p)
-		{
-			string elePoss = File.ReadAllText(p);
-			List<PosizioneDTO> poss = JsonConvert.DeserializeObject<List<PosizioneDTO>>(elePoss, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy HH:mm:ss" });
-			return poss;
-		}
+      for (int i = 0; i < lAna.Count; i++)
+      {
+        wc.Headers["Content-Type"] = "application/json";
+        wc.UploadString(textBox1.Text + "posizione", "[" + JsonConvert.SerializeObject(lAna[i]) + "]");
+        (sender as BackgroundWorker).ReportProgress(1, string.Format("Aggiunta la posizione {0} {1} ", lAna[i].Latitudine, lAna[i].Longitudine, Environment.NewLine));
+        if (i < lAna.Count - 1)
+          System.Threading.Thread.Sleep((lAna[i + 1].Data - lAna[i].Data));
+      }     
+    }
 
-		#region Anagrafiche
+    private List<PosizioneDTO> LeggiFilePosizioni(string p)
+    {
+      string elePoss = File.ReadAllText(p);
+      List<PosizioneDTO> poss = JsonConvert.DeserializeObject<List<PosizioneDTO>>(elePoss, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy HH:mm:ss" });
+      return poss;
+    }
 
-		private void GeneraEAggiungiAnagrafiche(object sender)
-		{
-			List<AnagraficaDTO> lAna = LeggiFileNomi("elencoNomi.txt");
+    #region Anagrafiche
 
-			foreach (var item in lAna)
-			{
-				wc.Headers["Content-Type"] = "application/json";
-				wc.UploadString(textBox1.Text + "anagrafica", JsonConvert.SerializeObject(item));
-				(sender as BackgroundWorker).ReportProgress(1, string.Format("Aggiunta l'anagrafica {0} {1} {2}", item.Nome, item.Cognome, Environment.NewLine));
-			}
-		}
+    private void GeneraEAggiungiAnagrafiche(object sender)
+    {
+      List<AnagraficaDTO> lAna = LeggiFileNomi("elencoNomi.txt");
 
-		private List<AnagraficaDTO> LeggiFileNomi(string p)
-		{
-			Random rand = new Random();
-			List<string> eleNomi = File.ReadAllLines(p).ToList();
-			List<AnagraficaDTO> anas = new List<AnagraficaDTO>();
+      foreach (var item in lAna)
+      {
+        wc.Headers["Content-Type"] = "application/json";
+        wc.UploadString(textBox1.Text + "anagrafica", JsonConvert.SerializeObject(item));
+        (sender as BackgroundWorker).ReportProgress(1, string.Format("Aggiunta l'anagrafica {0} {1} {2}", item.Nome, item.Cognome, Environment.NewLine));
+      }
+    }
 
-			for (int i = 0; i < 50; i++)
-			{				
-				 string cognome = eleNomi[rand.Next(0,eleNomi.Count)];
-				 string nome= eleNomi[rand.Next(0,eleNomi.Count)];
-				DateTimeOffset DataNasc = DateTimeOffset.Now;
-				string cf = ((cognome + nome).Replace("a", String.Empty)
-												  .Replace("e", String.Empty)
-												  .Replace("i", String.Empty)
-												  .Replace("o", String.Empty)
-												  .Replace("u", String.Empty) + DataNasc.DateTime.ToShortDateString()).PadLeft(16, 'B')
-									.Substring(0, 16);
+    private List<AnagraficaDTO> LeggiFileNomi(string p)
+    {
+      Random rand = new Random();
+      List<string> eleNomi = File.ReadAllLines(p).ToList();
+      List<AnagraficaDTO> anas = new List<AnagraficaDTO>();
 
-			 anas.Add(new AnagraficaDTO(){
-				 Cognome = cognome,
-				 Nome= nome,
-				 CodiceFiscale =  cf,
-				DataNascita = DataNasc,
-				Indirizzo = "Via della siesta " + rand.Next(0,150),
-				Longitude = (rand.Next(40)%2 == 0 ? -1 : 1) * rand.NextDouble()*180,
-				Latitude = (rand.Next(40)%2 == 0 ? -1 : 1) *rand.NextDouble()*90 
-			 });
-			}
+      for (int i = 0; i < 50; i++)
+      {
+        string cognome = eleNomi[rand.Next(0, eleNomi.Count)];
+        string nome = eleNomi[rand.Next(0, eleNomi.Count)];
+        DateTimeOffset DataNasc = DateTimeOffset.Now;
+        string cf = ((cognome + nome).Replace("a", String.Empty)
+                          .Replace("e", String.Empty)
+                          .Replace("i", String.Empty)
+                          .Replace("o", String.Empty)
+                          .Replace("u", String.Empty) + DataNasc.DateTime.ToShortDateString()).PadLeft(16, 'B')
+                  .Substring(0, 16);
 
-			return anas;
+        anas.Add(new AnagraficaDTO()
+        {
+          Cognome = cognome,
+          Nome = nome,
+          CodiceFiscale = cf,
+          DataNascita = DataNasc,
+          Indirizzo = "Via della siesta " + rand.Next(0, 150),
+          Longitude = (rand.Next(40) % 2 == 0 ? -1 : 1) * rand.NextDouble() * 180,
+          Latitude = (rand.Next(40) % 2 == 0 ? -1 : 1) * rand.NextDouble() * 90
+        });
+      }
 
-		}
+      return anas;
 
-		#endregion
-	}
+    }
+
+    #endregion
+  }
 }

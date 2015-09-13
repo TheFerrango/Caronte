@@ -1,18 +1,18 @@
 var Caronte;
 (function (Caronte) {
     var masterSituationController = (function () {
-        function masterSituationController($scope, mastSitServ, hubProxy) {
+        function masterSituationController($scope, mastSitServ, Hub) {
             this.$scope = $scope;
             this.scope = $scope;
             this.service = mastSitServ;
-            this.hubProxy = hubProxy;
+            //this.sigR = sigR;
             this.scope.SetArrowVisibility(true);
             this.scope.SetTitle("Situazione generale viaggi");
             this.initBindMetodi();
             this.initMappa();
             this.initDati();
             this.initMenuViaggi();
-            this.initSignalR();
+            this.initSignalR(Hub);
         }
         //#region Inizializzazione
         masterSituationController.prototype.initBindMetodi = function () {
@@ -137,9 +137,26 @@ var Caronte;
                 }
             }
         };
-        masterSituationController.prototype.initSignalR = function () {
-            this.hubProxy.getHub().on("broadcastMessage", function (data) {
-                console.log(data);
+        masterSituationController.prototype.initSignalR = function (Hub) {
+            var _this = this;
+            var a = new Hub("viaggiInCorsoHub", {
+                listeners: {
+                    'broadcastPositions': function (posizioni) {
+                        for (var idx = 0; idx < posizioni.length; idx++) {
+                            _this.onNewPositionArrived(posizioni[idx]);
+                        }
+                    },
+                },
+                // server-side methods
+                methods: [],
+                // handle connection error
+                errorHandler: function (message) {
+                    console.error(message);
+                },
+                stateChanged: function (state) {
+                    // your code here
+                    console.log(state);
+                }
             });
         };
         //#endregion	
@@ -166,6 +183,15 @@ var Caronte;
             else {
                 this.mapObj.entities.remove(this.percorsi[IDViaggio].LINEA);
                 this.mapObj.entities.remove(this.percorsi[IDViaggio].PUSHPIN_POS_ATTR);
+            }
+        };
+        masterSituationController.prototype.onNewPositionArrived = function (nuovaPos) {
+            console.log(nuovaPos);
+            if (this.scope.viaggiVisualizzati[nuovaPos.FKIDViaggio]) {
+                var locs = this.percorsi[nuovaPos.FKIDViaggio].LINEA.getLocations();
+                locs.push(new Microsoft.Maps.Location(nuovaPos.Latitudine, nuovaPos.Longitudine));
+                this.percorsi[nuovaPos.FKIDViaggio].LINEA.setLocations(locs);
+                this.percorsi[nuovaPos.FKIDViaggio].PUSHPIN_POS_ATTR.setLocation(new Microsoft.Maps.Location(nuovaPos.Latitudine, nuovaPos.Longitudine));
             }
         };
         masterSituationController.prototype.simplifyPath = function (points, tolerance) {
@@ -230,7 +256,7 @@ var Caronte;
             arr.push(points[points.length - 1]);
             return arr;
         };
-        masterSituationController.$inject = ["$scope", "masterSituationService", "hubProxy"];
+        masterSituationController.$inject = ["$scope", "masterSituationService", "Hub"];
         return masterSituationController;
     })();
     Caronte.masterSituationController = masterSituationController;

@@ -1,7 +1,7 @@
 ﻿module Caronte {
 	"use strict";
 
-	var app = angular.module("Caronte", ["ngRoute", "LocalStorageModule", "angularBingMaps"])
+    var app = angular.module("Caronte", ["ngRoute", "LocalStorageModule", "angularBingMaps", "SignalR"])
 		.service("summaryService", ["$http", "$q", ($http, $q) => new Caronte.summaryService($http, $q)])
 		.service("anagraficaService", ["$http", "$q", ($http, $q) => new Caronte.anagraficaService($http, $q)])
 		.service("personaleService", ["$http", "$q", ($http, $q) => new Caronte.personaleService($http, $q)])
@@ -18,7 +18,7 @@
 		.controller("masterSituationController", Caronte.masterSituationController)
 		.factory("minosseService", ["$http", "$q", "localStorageService", ($http, $q, localStorageService) => new Caronte.minosseService($http, $q, localStorageService)])
 		.factory("interceptorService", ["$q", "$location", "localStorageService", ($q, $location, localStorageService) => new Caronte.interceptorService($q, $location, localStorageService)])
-		.factory("hubProxy", ["$q", "$rootScope", ($q, $rootScope) => new Caronte.ViagginCorsoHubProxy($q, $rootScope)]);
+		//.factory("hubProxy", ["$q", "$rootScope", ($q, $rootScope) => new Caronte.ViagginCorsoHubProxy($q, $rootScope)]);
 	
 	app.config(($routeProvider: ng.route.IRouteProvider) => {	
 			

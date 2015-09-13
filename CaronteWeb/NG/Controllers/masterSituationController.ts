@@ -6,20 +6,20 @@
 	}
 
 	export class masterSituationController {
-		static $inject = ["$scope", "masterSituationService", "hubProxy"];
+        static $inject = ["$scope", "masterSituationService", "Hub"];
 		scope: IAppCtrlScope;
 		service: masterSituationService;
-		hubProxy: ViagginCorsoHubProxy
+		//hubProxy: ViagginCorsoHubProxy
 		percorsi: CaronteDTOs.PolylineHolder[];
 		mapOptions: Microsoft.Maps.ViewOptions;
 		mapObj: Microsoft.Maps.Map;
 		availableColors: CaronteDTOs.ColorHolder[];
-		colorIndex: number;
+        colorIndex: number;        
 
-		constructor(private $scope: IAppCtrlScope, mastSitServ: masterSituationService, hubProxy: any) {
+        constructor(private $scope: IAppCtrlScope, mastSitServ: masterSituationService, Hub: ngSignalr.HubFactory) {
 			this.scope = $scope;
 			this.service = mastSitServ;
-			this.hubProxy = hubProxy;
+			//this.sigR = sigR;
 
 			this.scope.SetArrowVisibility(true);
 			this.scope.SetTitle("Situazione generale viaggi");
@@ -28,7 +28,7 @@
 			this.initMappa();
 			this.initDati();
 			this.initMenuViaggi();
-			this.initSignalR();
+			this.initSignalR(Hub);
 		}
 
 		//#region Inizializzazione
@@ -153,8 +153,8 @@
 			this.percorsi[idPerc] = pollyObj;
 		}
 
-		private showHidePushPins() {
-			for (var idx = 0; idx < this.mapObj.entities.getLength(); idx++) {
+        private showHidePushPins() {
+            for (var idx = 0; idx < this.mapObj.entities.getLength(); idx++) {
 				if (this.mapObj.entities.get(idx) instanceof Microsoft.Maps.Pushpin) {
 					var pp = <Microsoft.Maps.Pushpin>this.mapObj.entities.get(idx);
 					if (this.mapObj.getZoom() < 15)
@@ -168,9 +168,29 @@
 			}
 		}
 
-		private initSignalR() {
-			this.hubProxy.getHub().on("broadcastMessage",(data) => {console.log(data) })			
-			
+        private initSignalR(Hub: ngSignalr.HubFactory) {
+            var a = new Hub("viaggiInCorsoHub", {
+                listeners: {
+                    'broadcastPositions': (posizioni: CaronteDTOs.Posizione[]) => {
+                        for (var idx = 0; idx < posizioni.length; idx++) {
+                            this.onNewPositionArrived(posizioni[idx]);
+                        }
+                    },
+                },
+                
+                // server-side methods
+                methods: [],
+                                              
+                // handle connection error
+                errorHandler: (message: string) => {
+                    console.error(message);
+                },
+
+                stateChanged: (state: SignalRStateChange) => {
+                    // your code here
+                    console.log(state);
+                }
+            });
 		}	
 
 		//#endregion	
@@ -201,6 +221,16 @@
 				this.mapObj.entities.remove(this.percorsi[IDViaggio].PUSHPIN_POS_ATTR);
 			}
 		}
+
+        private onNewPositionArrived(nuovaPos: CaronteDTOs.Posizione) {
+            console.log(nuovaPos);
+            if (this.scope.viaggiVisualizzati[nuovaPos.FKIDViaggio]) {
+                var locs = this.percorsi[nuovaPos.FKIDViaggio].LINEA.getLocations();
+                locs.push(new Microsoft.Maps.Location(nuovaPos.Latitudine, nuovaPos.Longitudine));
+                this.percorsi[nuovaPos.FKIDViaggio].LINEA.setLocations(locs);
+                this.percorsi[nuovaPos.FKIDViaggio].PUSHPIN_POS_ATTR.setLocation(new Microsoft.Maps.Location(nuovaPos.Latitudine, nuovaPos.Longitudine));
+            }
+        }
 
 		private simplifyPath(points: CaronteDTOs.Posizione[], tolerance: number): CaronteDTOs.Posizione[] {
 

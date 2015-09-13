@@ -1,0 +1,6 @@
+﻿USE [C:\USERS\LORENZO\PROJECTS\CARONTE\CARONTEWEB\APP_DATA\CARONTEEDB.MDF]
+GO
+
+delete from Posizione
+where FKIDViaggio = 7
+and IDPosizione != 3863

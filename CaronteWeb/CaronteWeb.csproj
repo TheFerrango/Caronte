@@ -169,6 +169,8 @@
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular-route.js" />
     <Content Include="Scripts\angular-route.min.js" />
+    <Content Include="Scripts\angular-signalr-hub.js" />
+    <Content Include="Scripts\angular-signalr-hub.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
@@ -200,6 +202,7 @@
     <Content Include="Scripts\metro.min.js" />
     <Content Include="Web.config" />
     <TypeScriptCompile Include="Scripts\typings\angular-local-storage\angular-local-storage.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angular-signalr-hub\angular-signalr-hub.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-cookies.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-mocks.d.ts" />
@@ -217,6 +220,7 @@
     <TypeScriptCompile Include="Scripts\typings\bingmaps\Microsoft.Maps.Traffic.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\bingmaps\Microsoft.Maps.VenueMaps.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\signalr\signalr.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
