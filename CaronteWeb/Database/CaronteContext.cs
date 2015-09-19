@@ -5,7 +5,7 @@ namespace CaronteWeb.Database
 	public class CaronteContext : DbContext
 	{
 		public CaronteContext()://base(@"Data Source=MDTASG\SQLSERVER2014;Initial Catalog=Caronte;Persist Security Info=True;MultipleActiveResultSets=True;User ID=sa;Password=Mssqlidea2014")
-      base(@"Data Source=(LocalDB)\v11.0;AttachDbFilename=C:\Users\Lorenzo\Projects\caronte\CaronteWeb\App_Data\CaronteEDB.mdf;Integrated Security=True")
+      base(@"Data Source=(LocalDB)\v11.0;AttachDbFilename=C:\CaronteWeb\App_Data\CaronteEDB.mdf;Integrated Security=True")
 		{
 			System.Data.Entity.Database.SetInitializer<CaronteContext>(null);		
 			

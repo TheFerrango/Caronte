@@ -1,91 +1,97 @@
 ﻿<!DOCTYPE html>
 <html ng-app="Caronte" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<link href="CSS/metro.min.css" rel="stylesheet" />
-	<link href="CSS/metro-icons.min.css" rel="stylesheet" />
-	<link href="CSS/metro-responsive.min.css" rel="stylesheet" />
-	<link href="CSS/metro-schemes.min.css" rel="stylesheet" />
-	<link href="CSS/sitestyle.css" rel="stylesheet" />
+    <link href="CSS/metro.min.css" rel="stylesheet" />
+    <link href="CSS/metro-icons.min.css" rel="stylesheet" />
+    <link href="CSS/metro-responsive.min.css" rel="stylesheet" />
+    <link href="CSS/metro-schemes.min.css" rel="stylesheet" />
+    <link href="CSS/sitestyle.css" rel="stylesheet" />
 
-	<script type="text/javascript" src="Scripts/jquery-2.1.4.min.js"></script>
-	<script type="text/javascript" src="Scripts/jquery.signalR-2.2.0.js"></script>
+    <script type="text/javascript" src="Scripts/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="Scripts/jquery.signalR-2.2.0.js"></script>
     <script src="signalr/Hubs"></script>
-	<script type="text/javascript" src="Scripts/metro.min.js"></script>
+    <script type="text/javascript" src="Scripts/metro.min.js"></script>
 
-	<script charset="UTF-8" type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"></script>
+    <script charset="UTF-8" type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"></script>
 
-	<script src="Scripts/angular.min.js"></script>
-	<script src="Scripts/angular-route.min.js"></script>
-	<script src="Scripts/angular-local-storage.min.js"></script>
-	<script src="Scripts/angular-bing-maps.js"></script>
+    <script src="Scripts/angular.min.js"></script>
+    <script src="Scripts/angular-route.min.js"></script>
+    <script src="Scripts/angular-local-storage.min.js"></script>
+    <script src="Scripts/angular-bing-maps.js"></script>
     <script src="Scripts/angular-signalr-hub.js"></script>
-	<script src="NG/Services/InterceptorService.js"></script>
-	<script src="NG/Services/minosseService.js"></script>
-	<!--<script src="NG/Services/ViaggiInCorsoHubProxy.js"></script>-->
+    <script src="NG/Services/InterceptorService.js"></script>
+    <script src="NG/Services/minosseService.js"></script>
+    <!--<script src="NG/Services/ViaggiInCorsoHubProxy.js"></script>-->
 
-	<script src="NG/Controllers/indexController.js"></script>
+    <script src="NG/Controllers/indexController.js"></script>
 
-	<script src="NG/Services/masterSituationService.js"></script>
-	<script src="NG/Controllers/masterSituationController.js"></script>
+    <script src="NG/Services/masterSituationService.js"></script>
+    <script src="NG/Controllers/masterSituationController.js"></script>
 
-	<script src="NG/Services/loginService.js"></script>
-	<script src="NG/Controllers/loginController.js"></script>
+    <script src="NG/Services/loginService.js"></script>
+    <script src="NG/Controllers/loginController.js"></script>
 
-	<script src="NG/Services/summaryService.js"></script>
-	<script src="NG/Controllers/summaryController.js"></script>
+    <script src="NG/Services/summaryService.js"></script>
+    <script src="NG/Controllers/summaryController.js"></script>
 
-	<script src="NG/Services/anagraficaService.js"></script>
-	<script src="NG/Controllers/anagraficaController.js"></script>
+    <script src="NG/Services/anagraficaService.js"></script>
+    <script src="NG/Controllers/anagraficaController.js"></script>
 
-	<script src="NG/Services/personaleService.js"></script>
-	<script src="NG/Controllers/personaleController.js"></script>
+    <script src="NG/Services/personaleService.js"></script>
+    <script src="NG/Controllers/personaleController.js"></script>
 
-	<script src="NG/Services/veicoloService.js"></script>
-	<script src="NG/Controllers/veicoloController.js"></script>
+    <script src="NG/Services/veicoloService.js"></script>
+    <script src="NG/Controllers/veicoloController.js"></script>
 
-	<script src="NG/Services/viaggioService.js"></script>
-	<script src="NG/Services/passeggeroService.js"></script>
-	<script src="NG/Controllers/viaggioController.js"></script>
+    <script src="NG/Services/viaggioService.js"></script>
+    <script src="NG/Services/passeggeroService.js"></script>
+    <script src="NG/Controllers/viaggioController.js"></script>
 
-	<script src="Scripts/app.js"></script>
+    <script src="Scripts/app.js"></script>
 
-	<title>Project Caronte</title>
+    <title>Project Caronte</title>
 </head>
 
 <body ng-cloak>
-	<div class="container-fluid" ng-controller="indexController">
-		<div style="height:100%" ng-if="logged">
-			<div class="tile-area fg-white bg-gray " style="width:1024px">
-				<div class="headerBar bg-grayDarker ">
-					<div class="tile-area-title">
-						<span class="mif-arrow-left fg-white" ng-show="showBackArrow" onclick="window.location=''"></span>
-						<span class="labelAlignment">{{controllerPageTitle}}</span>
-						<div style="float:right;">
-							<div class="labelAlignment" style="display:inline-block">Ciao, {{logged.userName}}</div>
+    <div class="container-fluid" ng-controller="indexController">
+        <div style="height:100%" ng-if="logged">
+            <div class="tile-area fg-white bg-gray " style="width:1024px">
+                <div class="headerBar bg-grayDarker ">
+                    <div class="tile-area-title">
+                        <span class="mif-arrow-left fg-white" ng-show="showBackArrow" onclick="window.location=''"></span>
+                        <span class="labelAlignment">{{controllerPageTitle}}</span>
+                        <div style="float:right;">
+                            <div class="labelAlignment" style="display:inline-block">Ciao, {{logged.userName}}</div>
 
-							<div class="dropdown-toggle" id="profileDropDown" style="display:inline-block; padding: 0 0 10px 0;">
-								<span class="mif-cogs" />
-							</div>
-							<div data-role="dropdown" class="dropdownUser bg-gray text-accent">
-								<div class="bg-hover-lightBlue"><span class="mif-user padding10" /><span style="margin-left:10px">Il mio account</span></div>
-								<div class="bg-hover-lightBlue" ng-click="logoutUser()"><span class="mif-exit padding10" /><span style="margin-left:10px">Logout</span></div>
-							</div>
+                            <div class="dropdown-toggle" id="profileDropDown" style="display:inline-block; padding: 0 0 10px 0;">
+                                <span class="mif-cogs" />
+                            </div>
+                            <div data-role="dropdown" class="dropdownUser bg-gray text-accent">
+                                <div class="bg-hover-lightBlue">
+                                    <span class="mif-user padding10" />
+                                    <span style="margin-left:10px">Il mio account</span>
+                                </div>
+                                <div class="bg-hover-lightBlue" ng-click="logoutUser()">
+                                    <span class="mif-exit padding10" />
+                                    <span style="margin-left:10px">Logout</span>
+                                </div>
+                            </div>
 
 
-						</div>
-					</div>
+                        </div>
+                    </div>
 
-				</div>
-				<div class="contentContainer">
-					<ng-view></ng-view>
-				</div>
-			</div>
-		</div>
+                </div>
+                <div class="contentContainer">
+                    <ng-view></ng-view>
+                </div>
+            </div>
+        </div>
 
-		<div ng-if="!logged" class="tile-area fg-white bg-gray" ng-include="'SubPages/Login.html'">
+        <div ng-if="!logged" class="tile-area fg-white bg-gray" ng-include="'SubPages/Login.html'">
 
-		</div>
-	</div>
+        </div>
+    </div>
 </body>
 
 </html>

@@ -15,197 +15,232 @@ using Windows.UI.Xaml.Controls.Primitives;
 
 namespace CaronteMobile.ViewModels
 {
-	public class TravelingPageViewModel : Screen
-	{
-		#region dichiarazione e proprietà
+  public class TravelingPageViewModel : Screen
+  {
+    #region dichiarazione e proprietà
 
-		private readonly INavigationService navigationService;
-		private readonly IEventAggregator eventAggregator;
-		private Database.DBManager dbMan;
-		private PosizioneAPI posAPI;
-		private Viaggio viaggioInCorso;
-		private Geolocator geoLoc;
-		private Geoposition currentPosition;
-		private ObservableCollection<Spostamento> listaPasseggeri;
-		private List<Posizione> bufferPosizioni;
-		private DispatcherTimer bufferTimer;
+    private readonly INavigationService navigationService;
+    private readonly IEventAggregator eventAggregator;
+    private Database.DBManager dbMan;
+    private PosizioneAPI posAPI;
+    private PartecipantiAPI parAPI;
+    private Viaggio viaggioInCorso;
+    private Geolocator geoLoc;
+    private Geoposition currentPosition;
+    private ObservableCollection<Spostamento> listaPasseggeri;
+    private List<Posizione> bufferPosizioni;
 
-		public ObservableCollection<Spostamento> ListaPasseggeri
-		{
-			get { return listaPasseggeri; }
-			set
-			{
-				listaPasseggeri = value;
-				NotifyOfPropertyChange(() => ListaPasseggeri);
-			}
-		}
+    private DispatcherTimer bufferTimer;
 
-		public Viaggio ViaggioInCorso
-		{
-			get { return viaggioInCorso; }
-			set
-			{
-				viaggioInCorso = value;
-				NotifyOfPropertyChange();
-			}
-		}		
+    public ObservableCollection<Spostamento> ListaPasseggeri
+    {
+      get { return listaPasseggeri; }
+      set
+      {
+        listaPasseggeri = value;
+        NotifyOfPropertyChange(() => ListaPasseggeri);
+      }
+    }
 
-		#endregion
+    public Viaggio ViaggioInCorso
+    {
+      get { return viaggioInCorso; }
+      set
+      {
+        viaggioInCorso = value;
+        NotifyOfPropertyChange();
+      }
+    }
 
-		#region Inizializzazione
+    #endregion
 
-		public TravelingPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator)
-		{
-			this.navigationService = navigationService;
-			this.eventAggregator = eventAggregator;
-			geoLoc = new Geolocator();
-			bufferTimer = new DispatcherTimer();
-			dbMan = new Database.DBManager();
-			currentPosition = null;
-			ListaPasseggeri = new ObservableCollection<Spostamento>();
-			bufferPosizioni = new List<Posizione>();
-			posAPI = new PosizioneAPI(Settings.Instance.AccessToken);
-		}
+    #region Inizializzazione
 
-		protected override async void OnViewAttached(object view, object context)
-		{
-			base.OnViewAttached(view, context);
-			ViaggioInCorso = Settings.Instance.SelectedViaggio;
-			viaggioInCorso.FKIDStato = 2;
+    public TravelingPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator)
+    {
+      this.navigationService = navigationService;
+      this.eventAggregator = eventAggregator;
+      geoLoc = new Geolocator();
+      bufferTimer = new DispatcherTimer();
+      dbMan = new Database.DBManager();
+      currentPosition = null;
+      ListaPasseggeri = new ObservableCollection<Spostamento>();
+      bufferPosizioni = new List<Posizione>();
+      posAPI = new PosizioneAPI(Settings.Instance.AccessToken);
+      parAPI = new PartecipantiAPI(Settings.Instance.AccessToken);
+    }
 
-			await dbMan.cmDB.UpdateAsync(viaggioInCorso);
+    protected override async void OnViewAttached(object view, object context)
+    {
+      base.OnViewAttached(view, context);
+      ViaggioInCorso = Settings.Instance.SelectedViaggio;
+      viaggioInCorso.FKIDStato = 2;
 
-			await ReloadListaPartecipanti();
+      await dbMan.cmDB.UpdateAsync(viaggioInCorso);
 
-			geoLoc.MovementThreshold = 5;
-			geoLoc.PositionChanged += geoLoc_PositionChanged;
+      await ReloadListaPartecipanti();
 
-			bufferTimer.Interval = TimeSpan.FromSeconds(Settings.Instance.MaxBufferSeconds);
-			bufferTimer.Tick += bufferTimer_Tick;
-			bufferTimer.Start();
-		}
+      geoLoc.MovementThreshold = 5;
+      geoLoc.PositionChanged += geoLoc_PositionChanged;
 
-		protected override async void OnDeactivate(bool close)
-		{
-			bufferTimer.Stop();
-			if(ListaPasseggeri.Count == 0)
-			{
-				viaggioInCorso.FKIDStato = 3;
-			}
-			Settings.Instance.SelectedViaggio = null;
-			await dbMan.cmDB.UpdateAsync(viaggioInCorso);
+      bufferTimer.Interval = TimeSpan.FromSeconds(Settings.Instance.MaxBufferSeconds);
+      bufferTimer.Tick += bufferTimer_Tick;
+      bufferTimer.Start();
+    }
 
-			base.OnDeactivate(close);
-		}
+    protected override async void OnDeactivate(bool close)
+    {
+      bufferTimer.Stop();
+      if (ListaPasseggeri.Count == 0)
+      {
+        viaggioInCorso.FKIDStato = 3;
+      }
+      Settings.Instance.SelectedViaggio = null;
+      await dbMan.cmDB.UpdateAsync(viaggioInCorso);
 
-		#endregion
+      base.OnDeactivate(close);
+    }
 
-		#region Gestione Tracking
+    #endregion
 
-		async void bufferTimer_Tick(object sender, object e)
-		{
-			try
-			{
-				bufferTimer.Stop();
+    #region Gestione Tracking
 
-				List<Posizione> precedenti = await CheckPosizioniSalvate();
+    async void bufferTimer_Tick(object sender, object e)
+    {
+      try
+      {
+        bufferTimer.Stop();
 
-				if (precedenti.Count > 0)
-					bufferPosizioni.AddRange(precedenti);
+        List<Posizione> precedenti = await CheckPosizioniSalvate();
 
-				if (Settings.IsConnectedToInternet())
-					await UploadPosizioni(bufferPosizioni);
-				else await SavePosizioni(bufferPosizioni);
-			}
-			catch (Exception)
-			{
+        if (precedenti.Count > 0)
+          bufferPosizioni.AddRange(precedenti);
 
-			}
-			finally
-			{
-				bufferTimer.Start();
-			}
-		}
+        if (Settings.IsConnectedToInternet())
+        {
+          if (await UploadPosizioni(bufferPosizioni))
+            foreach (var item in bufferPosizioni)
+              await dbMan.cmDB.DeleteAsync(item);
+        }
+        else await SavePosizioni(bufferPosizioni);
+      }
+      catch (Exception)
+      {
 
-		private async Task<List<Posizione>> CheckPosizioniSalvate()
-		{
-			List<int> idViaggi = (await dbMan.cmDB.Table<Viaggio>().Where(via => via.FKIDDipendente == Settings.Instance.DipendenteInfo.IDDipendente).ToListAsync()).Select(x => x.IDViaggio).ToList();
-			List<Posizione> listPoss = await dbMan.cmDB.Table<Posizione>().ToListAsync();
-			return listPoss.Where(pos => pos.FKIDViaggio.HasValue && idViaggi.Contains(pos.FKIDViaggio.Value)).ToList();
-		}
+      }
+      finally
+      {
+        bufferTimer.Start();
+      }
+    }
 
-		private async Task<bool> UploadPosizioni(List<Posizione> posizioni)
-		{
-			try
-			{
-				bool res = await posAPI.SendPositionData(posizioni.Select(p=>p.ToDTO()).ToList());
-				if (res)
-					posizioni.Clear();
-			}
-			catch
-			{
-				return false;
-			}
-			return true;
-		}
+    private async Task<List<Posizione>> CheckPosizioniSalvate()
+    {
+      List<int> idViaggi = (await dbMan.cmDB.Table<Viaggio>().Where(via => via.FKIDDipendente == Settings.Instance.DipendenteInfo.IDDipendente).ToListAsync()).Select(x => x.IDViaggio).ToList();
+      List<Posizione> listPoss = await dbMan.cmDB.Table<Posizione>().Where(pos => pos.FKIDViaggio.HasValue && idViaggi.Contains(pos.FKIDViaggio.Value)).ToListAsync();
+      return listPoss.ToList();
+    }
 
-		private async Task<bool> SavePosizioni(List<Posizione> posizioni)
-		{
-			try
-			{
-				await dbMan.cmDB.InsertAllAsync(posizioni);
-			}
-			catch
-			{
-				return false;
-			}
-			return true;
-		}
+    private async Task<bool> UploadPosizioni(List<Posizione> posizioni)
+    {
+      try
+      {
+        bool res = await posAPI.SendPositionData(posizioni.Select(p => p.ToDTO()).ToList());
+        if (res)
+          posizioni.Clear();
+      }
+      catch
+      {
+        return false;
+      }
+      return true;
+    }
 
-		void geoLoc_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
-		{
-			eventAggregator.PublishOnUIThread(args.Position);
-			currentPosition = args.Position;
-			bufferPosizioni.Add(new Posizione()
-			{
-				Data = DateTime.UtcNow,
-				FKIDViaggio = Settings.Instance.SelectedViaggio.IDViaggio,
-				Latitudine = args.Position.Coordinate.Point.Position.Latitude,
-				Longitudine = args.Position.Coordinate.Point.Position.Longitude,
-				Precisione = args.Position.Coordinate.Accuracy
-			});
-		}
+    private async Task<bool> SavePosizioni(List<Posizione> posizioni)
+    {
+      try
+      {
+        await dbMan.cmDB.InsertAllAsync(posizioni.Where(p => p.IDPosizione == 0).ToList());
+      }
+      catch
+      {
+        return false;
+      }
+      return true;
+    }
 
-		#endregion
+    void geoLoc_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
+    {
+      eventAggregator.PublishOnUIThread(args.Position);
+      currentPosition = args.Position;
+      bufferPosizioni.Add(new Posizione()
+      {
+        Data = DateTime.UtcNow,
+        FKIDViaggio = Settings.Instance.SelectedViaggio.IDViaggio,
+        Latitudine = args.Position.Coordinate.Point.Position.Latitude,
+        Longitudine = args.Position.Coordinate.Point.Position.Longitude,
+        Precisione = args.Position.Coordinate.Accuracy
+      });
+    }
 
-		public void PasseggeroSelected(Spostamento dataContext)
-		{
-			
-			Popup pop = new Popup();
-			pop.Closed += pop_Closed;
-			pop.Child = new PasseggeroStatusChanger(pop, dataContext, currentPosition);
-			pop.HorizontalOffset = (Window.Current.Bounds.Width - 800) / 2;
-			pop.VerticalOffset = (Window.Current.Bounds.Height - 500) / 2;
-			pop.IsOpen = true;
-		}
+    #endregion
 
-		async void pop_Closed(object sender, object e)
-		{
-			await ReloadListaPartecipanti();
-		}
+    public void PasseggeroSelected(Spostamento dataContext)
+    {
 
-		private async Task ReloadListaPartecipanti()
-		{
-			List<Partecipante> partTotali = await dbMan.cmDB.Table<Partecipante>().Where(part => part.FKIDViaggio == ViaggioInCorso.IDViaggio).ToListAsync();
+      Popup pop = new Popup();
+      pop.Closed += pop_Closed;
+      pop.Child = new PasseggeroStatusChanger(pop, dataContext, currentPosition);
+      pop.HorizontalOffset = (Window.Current.Bounds.Width - 800) / 2;
+      pop.VerticalOffset = (Window.Current.Bounds.Height - 500) / 2;
+      pop.IsOpen = true;
+    }
 
-			ListaPasseggeri = new ObservableCollection<Spostamento>(partTotali.Where(p => p.FKIDStato < 3).Select(p=>Spostamento.FromPartecipante(p)).OrderByDescending(x=>(x.Orario -DateTime.Now)) .ToList());
+    async void pop_Closed(object sender, object e)
+    {
+      if ((sender as Popup).Tag != null)
+      {
+        Partecipante part = (sender as Popup).Tag as Partecipante;
+        try
+        {
+          if (Settings.IsConnectedToInternet())
+          {
+            List<Partecipante> toSend = await GetSendingPartecipanti();
+            toSend.Add(part);
+            foreach (Partecipante partec in toSend)
+            {
+              await parAPI.UpdatePartecipanteViaggio(partec.ToDTO());
+              partec.NeedsSending = false;
+              await dbMan.cmDB.UpdateAsync(partec);
+            }
+          }
+          await ReloadListaPartecipanti();
+        }
+        catch (Exception)
+        {
 
-			eventAggregator.PublishOnUIThread(ListaPasseggeri);
-		}
+        }
+      }
+    }
 
-		public void backButton()
-		{
-			navigationService.GoBack();
-		}
-	}
+    private async Task<List<Partecipante>> GetSendingPartecipanti()
+    {
+      List<int> idViaggi = (await dbMan.cmDB.Table<Viaggio>().Where(via => via.FKIDDipendente == Settings.Instance.DipendenteInfo.IDDipendente).ToListAsync()).Select(x => x.IDViaggio).ToList();
+      List<Partecipante> toSend = await dbMan.cmDB.Table<Partecipante>().Where(x => x.NeedsSending && idViaggi.Contains(x.FKIDViaggio.Value)).ToListAsync();
+      return toSend;
+    }
+
+
+    private async Task ReloadListaPartecipanti()
+    {
+      List<Partecipante> partTotali = await dbMan.cmDB.Table<Partecipante>().Where(part => part.FKIDViaggio == ViaggioInCorso.IDViaggio).ToListAsync();
+      ListaPasseggeri = new ObservableCollection<Spostamento>(partTotali.Where(p => p.FKIDStato < 3).Select(p => Spostamento.FromPartecipante(p)).OrderByDescending(x => (x.Orario - DateTime.Now)).ToList());
+      eventAggregator.PublishOnUIThread(ListaPasseggeri);
+    }
+
+    public void backButton()
+    {
+      navigationService.GoBack();
+    }
+  }
 }

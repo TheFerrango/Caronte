@@ -59,9 +59,10 @@ namespace CaronteMobile.Views.UserControls
 			}
 
 			partecipante.PartecipanteObj.FKIDStato++;
-
+      partecipante.PartecipanteObj.NeedsSending = true;
 
 			dbMan.cmDB.UpdateAsync(partecipante.PartecipanteObj);
+      containerPopup.Tag = partecipante.PartecipanteObj;
 			containerPopup.IsOpen = false;
 		}
 	}

@@ -29,6 +29,7 @@ namespace CaronteMobile.Database
 
 		public string NOMINATIVO { set; get; }
 		public string STATO_DESC { set; get; }
+    public bool NeedsSending { get; set; }
 
 		public PartecipanteDTO ToDTO()
 		{
@@ -55,7 +56,7 @@ namespace CaronteMobile.Database
 				LongitudineDiscesaEffettiva = this.LongitudineDiscesaEffettiva,
 
 				NOMINATIVO = this.NOMINATIVO,
-				STATO_DESC = this.STATO_DESC,
+				STATO_DESC = this.STATO_DESC,        
 			};
 		}
 
