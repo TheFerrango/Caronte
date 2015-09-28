@@ -28,6 +28,8 @@ namespace CaronteMobile.Database
         public double? LongitudineArrivoEffettiva { set; get; }
 
         public string STATO_DESC { set; get; }
+        public bool NeedsSending { get; set; }
+        
 
 		public ViaggioDTO ToDTO()
 		{

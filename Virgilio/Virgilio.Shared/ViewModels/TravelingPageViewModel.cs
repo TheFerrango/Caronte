@@ -29,7 +29,7 @@ namespace CaronteMobile.ViewModels
     private Geoposition currentPosition;
     private ObservableCollection<Spostamento> listaPasseggeri;
     private List<Posizione> bufferPosizioni;
-
+    List<Partecipante> bufferPartecipanti;
     private DispatcherTimer bufferTimer;
 
     public ObservableCollection<Spostamento> ListaPasseggeri
@@ -66,6 +66,7 @@ namespace CaronteMobile.ViewModels
       currentPosition = null;
       ListaPasseggeri = new ObservableCollection<Spostamento>();
       bufferPosizioni = new List<Posizione>();
+      bufferPartecipanti = new List<Partecipante>();
       posAPI = new PosizioneAPI(Settings.Instance.AccessToken);
       parAPI = new PartecipantiAPI(Settings.Instance.AccessToken);
     }
@@ -74,6 +75,8 @@ namespace CaronteMobile.ViewModels
     {
       base.OnViewAttached(view, context);
       ViaggioInCorso = Settings.Instance.SelectedViaggio;
+      if (viaggioInCorso.FKIDStato != 2)
+        viaggioInCorso.NeedsSending = true;
       viaggioInCorso.FKIDStato = 2;
 
       await dbMan.cmDB.UpdateAsync(viaggioInCorso);
@@ -123,6 +126,24 @@ namespace CaronteMobile.ViewModels
               await dbMan.cmDB.DeleteAsync(item);
         }
         else await SavePosizioni(bufferPosizioni);
+
+
+
+        List<Partecipante> parPrec = await GetSendingPartecipanti();
+
+        if (parPrec.Count > 0)
+          bufferPartecipanti.AddRange(parPrec);
+        if (Settings.IsConnectedToInternet())
+        {
+          foreach (Partecipante partec in parPrec)
+          {
+            await parAPI.UpdatePartecipanteViaggio(partec.ToDTO());
+            partec.NeedsSending = false;
+            await dbMan.cmDB.UpdateAsync(partec);
+          }
+        }
+
+        await ReloadListaPartecipanti();
       }
       catch (Exception)
       {
@@ -196,30 +217,12 @@ namespace CaronteMobile.ViewModels
       pop.IsOpen = true;
     }
 
-    async void pop_Closed(object sender, object e)
+    void pop_Closed(object sender, object e)
     {
       if ((sender as Popup).Tag != null)
       {
         Partecipante part = (sender as Popup).Tag as Partecipante;
-        try
-        {
-          if (Settings.IsConnectedToInternet())
-          {
-            List<Partecipante> toSend = await GetSendingPartecipanti();
-            toSend.Add(part);
-            foreach (Partecipante partec in toSend)
-            {
-              await parAPI.UpdatePartecipanteViaggio(partec.ToDTO());
-              partec.NeedsSending = false;
-              await dbMan.cmDB.UpdateAsync(partec);
-            }
-          }
-          await ReloadListaPartecipanti();
-        }
-        catch (Exception)
-        {
-
-        }
+        bufferPartecipanti.Add(part);
       }
     }
 
@@ -235,7 +238,11 @@ namespace CaronteMobile.ViewModels
     {
       List<Partecipante> partTotali = await dbMan.cmDB.Table<Partecipante>().Where(part => part.FKIDViaggio == ViaggioInCorso.IDViaggio).ToListAsync();
       ListaPasseggeri = new ObservableCollection<Spostamento>(partTotali.Where(p => p.FKIDStato < 3).Select(p => Spostamento.FromPartecipante(p)).OrderByDescending(x => (x.Orario - DateTime.Now)).ToList());
+      
+      
+      
       eventAggregator.PublishOnUIThread(ListaPasseggeri);
+
     }
 
     public void backButton()

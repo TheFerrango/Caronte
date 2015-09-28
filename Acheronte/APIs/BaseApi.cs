@@ -10,6 +10,8 @@ namespace Acheronte.APIs
 
     //internal readonly string BaseUrl = "http://172.28.24.157/";
     internal readonly string BaseUrl = "http://192.168.2.114/";
+    //internal readonly string BaseUrl = "http://localhost:52274/";
+    
     public Uri ComposeUrl( params string[] uriComponents)
     {
       string addUriComp = String.Join("/", uriComponents);

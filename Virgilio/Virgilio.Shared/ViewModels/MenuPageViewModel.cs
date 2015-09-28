@@ -136,10 +136,19 @@ namespace CaronteMobile.ViewModels
         LoadingMessage = "Caricamento dei dati locali";
         ShowLoading = true;
         List<int> idViaggi = (await dbMan.cmDB.Table<Viaggio>().Where(via => via.FKIDDipendente == Settings.Instance.DipendenteInfo.IDDipendente).ToListAsync()).Select(x => x.IDViaggio).ToList();
+        List<Viaggio> listViag = await dbMan.cmDB.Table<Viaggio>().Where(via => via.FKIDDipendente == Settings.Instance.DipendenteInfo.IDDipendente && via.NeedsSending).ToListAsync();
         List<Posizione> listPoss = await dbMan.cmDB.Table<Posizione>().Where(pos => pos.FKIDViaggio.HasValue && idViaggi.Contains(pos.FKIDViaggio.Value)).ToListAsync();
         List<Partecipante> toSend = await dbMan.cmDB.Table<Partecipante>().Where(x => x.NeedsSending && idViaggi.Contains(x.FKIDViaggio.Value)).ToListAsync();
         try
         {
+          LoadingMessage = "Invio dei dati di stato dei viaggi";
+          foreach (Viaggio via in listViag)
+          {
+            await viaAPI.UpdateViaggio(via.ToDTO());
+            via.NeedsSending = false;
+            await dbMan.cmDB.UpdateAsync(via);
+          }
+
           LoadingMessage = "Invio dei dati di posizionamento locali";
           if (await posAPI.SendPositionData(listPoss.Select(x => x.ToDTO()).ToList()))
             foreach (var item in listPoss)
@@ -172,7 +181,7 @@ namespace CaronteMobile.ViewModels
     private async Task<bool> DownloadUserData()
     {
       bool toRet = false;
-     
+
 
       LoadingMessage = "Caricamento dei dati relativi al dipendente";
       await Task.Delay(TimeSpan.FromSeconds(1));
@@ -243,6 +252,7 @@ namespace CaronteMobile.ViewModels
       ShowLoading = false;
       return toRet;
     }
+   
     public async void BarAbout()
     {
       await new MessageDialog("Caronte Mobile, il client mobile per la piattaforma Caronte. \n(C) Copyright Lorenzo Lotto 2015", "Informazioni su Caronte Mobile").ShowAsync();
