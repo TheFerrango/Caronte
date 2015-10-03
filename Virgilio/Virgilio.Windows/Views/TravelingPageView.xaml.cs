@@ -2,9 +2,11 @@
 using Bing.Maps.Directions;
 using Caliburn.Micro;
 using CaronteMobile.Support;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.UI.Xaml;
@@ -99,11 +101,16 @@ namespace CaronteMobile.Views
     }
 
 
-    public void Handle(ObservableCollection<Spostamento> message)
+    public async void Handle(ObservableCollection<Spostamento> message)
     {
+      WaypointCollection wayColl = new WaypointCollection();
+      while (MapLayer.GetPosition(posizioneAttuale) == null)
+      {
+        await Task.Delay(TimeSpan.FromSeconds(1));
+      }
+      wayColl.Add(new Waypoint(MapLayer.GetPosition(posizioneAttuale)));
       List<int> toRemove = pushpinVecchietti.Keys.Except(message.Select(x => x.PartecipanteObj.IDSpostamento).ToList()).ToList();
-        WaypointCollection wayColl = new WaypointCollection();
-        wayColl.Add(new Waypoint( MapLayer.GetPosition(posizioneAttuale)));
+
       foreach (int idSpos in toRemove)
       {
         mappaBing.Children.Remove(pushpinVecchietti[idSpos]);
@@ -122,7 +129,9 @@ namespace CaronteMobile.Views
         wayColl.Add(new Waypoint(MapLayer.GetPosition(pushpinVecchietti[part.PartecipanteObj.IDSpostamento])));
       }
       mappaBing.DirectionsManager.Waypoints = wayColl;
-    
+      mappaBing.DirectionsManager.CalculateDirectionsAsync();
+
+
     }
 
     public void Handle(Bing.Maps.Directions.WaypointCollection message)

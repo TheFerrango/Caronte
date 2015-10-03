@@ -54,7 +54,17 @@
 
             </StackPanel>
         </StackPanel>
-       
+    <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="600" Visibility="{Binding ShowLoading, Converter={StaticResource boolToVisible}}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+
+      <ProgressBar Grid.Row="0" IsIndeterminate="True" />
+
+      <TextBlock Grid.Row="1" Text="{Binding LoadingMessage}" FontSize="24" HorizontalAlignment="Center" TextWrapping="Wrap"/>
 
     </Grid>
+
+  </Grid>
 </Page>

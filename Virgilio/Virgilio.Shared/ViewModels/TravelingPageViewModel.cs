@@ -158,7 +158,7 @@ namespace CaronteMobile.ViewModels
     private async Task<List<Posizione>> CheckPosizioniSalvate()
     {
       List<int> idViaggi = (await dbMan.cmDB.Table<Viaggio>().Where(via => via.FKIDDipendente == Settings.Instance.DipendenteInfo.IDDipendente).ToListAsync()).Select(x => x.IDViaggio).ToList();
-      List<Posizione> listPoss = await dbMan.cmDB.Table<Posizione>().Where(pos => pos.FKIDViaggio.HasValue && idViaggi.Contains(pos.FKIDViaggio.Value)).ToListAsync();
+      List<Posizione> listPoss = (await dbMan.cmDB.Table<Posizione>().CountAsync()) > 0 ? await dbMan.cmDB.Table<Posizione>().Where(pos => pos.FKIDViaggio.HasValue && idViaggi.Contains(pos.FKIDViaggio.Value)).ToListAsync() : new List<Posizione>();
       return listPoss.ToList();
     }
 
@@ -229,7 +229,16 @@ namespace CaronteMobile.ViewModels
     private async Task<List<Partecipante>> GetSendingPartecipanti()
     {
       List<int> idViaggi = (await dbMan.cmDB.Table<Viaggio>().Where(via => via.FKIDDipendente == Settings.Instance.DipendenteInfo.IDDipendente).ToListAsync()).Select(x => x.IDViaggio).ToList();
-      List<Partecipante> toSend = await dbMan.cmDB.Table<Partecipante>().Where(x => x.NeedsSending && idViaggi.Contains(x.FKIDViaggio.Value)).ToListAsync();
+      List<Partecipante> toSend = new List<Partecipante>();
+      try
+      {
+        List<Partecipante> parts = await dbMan.cmDB.Table<Partecipante>().ToListAsync();
+        toSend = parts.Where(x => x.NeedsSending && x.FKIDViaggio.HasValue && idViaggi.Contains(x.FKIDViaggio.Value)).ToList();
+      }
+      catch (Exception)
+      {
+        
+      } 
       return toSend;
     }
 
@@ -237,7 +246,7 @@ namespace CaronteMobile.ViewModels
     private async Task ReloadListaPartecipanti()
     {
       List<Partecipante> partTotali = await dbMan.cmDB.Table<Partecipante>().Where(part => part.FKIDViaggio == ViaggioInCorso.IDViaggio).ToListAsync();
-      ListaPasseggeri = new ObservableCollection<Spostamento>(partTotali.Where(p => p.FKIDStato < 3).Select(p => Spostamento.FromPartecipante(p)).OrderByDescending(x => (x.Orario - DateTime.Now)).ToList());
+      ListaPasseggeri = new ObservableCollection<Spostamento>(partTotali.Where(p => p.FKIDStato < 3).Select(p => Spostamento.FromPartecipante(p)).OrderBy(x => (x.Orario - DateTime.Now)).ToList());
       
       
       
