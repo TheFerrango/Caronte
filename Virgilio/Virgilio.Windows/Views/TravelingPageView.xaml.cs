@@ -103,13 +103,16 @@ namespace CaronteMobile.Views
 
     public async void Handle(ObservableCollection<Spostamento> message)
     {
+      List<int> toRemove = pushpinVecchietti.Keys.Except(message.Select(x => x.PartecipanteObj.IDSpostamento).ToList()).ToList();
       WaypointCollection wayColl = new WaypointCollection();
+      bool firstAdded = false;
+
       while (MapLayer.GetPosition(posizioneAttuale) == null)
       {
         await Task.Delay(TimeSpan.FromSeconds(1));
       }
+
       wayColl.Add(new Waypoint(MapLayer.GetPosition(posizioneAttuale)));
-      List<int> toRemove = pushpinVecchietti.Keys.Except(message.Select(x => x.PartecipanteObj.IDSpostamento).ToList()).ToList();
 
       foreach (int idSpos in toRemove)
       {
@@ -126,7 +129,11 @@ namespace CaronteMobile.Views
           MapLayer.SetPosition(pushpinVecchietti[part.PartecipanteObj.IDSpostamento], new Location(part.Latitudine, part.Longitudine));
         }
         else pushpinVecchietti.Add(part.PartecipanteObj.IDSpostamento, CaricaVecchietti(part.Latitudine, part.Longitudine, part.PartecipanteObj.FKIDStato == 1));
-        wayColl.Add(new Waypoint(MapLayer.GetPosition(pushpinVecchietti[part.PartecipanteObj.IDSpostamento])));
+        if (!firstAdded)
+        {
+          wayColl.Add(new Waypoint(MapLayer.GetPosition(pushpinVecchietti[part.PartecipanteObj.IDSpostamento])));
+          firstAdded = true;
+        }
       }
       mappaBing.DirectionsManager.Waypoints = wayColl;
       mappaBing.DirectionsManager.CalculateDirectionsAsync();
