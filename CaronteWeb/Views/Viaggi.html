@@ -13,24 +13,24 @@
 					<th width="150">Data viaggio</th>
 					<th>Descrizione</th>
 					<th width="200">Posizione di partenza</th>
-					<th width="150">Ora di partenza</th>
 					<th width="200">Posizione di arrivo</th>
-					<th width="150">Ora di arrivo</th>
+					<th width="150">Orario</th>
 					<th width="150">Stato</th>
-					<th width="80"></th>
+					<th width="105"></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat="viaggio in viaggioList">
 					<td>{{ viaggio.DataInizioPrevista | date: 'dd/MM/yyyy'}}</td>
 					<td>{{viaggio.DescrizioneViaggio}}</td>
-					<td>{{viaggio.IndirizzoPartenza}}</td>
-					<td>{{ viaggio.DataInizioPrevista | date: 'HH:mm'}}</td>
+					<td>{{viaggio.IndirizzoPartenza}}</td>					
 					<td>{{viaggio.IndirizzoArrivo}}</td>
-					<td>{{ viaggio.DataFinePrevista | date: 'HH:mm'}}</td>
+					<td>{{ viaggio.DataInizioPrevista | date: 'HH:mm'}} - {{ viaggio.DataFinePrevista | date: 'HH:mm'}}</td>
 					<td>{{viaggio.STATO_DESC}}</td>
 
 					<td>
+                        <span class="mif-map2 fg-grayDark editCell" ng-show="{ viaggio.FKIDStato == 3 }" ng-click="openReviewViaggio( viaggio.IDViaggio )"></span>&nbsp;
+
 						<span class="mif-pencil fg-grayDark editCell" ng-click="editViaggio( viaggio )"></span>&nbsp;
 						<span class="mif-cancel fg-red editCell" ng-click="removeViaggio( viaggio.IDViaggio )"></span>
 					</td>

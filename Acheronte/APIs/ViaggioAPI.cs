@@ -21,7 +21,7 @@ namespace Acheronte.APIs
         {
             httpClient.DefaultRequestHeaders.Clear();
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token.access_token);
-            string res = await httpClient.GetStringAsync(ComposeUrl("api", "viaggio", "getviaggibyautista", IDAutista.ToString()));
+            string res = await httpClient.GetStringAsync(ComposeUrl("api", "viaggio", "getviaggibyautista", IDAutista.ToString()  ));
             return JsonConvert.DeserializeObject<List<ViaggioDTO>>(res);
         }
 

@@ -28,6 +28,9 @@
     <script src="NG/Services/masterSituationService.js"></script>
     <script src="NG/Controllers/masterSituationController.js"></script>
 
+    <script src="NG/Services/journeyReviewService.js"></script>
+    <script src="NG/Controllers/journeyReviewController.js"></script>
+
     <script src="NG/Services/loginService.js"></script>
     <script src="NG/Controllers/loginController.js"></script>
 
@@ -60,13 +63,13 @@
                     <div class="tile-area-title">
                         <span class="mif-arrow-left fg-white" ng-show="showBackArrow" onclick="window.location=''"></span>
                         <span class="labelAlignment">{{controllerPageTitle}}</span>
-                        <div style="float:right;">
+                        <div style="float:right; text-align:right">
                             <div class="labelAlignment" style="display:inline-block">Ciao, {{logged.userName}}</div>
 
                             <div class="dropdown-toggle" id="profileDropDown" style="display:inline-block; padding: 0 0 10px 0;">
                                 <span class="mif-cogs" />
                             </div>
-                            <div data-role="dropdown" class="dropdownUser bg-gray text-accent">
+                            <div data-role="dropdown" class="dropdownUser bg-gray text-accent" style="text-align:left">
                                 <div class="bg-hover-lightBlue">
                                     <span class="mif-user padding10" />
                                     <span style="margin-left:10px">Il mio account</span>

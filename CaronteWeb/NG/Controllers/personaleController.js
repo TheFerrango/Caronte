@@ -98,6 +98,7 @@ var Caronte;
                             $.Notify({
                                 caption: 'Modifica',
                                 content: 'Personale modificato con successo!',
+                                icon: "<span class='mif-earth'></span>",
                                 type: 'success'
                             });
                             _this.service.getPersonale(_this.scope.currentPage, _this.howMany, function (data) {
@@ -109,6 +110,7 @@ var Caronte;
                         $.Notify({
                             caption: 'Modifica',
                             content: 'Si è verificato un errore durante la modifica del personale',
+                            icon: "<span class='mif-cross'></span>",
                             type: 'alert'
                         });
                         _this.service.getPersonale(_this.scope.currentPage, _this.howMany, function (data) {
@@ -122,6 +124,7 @@ var Caronte;
                             $.Notify({
                                 caption: 'Creazione',
                                 content: 'Personale creato con successo!',
+                                icon: "<span class='mif-earth'></span>",
                                 type: 'success'
                             });
                             _this.service.getPersonale(_this.scope.currentPage, _this.howMany, function (data) {
@@ -133,6 +136,7 @@ var Caronte;
                         $.Notify({
                             caption: 'Creazione',
                             content: 'Si è verificato un errore durante la creazione del personale',
+                            icon: "<span class='mif-cross'></span>",
                             type: 'alert'
                         });
                         _this.service.getPersonale(_this.scope.currentPage, _this.howMany, function (data) {
@@ -154,6 +158,7 @@ var Caronte;
                         $.Notify({
                             caption: 'Eliminazione',
                             content: 'Personale eliminato con successo!',
+                            icon: "<span class='mif-earth'></span>",
                             type: 'success'
                         });
                         _this.service.getPersonale(_this.scope.currentPage, _this.howMany, function (data) {
@@ -166,6 +171,7 @@ var Caronte;
                     $.Notify({
                         caption: 'Eliminazione',
                         content: 'Si è verificato un errore durante l\'eliminazione del personale',
+                        icon: "<span class='mif-cross'></span>",
                         type: 'alert'
                     });
                     _this.service.getPersonale(_this.scope.currentPage, _this.howMany, function (data) {

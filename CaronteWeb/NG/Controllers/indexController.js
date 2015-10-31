@@ -44,8 +44,8 @@ var Caronte;
             }, function () {
                 $.Notify({
                     caption: 'Login',
-                    icon: 'mif-not',
                     content: 'Dati di login errati! ',
+                    icon: "<span class='mif-cross'></span>",
                     type: 'alert'
                 });
             });

@@ -31,7 +31,7 @@ namespace Acheronte.APIs
           httpClient.DefaultRequestHeaders.Clear();
           httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token.access_token);
           HttpContent httpCont = new StringContent(JsonConvert.SerializeObject(part), Encoding.UTF8, "application/json");
-          string res = await httpClient.PostAsync(ComposeUrl("api", "spostamento"), httpCont).Result.Content.ReadAsStringAsync();
+          string res = await httpClient.PutAsync(ComposeUrl("api", "spostamento"), httpCont).Result.Content.ReadAsStringAsync();
           return JsonConvert.DeserializeObject<PartecipanteDTO>(res);
         }
     }

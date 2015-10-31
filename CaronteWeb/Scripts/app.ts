@@ -8,21 +8,20 @@
 		.service("veicoloService", ["$http", "$q", ($http, $q) => new Caronte.veicoloService($http, $q)])
 		.service("viaggioService", ["$http", "$q", ($http, $q) => new Caronte.viaggioService($http, $q)])
 		.service("passeggeroService", ["$http", "$q", ($http, $q) => new Caronte.passeggeroService($http, $q)])
-		.service("masterSituationService", ["$http", "$q", ($http, $q) => new Caronte.masterSituationService($http, $q)])
+        .service("masterSituationService", ["$http", "$q", ($http, $q) => new Caronte.masterSituationService($http, $q)])
+		.service("journeyReviewService", ["$http", "$q", ($http, $q) => new Caronte.journeyReviewService($http, $q)])
 		.controller("summaryController", Caronte.summaryController)
 		.controller("anagraficaController", Caronte.anagraficaController)
 		.controller("personaleController", Caronte.personaleController)
 		.controller("veicoloController", Caronte.veicoloController)
 		.controller("viaggioController", Caronte.viaggioController)
 		.controller("indexController", Caronte.indexController)
-		.controller("masterSituationController", Caronte.masterSituationController)
+        .controller("masterSituationController", Caronte.masterSituationController)
+        .controller("journeyReviewController", Caronte.journeyReviewController)
 		.factory("minosseService", ["$http", "$q", "localStorageService", ($http, $q, localStorageService) => new Caronte.minosseService($http, $q, localStorageService)])
-		.factory("interceptorService", ["$q", "$location", "localStorageService", ($q, $location, localStorageService) => new Caronte.interceptorService($q, $location, localStorageService)])
-		//.factory("hubProxy", ["$q", "$rootScope", ($q, $rootScope) => new Caronte.ViagginCorsoHubProxy($q, $rootScope)]);
+		.factory("interceptorService", ["$q", "$location", "localStorageService", ($q, $location, localStorageService) => new Caronte.interceptorService($q, $location, localStorageService)])		
 	
 	app.config(($routeProvider: ng.route.IRouteProvider) => {	
-			
-		
 
 		$routeProvider.when("/Anagrafica", {
 			controller: "anagraficaController",
@@ -47,8 +46,13 @@
 		$routeProvider.when("/MasterSituation", {
 			controller: "masterSituationController",
 			templateUrl: "Views/MasterSituation.html"
-
 		});
+
+        $routeProvider.when("/JourneyReview",
+            {
+                controller: "journeyReviewController",
+                templateUrl: "Views/JourneyReview.html"
+        });
 
 		$routeProvider.when("/Login", {
 			controller: "loginController",

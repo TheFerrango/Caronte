@@ -46,6 +46,7 @@ var Caronte;
             this.scope.centerBingMap = function () { return _this.getLocationFromAddress(_this.scope.popupVia.TmpIndirizzo); };
             this.scope.okMapPosition = function () { return _this.okMapPosition(); };
             this.scope.cancelMapPosition = function () { return _this.cancelMapPosition(); };
+            this.scope.openReviewViaggio = function (idViaggio) { return _this.openReviewViaggio(idViaggio); };
             this.scope.openManagePasseggeri = function () { return _this.openManagePasseggeri(); };
             this.scope.closeManagePasseggeri = function () { return _this.closeManagePasseggeri(); };
         };
@@ -81,6 +82,7 @@ var Caronte;
                         $.Notify({
                             caption: 'Posizione',
                             content: 'L\'indirizzo richiesto non è stato trovato.',
+                            icon: "<span class='mif-warning'></span>",
                             type: 'warning'
                         });
                 }
@@ -183,6 +185,7 @@ var Caronte;
                             $.Notify({
                                 caption: 'Modifica',
                                 content: 'Viaggio modificato con successo!',
+                                icon: "<span class='mif-earth'></span>",
                                 type: 'success'
                             });
                             _this.service.getViaggi(_this.scope.currentPage, _this.howMany, function (data) {
@@ -194,6 +197,7 @@ var Caronte;
                         $.Notify({
                             caption: 'Modifica',
                             content: 'Si è verificato un errore durante la modifica del viaggio',
+                            icon: "<span class='mif-cross'></span>",
                             type: 'alert'
                         });
                         _this.service.getViaggi(_this.scope.currentPage, _this.howMany, function (data) {
@@ -207,6 +211,7 @@ var Caronte;
                             $.Notify({
                                 caption: 'Modifica',
                                 content: 'Viaggio creato con successo!',
+                                icon: "<span class='mif-earth'></span>",
                                 type: 'success'
                             });
                             _this.service.getViaggi(_this.scope.currentPage, _this.howMany, function (data) {
@@ -218,6 +223,7 @@ var Caronte;
                         $.Notify({
                             caption: 'Modifica',
                             content: 'Si è verificato un errore durante la creazione del viaggio',
+                            icon: "<span class='mif-cross'></span>",
                             type: 'alert'
                         });
                         _this.service.getViaggi(_this.scope.currentPage, _this.howMany, function (data) {
@@ -239,6 +245,7 @@ var Caronte;
                         $.Notify({
                             caption: 'Eliminazione',
                             content: 'Viaggio eliminato con successo!',
+                            icon: "<span class='mif-earth'></span>",
                             type: 'success'
                         });
                         _this.service.getViaggi(_this.scope.currentPage, _this.howMany, function (data) {
@@ -251,6 +258,7 @@ var Caronte;
                     $.Notify({
                         caption: 'Eliminazione',
                         content: 'Si è verificato un errore durante l\'eliminazione del viaggio',
+                        icon: "<span class='mif-cross'></span>",
                         type: 'alert'
                     });
                     _this.service.getViaggi(_this.scope.currentPage, _this.howMany, function (data) {
@@ -260,6 +268,10 @@ var Caronte;
                     });
                 });
             }
+        };
+        viaggioController.prototype.openReviewViaggio = function (idViaggio) {
+            console.log("MVSSOLINI HA SEMPRE RAGIONE");
+            location.href = "/#JourneyReview?id=" + idViaggio;
         };
         //#endregion
         //#region finestra passeggeri
@@ -333,6 +345,7 @@ var Caronte;
                         $.Notify({
                             caption: 'Posizione',
                             content: 'L\'indirizzo richiesto non è stato trovato.',
+                            icon: "<span class='mif-warning'></span>",
                             type: 'warning'
                         });
                 }
@@ -438,6 +451,7 @@ var Caronte;
                             $.Notify({
                                 caption: 'Modifica',
                                 content: 'Viaggio modificata con successo!',
+                                icon: "<span class='mif-earth'></span>",
                                 type: 'success'
                             });
                             _this.pService.getPasseggeri(_this.scope.popupVia.obj.IDViaggio, _this.scope.currentPage, _this.howMany, function (data) {
@@ -449,6 +463,7 @@ var Caronte;
                         $.Notify({
                             caption: 'Modifica',
                             content: 'Si è verificato un errore durante la modifica dell\'viaggio',
+                            icon: "<span class='mif-cross'></span>",
                             type: 'alert'
                         });
                         _this.pService.getPasseggeri(_this.scope.popupVia.obj.IDViaggio, _this.scope.currentPage, _this.howMany, function (data) {
@@ -462,6 +477,7 @@ var Caronte;
                             $.Notify({
                                 caption: 'Modifica',
                                 content: 'Viaggio creata con successo!',
+                                icon: "<span class='mif-earth'></span>",
                                 type: 'success'
                             });
                             _this.pService.getPasseggeri(_this.scope.popupVia.obj.IDViaggio, _this.scope.currentPage, _this.howMany, function (data) {
@@ -473,6 +489,7 @@ var Caronte;
                         $.Notify({
                             caption: 'Modifica',
                             content: 'Si è verificato un errore durante la creazione dell\'viaggio',
+                            icon: "<span class='mif-cross'></span>",
                             type: 'alert'
                         });
                         _this.pService.getPasseggeri(_this.scope.popupVia.obj.IDViaggio, _this.scope.currentPage, _this.howMany, function (data) {
@@ -494,6 +511,7 @@ var Caronte;
                         $.Notify({
                             caption: 'Eliminazione',
                             content: 'Viaggio eliminata con successo!',
+                            icon: "<span class='mif-earth'></span>",
                             type: 'success'
                         });
                         _this.pService.getPasseggeri(_this.scope.popupVia.obj.IDViaggio, _this.scope.currentPage, _this.howMany, function (data) {
@@ -504,6 +522,7 @@ var Caronte;
                     $.Notify({
                         caption: 'Eliminazione',
                         content: 'Si è verificato un errore durante l\'eliminazione dell\'viaggio',
+                        icon: "<span class='mif-cross'></span>",
                         type: 'alert'
                     });
                 });

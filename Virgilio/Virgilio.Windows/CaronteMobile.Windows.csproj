@@ -141,6 +141,7 @@
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-140.png" />
     <Content Include="Assets\SplashScreen.scale-180.png" />
+    <Content Include="Assets\Sprites\Arrivo.png" />
     <Content Include="Assets\Sprites\Finish.png" />
     <Content Include="Assets\Sprites\Start.png" />
     <Content Include="Assets\Sprites\TrafficStop.png" />

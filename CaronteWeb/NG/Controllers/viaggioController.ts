@@ -11,7 +11,8 @@
 		isMapShowing: boolean;
 
 		newViaggio: Function;
-		editViaggio: Function;
+        editViaggio: Function;
+        openReviewViaggio: Function;
 		okEdit: Function;
 		cancelEdit: Function;
 		removeViaggio: Function;
@@ -125,7 +126,8 @@
 			this.scope.showMapDiv = (whichAddr) => this.showTabMappa(whichAddr)
 			this.scope.centerBingMap = () => this.getLocationFromAddress(this.scope.popupVia.TmpIndirizzo);
 			this.scope.okMapPosition = () => this.okMapPosition();
-			this.scope.cancelMapPosition = () => this.cancelMapPosition();
+            this.scope.cancelMapPosition = () => this.cancelMapPosition();
+            this.scope.openReviewViaggio = (idViaggio) => this.openReviewViaggio(idViaggio);
 
 			this.scope.openManagePasseggeri = () => this.openManagePasseggeri();
 			this.scope.closeManagePasseggeri = () => this.closeManagePasseggeri();
@@ -163,8 +165,9 @@
 						});
 					} else (<any>$).Notify({
 						caption: 'Posizione',
-						content: 'L\'indirizzo richiesto non è stato trovato.',
-						type: 'warning'
+                        content: 'L\'indirizzo richiesto non è stato trovato.',                        
+                        icon: "<span class='mif-warning'></span>",
+                        type: 'warning'
 					})
 				}
 			}
@@ -292,8 +295,9 @@
 							if (result) {
 								(<any>$).Notify({
 									caption: 'Modifica',
-									content: 'Viaggio modificato con successo!',
-									type: 'success'
+                                    content: 'Viaggio modificato con successo!',                                    
+                                    icon: "<span class='mif-earth'></span>",
+                                    type: 'success'
 								})
 								this.service.getViaggi(this.scope.currentPage, this.howMany,(data) => {
 									this.$scope.viaggioList = data["Dati"];
@@ -304,8 +308,9 @@
 						() => {
 							(<any>$).Notify({
 								caption: 'Modifica',
-								content: 'Si è verificato un errore durante la modifica del viaggio',
-								type: 'alert'
+                                content: 'Si è verificato un errore durante la modifica del viaggio',                                
+								icon: "<span class='mif-cross'></span>",
+                                type: 'alert'
 							})
 							this.service.getViaggi(this.scope.currentPage, this.howMany,(data) => {
 								this.$scope.viaggioList = data["Dati"];
@@ -317,8 +322,9 @@
 							if (result) {
 								(<any>$).Notify({
 									caption: 'Modifica',
-									content: 'Viaggio creato con successo!',
-									type: 'success'
+                                    content: 'Viaggio creato con successo!',                                    
+                                    icon: "<span class='mif-earth'></span>",
+                                    type: 'success'
 								})
 								this.service.getViaggi(this.scope.currentPage, this.howMany,(data) => {
 									this.$scope.viaggioList = data["Dati"];
@@ -330,7 +336,8 @@
 							(<any>$).Notify({
 								caption: 'Modifica',
 								content: 'Si è verificato un errore durante la creazione del viaggio',
-								type: 'alert'
+                                icon: "<span class='mif-cross'></span>",
+                                type: 'alert'
 							})
 							this.service.getViaggi(this.scope.currentPage, this.howMany,(data) => {
 								this.$scope.viaggioList = data["Dati"];
@@ -352,7 +359,8 @@
 						(<any>$).Notify({
 							caption: 'Eliminazione',
 							content: 'Viaggio eliminato con successo!',
-							type: 'success'
+                            icon: "<span class='mif-earth'></span>",
+                            type: 'success'
 						})
 						this.service.getViaggi(this.scope.currentPage, this.howMany,(data) => {
 							this.scope.viaggioList = data["Dati"];
@@ -365,7 +373,8 @@
 						(<any>$).Notify({
 							caption: 'Eliminazione',
 							content: 'Si è verificato un errore durante l\'eliminazione del viaggio',
-							type: 'alert'
+                            icon: "<span class='mif-cross'></span>",
+                            type: 'alert'
 						})
 						this.service.getViaggi(this.scope.currentPage, this.howMany,(data) => {
 							this.$scope.viaggioList = data["Dati"];
@@ -375,6 +384,11 @@
 					});
 			}
 		}
+
+        private openReviewViaggio(idViaggio) {
+            console.log("MVSSOLINI HA SEMPRE RAGIONE");
+            location.href = "/#JourneyReview?id=" + idViaggio;
+        }
 
 		//#endregion
 
@@ -456,7 +470,8 @@
 					} else (<any>$).Notify({
 						caption: 'Posizione',
 						content: 'L\'indirizzo richiesto non è stato trovato.',
-						type: 'warning'
+                        icon: "<span class='mif-warning'></span>",
+                        type: 'warning'
 					})
 				}
 			}
@@ -588,7 +603,8 @@
 								(<any>$).Notify({
 									caption: 'Modifica',
 									content: 'Viaggio modificata con successo!',
-									type: 'success'
+                                    icon: "<span class='mif-earth'></span>",
+                                    type: 'success'
 								})
 								this.pService.getPasseggeri(this.scope.popupVia.obj.IDViaggio, this.scope.currentPage, this.howMany,(data) => {
 									this.$scope.passeggeriList = data["Dati"];
@@ -600,7 +616,8 @@
 							(<any>$).Notify({
 								caption: 'Modifica',
 								content: 'Si è verificato un errore durante la modifica dell\'viaggio',
-								type: 'alert'
+                                icon: "<span class='mif-cross'></span>",
+                                type: 'alert'
 							})
 							this.pService.getPasseggeri(this.scope.popupVia.obj.IDViaggio, this.scope.currentPage, this.howMany,(data) => {
 								this.$scope.passeggeriList = data["Dati"];
@@ -613,7 +630,8 @@
 								(<any>$).Notify({
 									caption: 'Modifica',
 									content: 'Viaggio creata con successo!',
-									type: 'success'
+                                    icon: "<span class='mif-earth'></span>",
+                                    type: 'success'
 								})
 								this.pService.getPasseggeri(this.scope.popupVia.obj.IDViaggio, this.scope.currentPage, this.howMany,(data) => {
 									this.$scope.passeggeriList = data["Dati"];
@@ -625,7 +643,8 @@
 							(<any>$).Notify({
 								caption: 'Modifica',
 								content: 'Si è verificato un errore durante la creazione dell\'viaggio',
-								type: 'alert'
+                                icon: "<span class='mif-cross'></span>",
+                                type: 'alert'
 							})
 							this.pService.getPasseggeri(this.scope.popupVia.obj.IDViaggio, this.scope.currentPage, this.howMany,(data) => {
 								this.$scope.passeggeriList = data["Dati"];
@@ -647,7 +666,8 @@
 						(<any>$).Notify({
 							caption: 'Eliminazione',
 							content: 'Viaggio eliminata con successo!',
-							type: 'success'
+                            icon: "<span class='mif-earth'></span>",
+                            type: 'success'
 						})
 						this.pService.getPasseggeri(this.scope.popupVia.obj.IDViaggio, this.scope.currentPage, this.howMany,(data) => {
 							this.$scope.passeggeriList = data["Dati"];
@@ -658,7 +678,8 @@
 						(<any>$).Notify({
 							caption: 'Eliminazione',
 							content: 'Si è verificato un errore durante l\'eliminazione dell\'viaggio',
-							type: 'alert'
+                            icon: "<span class='mif-cross'></span>",
+                            type: 'alert'
 						})
 					});
 			}

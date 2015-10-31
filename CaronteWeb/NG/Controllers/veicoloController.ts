@@ -123,7 +123,8 @@
 								(<any>$).Notify({
 									caption: 'Modifica',
 									content: 'Veicolo modificato con successo!',
-									type: 'success'
+                                    icon: "<span class='mif-earth'></span>",
+                                    type: 'success'
 								})
 								this.service.getVeicoli(this.scope.currentPage, this.howMany,(data) => {
 									this.$scope.veicoloList = data["Dati"];
@@ -135,7 +136,7 @@
 							(<any>$).Notify({
 								caption: 'Modifica',
 								content: 'Si è verificato un errore durante la modifica del veicolo',
-								type: 'alert'
+								icon: "<span class='mif-cross'></span>",type: 'alert'
 							})
 							this.service.getVeicoli(this.scope.currentPage, this.howMany,(data) => {
 								this.$scope.veicoloList = data["Dati"];
@@ -148,7 +149,8 @@
 								(<any>$).Notify({
 									caption: 'Creazione',
 									content: 'Veicolo creato con successo!',
-									type: 'success'
+                                    icon: "<span class='mif-earth'></span>",
+                                    type: 'success'
 								})
 								this.service.getVeicoli(this.scope.currentPage, this.howMany,(data) => {
 									this.$scope.veicoloList = data["Dati"];
@@ -160,7 +162,8 @@
 							(<any>$).Notify({
 								caption: 'Creazione',
 								content: 'Si è verificato un errore durante la creazione del veicolo',
-								type: 'alert'
+                                icon: "<span class='mif-cross'></span>",
+                                type: 'alert'
 							})
 							this.service.getVeicoli(this.scope.currentPage, this.howMany,(data) => {
 								this.$scope.veicoloList = data["Dati"];
@@ -182,7 +185,8 @@
 						(<any>$).Notify({
 							caption: 'Eliminazione',
 							content: 'Veicolo eliminato con successo!',
-							type: 'success'
+                            icon: "<span class='mif-earth'></span>",
+                            type: 'success'
 						})
 						this.service.getVeicoli(this.scope.currentPage, this.howMany,(data) => {
 							this.scope.veicoloList = data["Dati"];
@@ -195,7 +199,8 @@
 						(<any>$).Notify({
 							caption: 'Eliminazione',
 							content: 'Si è verificato un errore durante l\'eliminazione del veicolo',
-							type: 'alert'
+                            icon: "<span class='mif-cross'></span>",
+                            type: 'alert'
 						})
 						this.service.getVeicoli(this.scope.currentPage, this.howMany,(data) => {
 							this.$scope.veicoloList = data["Dati"];

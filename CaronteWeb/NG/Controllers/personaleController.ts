@@ -145,7 +145,8 @@
 								(<any>$).Notify({
 									caption: 'Modifica',
 									content: 'Personale modificato con successo!',
-									type: 'success'
+                                    icon: "<span class='mif-earth'></span>",
+                                    type: 'success'
 								})
 								this.service.getPersonale(this.scope.currentPage, this.howMany,(data) => {
 									this.$scope.personaleList = data["Dati"];
@@ -157,7 +158,8 @@
 							(<any>$).Notify({
 								caption: 'Modifica',
 								content: 'Si è verificato un errore durante la modifica del personale',
-								type: 'alert'
+                                icon: "<span class='mif-cross'></span>",
+                                type: 'alert'
 							})
 							this.service.getPersonale(this.scope.currentPage, this.howMany,(data) => {
 								this.$scope.personaleList = data["Dati"];
@@ -170,7 +172,8 @@
 								(<any>$).Notify({
 									caption: 'Creazione',
 									content: 'Personale creato con successo!',
-									type: 'success'
+                                    icon: "<span class='mif-earth'></span>",
+                                    type: 'success'
 								})
 								this.service.getPersonale(this.scope.currentPage, this.howMany,(data) => {
 									this.$scope.personaleList = data["Dati"];
@@ -182,7 +185,8 @@
 							(<any>$).Notify({
 								caption: 'Creazione',
 								content: 'Si è verificato un errore durante la creazione del personale',
-								type: 'alert'
+                                icon: "<span class='mif-cross'></span>",
+                                type: 'alert'
 							})
 							this.service.getPersonale(this.scope.currentPage, this.howMany,(data) => {
 								this.$scope.personaleList = data["Dati"];
@@ -204,7 +208,8 @@
 						(<any>$).Notify({
 							caption: 'Eliminazione',
 							content: 'Personale eliminato con successo!',
-							type: 'success'
+                            icon: "<span class='mif-earth'></span>",
+                            type: 'success'
 						})
 						this.service.getPersonale(this.scope.currentPage, this.howMany,(data) => {
 							this.scope.personaleList = data["Dati"];
@@ -217,7 +222,8 @@
 						(<any>$).Notify({
 							caption: 'Eliminazione',
 							content: 'Si è verificato un errore durante l\'eliminazione del personale',
-							type: 'alert'
+                            icon: "<span class='mif-cross'></span>",
+                            type: 'alert'
 						})
 						this.service.getPersonale(this.scope.currentPage, this.howMany,(data) => {
 							this.$scope.personaleList = data["Dati"];

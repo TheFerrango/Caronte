@@ -98,7 +98,8 @@
 					} else (<any>$).Notify({
 						caption: 'Posizione',
 						content: 'L\'indirizzo richiesto non è stato trovato.',
-						type: 'warning'
+                        icon: "<span class='mif-warning'></span>",
+                        type: 'warning'
 					})
 				}
 			}
@@ -193,7 +194,8 @@
 								(<any>$).Notify({
 									caption: 'Modifica',
 									content: 'Anagrafica modificata con successo!',
-									type: 'success'
+                                    icon: "<span class='mif-earth'></span>",
+                                    type: 'success'
 								})
 								this.service.getAnagrafiche(this.scope.currentPage, this.howMany,(data) => {
 									this.$scope.anagraficaList = data["Dati"];
@@ -205,7 +207,8 @@
 							(<any>$).Notify({
 								caption: 'Modifica',
 								content: 'Si è verificato un errore durante la modifica dell\'anagrafica',
-								type: 'alert'
+                                icon: "<span class='mif-cross'></span>",
+                                type: 'alert'
 							})
 							this.service.getAnagrafiche(this.scope.currentPage, this.howMany,(data) => {
 								this.$scope.anagraficaList = data["Dati"];
@@ -218,7 +221,8 @@
 								(<any>$).Notify({
 									caption: 'Creazione',
 									content: 'Anagrafica creata con successo!',
-									type: 'success'
+                                    icon: "<span class='mif-earth'></span>",
+                                    type: 'success'
 								})
 								this.service.getAnagrafiche(this.scope.currentPage, this.howMany,(data) => {
 									this.$scope.anagraficaList = data["Dati"];
@@ -230,7 +234,8 @@
 							(<any>$).Notify({
 								caption: 'Creazione',
 								content: 'Si è verificato un errore durante la creazione dell\'anagrafica',
-								type: 'alert'
+                                icon: "<span class='mif-cross'></span>",
+                                type: 'alert'
 							})
 							this.service.getAnagrafiche(this.scope.currentPage, this.howMany,(data) => {
 								this.$scope.anagraficaList = data["Dati"];
@@ -252,7 +257,8 @@
 						(<any>$).Notify({
 							caption: 'Eliminazione',
 							content: 'Anagrafica eliminata con successo!',
-							type: 'success'
+                            icon: "<span class='mif-earth'></span>",
+                            type: 'success'
 						})
 						this.service.getAnagrafiche(this.scope.currentPage, this.howMany,(data) => {
 							this.scope.anagraficaList = data["Dati"];
@@ -265,7 +271,8 @@
 						(<any>$).Notify({
 							caption: 'Eliminazione',
 							content: 'Si è verificato un errore durante l\'eliminazione dell\'anagrafica',
-							type: 'alert'
+                            icon: "<span class='mif-cross'></span>",
+                            type: 'alert'
 						})
 						this.service.getAnagrafiche(this.scope.currentPage, this.howMany,(data) => {
 							this.$scope.anagraficaList = data["Dati"];

@@ -145,6 +145,7 @@
     <Content Include="fonts\metro.svg" />
     <Content Include="Scripts\angular-local-storage.min.js" />
     <Content Include="Scripts\angular-bing-maps.js" />
+    <TypeScriptCompile Include="NG\Controllers\journeyReviewController.ts" />
     <TypeScriptCompile Include="NG\Controllers\masterSituationController.ts" />
     <TypeScriptCompile Include="NG\Controllers\indexController.ts" />
     <TypeScriptCompile Include="NG\Controllers\anagraficaController.ts" />
@@ -152,10 +153,12 @@
     <TypeScriptCompile Include="NG\Controllers\summaryController.ts" />
     <TypeScriptCompile Include="NG\Controllers\veicoloController.ts" />
     <TypeScriptCompile Include="NG\Controllers\personaleController.ts" />
+    <TypeScriptCompile Include="NG\DTOs\Passeggero.ts" />
     <TypeScriptCompile Include="NG\DTOs\Posizione.ts" />
     <TypeScriptCompile Include="NG\DTOs\SupportClasses.ts" />
     <TypeScriptCompile Include="NG\DTOs\Viaggio.ts" />
     <TypeScriptCompile Include="NG\Services\InterceptorService.ts" />
+    <TypeScriptCompile Include="NG\Services\journeyReviewService.ts" />
     <TypeScriptCompile Include="NG\Services\minosseService.ts" />
     <TypeScriptCompile Include="NG\Services\masterSituationService.ts" />
     <TypeScriptCompile Include="NG\Services\summaryService.ts" />
@@ -178,6 +181,7 @@
     <Content Include="Scripts\jquery.signalR-2.2.0.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
     <Content Include="SubPages\Login.html" />
+    <Content Include="Views\JourneyReview.html" />
     <Content Include="Views\MasterSituation.html" />
     <Content Include="Views\Summary.html" />
     <Content Include="SubPages\Passeggeri.html" />

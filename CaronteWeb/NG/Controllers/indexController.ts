@@ -140,9 +140,8 @@
 				() => {
 					(<any>$).Notify({
 						caption: 'Login',
-						icon: 'mif-not',
 						content: 'Dati di login errati! ',
-						type: 'alert'
+						icon: "<span class='mif-cross'></span>",type: 'alert'
 					})
 				});
 			//

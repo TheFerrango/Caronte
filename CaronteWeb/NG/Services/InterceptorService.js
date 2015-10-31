@@ -5,6 +5,8 @@ var Caronte;
             this.authInterceptorServiceFactory = {};
             this.authInterceptorServiceFactory.request = function (config) {
                 config.headers = config.headers || {};
+                config.url += config.url.indexOf("?") > -1 ? "&" : "?";
+                config.url += "noCache=" + new Date().getTime().toString();
                 var authData = localStorageService.get('authorizationData');
                 if (authData) {
                     config.headers.Authorization = 'Bearer ' + authData.token;

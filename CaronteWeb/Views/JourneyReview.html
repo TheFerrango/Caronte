@@ -1,0 +1,46 @@
+﻿<div class="padding10" style="display:flex;height:100%">
+    <div class="MSMMappa" style="background-color:darksalmon" ng-hide="showLoading">
+        <div id="mappaBing" style="width: 100%; height: 100%;">
+
+        </div>
+    </div>
+    <div style="width:10px" ng-hide="showLoading"></div>
+    <div class="MSMSidebar" ng-hide="showLoading">
+        <div>
+            <h2> {{viaggio.DescrizioneViaggio}}</h2>
+            <!--<img src="Images/Van.png" />-->
+        </div>
+        <div>
+            <h3>Informazioni viaggio</h3>
+        </div>
+        <div>
+            <table style="width:100%">
+                <tr>
+                    <td style="text-align:left">Data viaggio:</td>
+                    <td style="text-align:right">{{viaggio.DataInizioEffettiva | date: 'dd/MM/yyyy'}}</td>
+                    <td style="text-align:right">({{viaggio.DataInizioPrevista | date: 'dd/MM/yyyy'}})</td>
+                </tr>
+                <tr>                    
+                    <td style="text-align:left">Ora Inizio:</td>
+                    <td style="text-align:right">{{viaggio.DataInizioEffettiva | date: 'HH:mm'}}</td>
+                    <td style="text-align:right">({{viaggio.DataInizioPrevista | date: 'HH:mm'}})</td>
+                </tr>
+                <tr>
+                    <td style="text-align:left">Ora Fine:</td>
+                    <td style="text-align:right">{{viaggio.DataFineEffettiva | date: 'HH:mm'}}</td>
+                    <td style="text-align:right">({{viaggio.DataFinePrevista | date: 'HH:mm'}})</td>
+                </tr>
+                <tr>
+                    <td style="text-align:left">Passeggeri:</td>
+                    <td colspan="2" style="text-align:right">{{passeggeriCompleti}}/{{passeggeriTotali}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div ng-show="showLoading" style="width:100%; height:100%; text-align:center; vertical-align:central">
+        <div style="margin:20%">
+            <div class="mif-truck mif-ani-pass" style="font-size: 32px;"> </div>
+            <div>Caricamento in corso</div>
+        </div>
+    </div>
+</div>

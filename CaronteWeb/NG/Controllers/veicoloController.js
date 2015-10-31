@@ -85,6 +85,7 @@ var Caronte;
                             $.Notify({
                                 caption: 'Modifica',
                                 content: 'Veicolo modificato con successo!',
+                                icon: "<span class='mif-earth'></span>",
                                 type: 'success'
                             });
                             _this.service.getVeicoli(_this.scope.currentPage, _this.howMany, function (data) {
@@ -96,6 +97,7 @@ var Caronte;
                         $.Notify({
                             caption: 'Modifica',
                             content: 'Si è verificato un errore durante la modifica del veicolo',
+                            icon: "<span class='mif-cross'></span>",
                             type: 'alert'
                         });
                         _this.service.getVeicoli(_this.scope.currentPage, _this.howMany, function (data) {
@@ -109,6 +111,7 @@ var Caronte;
                             $.Notify({
                                 caption: 'Creazione',
                                 content: 'Veicolo creato con successo!',
+                                icon: "<span class='mif-earth'></span>",
                                 type: 'success'
                             });
                             _this.service.getVeicoli(_this.scope.currentPage, _this.howMany, function (data) {
@@ -120,6 +123,7 @@ var Caronte;
                         $.Notify({
                             caption: 'Creazione',
                             content: 'Si è verificato un errore durante la creazione del veicolo',
+                            icon: "<span class='mif-cross'></span>",
                             type: 'alert'
                         });
                         _this.service.getVeicoli(_this.scope.currentPage, _this.howMany, function (data) {
@@ -141,6 +145,7 @@ var Caronte;
                         $.Notify({
                             caption: 'Eliminazione',
                             content: 'Veicolo eliminato con successo!',
+                            icon: "<span class='mif-earth'></span>",
                             type: 'success'
                         });
                         _this.service.getVeicoli(_this.scope.currentPage, _this.howMany, function (data) {
@@ -153,6 +158,7 @@ var Caronte;
                     $.Notify({
                         caption: 'Eliminazione',
                         content: 'Si è verificato un errore durante l\'eliminazione del veicolo',
+                        icon: "<span class='mif-cross'></span>",
                         type: 'alert'
                     });
                     _this.service.getVeicoli(_this.scope.currentPage, _this.howMany, function (data) {
