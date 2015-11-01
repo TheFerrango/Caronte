@@ -13,27 +13,61 @@
         <div>
             <h3>Informazioni viaggio</h3>
         </div>
+
+
+
         <div>
-            <table style="width:100%">
+            <table class="tableRiepilogo">
                 <tr>
-                    <td style="text-align:left">Data viaggio:</td>
-                    <td style="text-align:right">{{viaggio.DataInizioEffettiva | date: 'dd/MM/yyyy'}}</td>
-                    <td style="text-align:right">({{viaggio.DataInizioPrevista | date: 'dd/MM/yyyy'}})</td>
+                    <td>Autista:</td>
+                    <td>{{viaggio.NOMINATIVO_AUTISTA}}</td>
                 </tr>
-                <tr>                    
-                    <td style="text-align:left">Ora Inizio:</td>
-                    <td style="text-align:right">{{viaggio.DataInizioEffettiva | date: 'HH:mm'}}</td>
-                    <td style="text-align:right">({{viaggio.DataInizioPrevista | date: 'HH:mm'}})</td>
-                </tr>
+            </table>
+
+            <table class="tableRiepilogo">
                 <tr>
-                    <td style="text-align:left">Ora Fine:</td>
-                    <td style="text-align:right">{{viaggio.DataFineEffettiva | date: 'HH:mm'}}</td>
-                    <td style="text-align:right">({{viaggio.DataFinePrevista | date: 'HH:mm'}})</td>
+                    <td>Data viaggio:</td>
+                    <td>{{viaggio.DataInizioEffettiva | date: 'dd/MM/yyyy'}}</td>
+                    <td>({{viaggio.DataInizioPrevista | date: 'dd/MM/yyyy'}})</td>
                 </tr>
                 <tr>
-                    <td style="text-align:left">Passeggeri:</td>
-                    <td colspan="2" style="text-align:right">{{passeggeriCompleti}}/{{passeggeriTotali}}</td>
+                    <td>Ora Inizio:</td>
+                    <td>{{viaggio.DataInizioEffettiva | date: 'HH:mm'}}</td>
+                    <td>({{viaggio.DataInizioPrevista | date: 'HH:mm'}})</td>
                 </tr>
+                <tr>
+                    <td>Ora Fine:</td>
+                    <td>{{viaggio.DataFineEffettiva | date: 'HH:mm'}}</td>
+                    <td>({{viaggio.DataFinePrevista | date: 'HH:mm'}})</td>
+                </tr>
+            </table>
+
+            <table class="tableRiepilogo">
+                <tr>
+                    <td>Partenza:</td>
+                    <td>{{viaggio.IndirizzoPartenza}}</td>
+                </tr>
+                <tr>
+                    <td>Destinazione:</td>
+                    <td>{{viaggio.IndirizzoPartenza}}</td>
+                </tr>
+            </table>
+
+            <table class="tableRiepilogo">
+                <tr>
+                    <td>Passeggeri previsti:</td>
+                    <td>{{passeggeriTotali}}</td>
+                </tr>
+                <tr>
+                    <td>Passeggeri annullati:</td>
+                    <td>{{passeggeriAnnullati}}</td>
+                </tr>
+                <tr>
+                    <td>Passeggeri arrivati:</td>
+                    <td>{{passeggeriCompleti}}</td>
+                </tr>
+
+
             </table>
         </div>
     </div>

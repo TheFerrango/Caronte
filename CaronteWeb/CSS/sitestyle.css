@@ -114,6 +114,23 @@ td > div.input-control.text {
 	width: 100%;
 }
 
+.tableRiepilogo {
+  width:100%;
+  white-space:normal;
+  margin:5px 0;
+}
+
+table.tableRiepilogo td{
+  white-space:normal;
+  text-align:right;
+}
+
+table.tableRiepilogo  td:first-child{
+  white-space:nowrap;
+  text-align:left
+}
+
+
 form.inputFormContainer > div:first-child {
 	width: 600px;
 	padding-top: 10px;

@@ -20,7 +20,7 @@
 			LongitudinePartenzaEffettiva?: number ;
 			LatitudineArrivoEffettiva?: number ;
 			LongitudineArrivoEffettiva?: number ;
-
+            NOMINATIVO_AUTISTA: string;
 
 			// Campi locali
 			COLORE?: string;

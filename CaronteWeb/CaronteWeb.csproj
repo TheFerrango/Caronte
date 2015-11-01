@@ -143,6 +143,10 @@
     <Content Include="CSS\metro-schemes.min.css" />
     <Content Include="CSS\sitestyle.css" />
     <Content Include="fonts\metro.svg" />
+    <Content Include="Images\Finish.png" />
+    <Content Include="Images\Start.png" />
+    <Content Include="Images\TrafficStop.png" />
+    <Content Include="Images\Vecchietto.png" />
     <Content Include="Scripts\angular-local-storage.min.js" />
     <Content Include="Scripts\angular-bing-maps.js" />
     <TypeScriptCompile Include="NG\Controllers\journeyReviewController.ts" />

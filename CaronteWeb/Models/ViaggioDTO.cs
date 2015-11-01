@@ -28,6 +28,7 @@ namespace CaronteWeb.Models
 		public double? LongitudineArrivoEffettiva { set; get; }
 
 		public string STATO_DESC { set; get; }
+    public string NOMINATIVO_AUTISTA { get; set; }
 
 		public Viaggio ToEntity()
 		{

@@ -78,6 +78,7 @@ namespace CaronteWeb.Database
 		[Column("LongitudineArrivoEffettiva")]
 		public double? LongitudineArrivoEffettiva { get; set; }
 
-
+    [ForeignKey("FKIDDipendente")]
+    public virtual Dipendente Dipendente { get; set; }
 	}
 }

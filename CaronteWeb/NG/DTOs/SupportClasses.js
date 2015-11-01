@@ -15,6 +15,12 @@ var Caronte;
             return PolylineHolder;
         })();
         CaronteDTOs.PolylineHolder = PolylineHolder;
+        var FullPercorsoHolder = (function () {
+            function FullPercorsoHolder() {
+            }
+            return FullPercorsoHolder;
+        })();
+        CaronteDTOs.FullPercorsoHolder = FullPercorsoHolder;
     })(CaronteDTOs = Caronte.CaronteDTOs || (Caronte.CaronteDTOs = {}));
 })(Caronte || (Caronte = {}));
 //# sourceMappingURL=SupportClasses.js.map
