@@ -14,6 +14,7 @@
         percorso: CaronteDTOs.FullPercorsoHolder;
         mapOptions: Microsoft.Maps.ViewOptions;
         mapObj: Microsoft.Maps.Map;
+        lastOpen: Microsoft.Maps.Infobox;
 
         constructor(private $scope: IAppCtrlScope, jouRevServ: journeyReviewService) {
             this.scope = $scope;
@@ -21,6 +22,7 @@
             this.scope.SetArrowVisibility(true);
             this.scope.SetTitle("Riepilogo viaggio");
             this.scope.showLoading = true;
+
 
             this.initBindMetodi();
             this.initMappa();
@@ -35,12 +37,9 @@
         }
 
         private initMappa() {
-            Microsoft.Maps.loadModule("Microsoft.Maps.Search");            
-            
             this.mapObj = new Microsoft.Maps.Map($("#mappaBing")[0], {
                 credentials: "AvCv3p-UgCnQsBKohLfG71_6FT84OovVPBups8s28O5U6fEEXj9BSMFU3NX1Ee5N",
                 showDashboard: false,
-
             });
 
             Microsoft.Maps.Events.addHandler(this.mapObj, "viewchangeend",() => {
@@ -48,16 +47,13 @@
             });
 
             this.mapOptions = {
-
                 mapTypeId: 'r',
                 center: new Microsoft.Maps.Location(46.1171403909027, 11.1043098004908),
                 zoom: 6
-
             };
 
             this.mapObj.setView(this.mapOptions);
         }
-
 
         private initSideBar() {
 
@@ -84,28 +80,70 @@
                         for (var idx = 0; idx < dataPasseggeri.Dati.length; idx++) {
 
                             var passeggero: CaronteDTOs.Passeggero = dataPasseggeri.Dati[idx];
-                            if (passeggero.FKIDStato == 3) {
-                                this.mapObj.entities.push(
-                                    new Microsoft.Maps.Pushpin(
-                                        new Microsoft.Maps.Location(passeggero.LatitudineSalitaEffettiva, passeggero.LongitudineSalitaEffettiva),
-                                        {
-                                            htmlContent: "<img src=\"/Images/Vecchietto.png\" width=\"32\" height=\"32\"/>",
-                                            anchor: new Microsoft.Maps.Point(16, 16),
-                                            // l'infobox dovrebbe già fare tutto, vediamo come si usa
-                                            //infobox: new Microsoft.Maps.Infobox(new Microsoft.Maps.Location(passeggero.LatitudineSalitaEffettiva, passeggero.LongitudineSalitaEffettiva), {htmlContent: "<h1>W il DVCE</h1>"})
-                                        }));
-                                this.mapObj.entities.push(
-                                    new Microsoft.Maps.Pushpin(
-                                        new Microsoft.Maps.Location(passeggero.LatitudineDiscesaEffettiva, passeggero.LongitudineDiscesaEffettiva),
-                                        {
-                                            htmlContent: "<img src=\"/Images/TrafficStop.png\" width=\"32\" height=\"32\"/>",
-                                            anchor: new Microsoft.Maps.Point(16, 16),
 
-                                        }));
+                            if (passeggero.FKIDStato == 3) {
+                        
+                                var sale = new Microsoft.Maps.Pushpin(
+                                    new Microsoft.Maps.Location(passeggero.LatitudineSalitaEffettiva, passeggero.LongitudineSalitaEffettiva),
+                                    {
+                                        htmlContent: "<img src=\"/Images/Vecchietto.png\" width=\"32\" height=\"32\"/>",
+                                        anchor: new Microsoft.Maps.Point(16, 16),
+                                        infobox: new Microsoft.Maps.Infobox(new Microsoft.Maps.Location(passeggero.LatitudineSalitaEffettiva, passeggero.LongitudineSalitaEffettiva), {
+                                            title: "Salita passeggero",
+                                            description: this.FormatSTR("<span>{0}</span><table style=\"width:100%; text-align:left\"><tr><th>Ora prevista</th><th>Ora effettiva</th></tr><tr><td>{1}</td><td>{2}</td></tr></table><span>{3}</span> ",
+                                                passeggero.NOMINATIVO,
+                                                this.FormatDate(passeggero.DataSalitaPrevista),
+                                                this.FormatDate(passeggero.DataSalitaEffettiva),
+                                                passeggero.IndirizzoSalita),
+                                            visible: false,
+                                        }),
+                                    });
+                                
+                                var scende = new Microsoft.Maps.Pushpin(
+                                    new Microsoft.Maps.Location(passeggero.LatitudineDiscesaEffettiva, passeggero.LongitudineDiscesaEffettiva),
+                                    {
+                                        htmlContent: "<img src=\"/Images/TrafficStop.png\" width=\"32\" height=\"32\"/>",
+                                        anchor: new Microsoft.Maps.Point(16, 16),
+                                        infobox: new Microsoft.Maps.Infobox(new Microsoft.Maps.Location(passeggero.LatitudineDiscesaEffettiva, passeggero.LongitudineDiscesaEffettiva), {
+                                            title: "Discesa passeggero",
+                                            description: this.FormatSTR("<span>{0}</span><table style=\"width:100%; text-align:left\"><tr><th>Ora prevista</th><th>Ora effettiva</th></tr><tr><td>{1}</td><td>{2}</td></tr></table><span>{3}</span> ",
+                                                passeggero.NOMINATIVO,
+                                                this.FormatDate(passeggero.DataDiscesaPrevista),
+                                                this.FormatDate(passeggero.DataDiscesaEffettiva),
+                                                passeggero.IndirizzoSalita),
+
+                                            
+
+                                            visible: false,                                            
+                                        }),
+                                    });                               
+
+                                Microsoft.Maps.Events.addHandler(sale, "mouseover",(eventArgs: Microsoft.Maps.MouseEventArgs) => {                                    
+                                    if (this.lastOpen)
+                                        this.lastOpen.setOptions({ visible: false });
+                                    (<Microsoft.Maps.Infobox>eventArgs.target._infobox).setOptions({ visible: true });
+                                    this.lastOpen = <Microsoft.Maps.Infobox>eventArgs.target._infobox;
+                                });
+
+                               
+
+                                Microsoft.Maps.Events.addHandler(scende, "mouseover",(eventArgs: Microsoft.Maps.MouseEventArgs) => {
+                                    if (this.lastOpen)
+                                        this.lastOpen.setOptions({ visible: false });
+                                    (<Microsoft.Maps.Infobox>eventArgs.target._infobox).setOptions({ visible: true });
+                                    this.lastOpen = <Microsoft.Maps.Infobox>eventArgs.target._infobox;
+                                });
+
+
+
+                                this.mapObj.entities.push(sale);
+                                this.mapObj.entities.push((<any>sale)._infobox);
+
+                                this.mapObj.entities.push(scende);
+                                this.mapObj.entities.push((<any>scende)._infobox);
                             }
                         }
-                        console.log("caricate le posizioni");
-
+                        console.log("caricate le posizioni");                        
                         this.scope.showLoading = false;
                     });
                 });
@@ -150,21 +188,22 @@
         }
 		
 
-        //private showHidePushPins() {
-        //    for (var idx = 0; idx < this.mapObj.entities.getLength(); idx++) {
-        //		if (this.mapObj.entities.get(idx) instanceof Microsoft.Maps.Pushpin) {
-        //			var pp = <Microsoft.Maps.Pushpin>this.mapObj.entities.get(idx);
-        //			if (this.mapObj.getZoom() < 15)
-        //				pp.setOptions({
-        //					visible: false
-        //				});
-        //			else pp.setOptions({
-        //				visible: true
-        //			});
-        //		}
-        //	}
-        //}
+        public FormatSTR(strLine: string, ...params: any[]): string {
 
+            for (var idx = 0; idx < params.length; idx++) {
+                strLine = strLine.replace("{" + idx.toString() + "}", params[idx].toString());
+                console.log(idx, params[idx])
+            }
+            return strLine;
+        }
+
+        public FormatDate(toFormatDate: Date): string {
+            var toRet: string = "";
+            toFormatDate = new Date(<any>toFormatDate);
+            toRet = (toFormatDate.getHours() < 10 ? "0": "") + toFormatDate.getHours().toString() + ":";
+            toRet += (toFormatDate.getMinutes() < 10 ? "0": "") + toFormatDate.getMinutes().toString();
+            return toRet;
+        }
      
         //#endregion	
 

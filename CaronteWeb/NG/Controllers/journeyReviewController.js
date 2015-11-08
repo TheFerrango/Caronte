@@ -17,7 +17,6 @@ var Caronte;
         journeyReviewController.prototype.initBindMetodi = function () {
         };
         journeyReviewController.prototype.initMappa = function () {
-            Microsoft.Maps.loadModule("Microsoft.Maps.Search");
             this.mapObj = new Microsoft.Maps.Map($("#mappaBing")[0], {
                 credentials: "AvCv3p-UgCnQsBKohLfG71_6FT84OovVPBups8s28O5U6fEEXj9BSMFU3NX1Ee5N",
                 showDashboard: false,
@@ -53,14 +52,40 @@ var Caronte;
                         for (var idx = 0; idx < dataPasseggeri.Dati.length; idx++) {
                             var passeggero = dataPasseggeri.Dati[idx];
                             if (passeggero.FKIDStato == 3) {
-                                _this.mapObj.entities.push(new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(passeggero.LatitudineSalitaEffettiva, passeggero.LongitudineSalitaEffettiva), {
+                                var sale = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(passeggero.LatitudineSalitaEffettiva, passeggero.LongitudineSalitaEffettiva), {
                                     htmlContent: "<img src=\"/Images/Vecchietto.png\" width=\"32\" height=\"32\"/>",
                                     anchor: new Microsoft.Maps.Point(16, 16),
-                                }));
-                                _this.mapObj.entities.push(new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(passeggero.LatitudineDiscesaEffettiva, passeggero.LongitudineDiscesaEffettiva), {
+                                    infobox: new Microsoft.Maps.Infobox(new Microsoft.Maps.Location(passeggero.LatitudineSalitaEffettiva, passeggero.LongitudineSalitaEffettiva), {
+                                        title: "Salita passeggero",
+                                        description: _this.FormatSTR("<span>{0}</span><table style=\"width:100%; text-align:left\"><tr><th>Ora prevista</th><th>Ora effettiva</th></tr><tr><td>{1}</td><td>{2}</td></tr></table><span>{3}</span> ", passeggero.NOMINATIVO, _this.FormatDate(passeggero.DataSalitaPrevista), _this.FormatDate(passeggero.DataSalitaEffettiva), passeggero.IndirizzoSalita),
+                                        visible: false,
+                                    }),
+                                });
+                                var scende = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(passeggero.LatitudineDiscesaEffettiva, passeggero.LongitudineDiscesaEffettiva), {
                                     htmlContent: "<img src=\"/Images/TrafficStop.png\" width=\"32\" height=\"32\"/>",
                                     anchor: new Microsoft.Maps.Point(16, 16),
-                                }));
+                                    infobox: new Microsoft.Maps.Infobox(new Microsoft.Maps.Location(passeggero.LatitudineDiscesaEffettiva, passeggero.LongitudineDiscesaEffettiva), {
+                                        title: "Discesa passeggero",
+                                        description: _this.FormatSTR("<span>{0}</span><table style=\"width:100%; text-align:left\"><tr><th>Ora prevista</th><th>Ora effettiva</th></tr><tr><td>{1}</td><td>{2}</td></tr></table><span>{3}</span> ", passeggero.NOMINATIVO, _this.FormatDate(passeggero.DataDiscesaPrevista), _this.FormatDate(passeggero.DataDiscesaEffettiva), passeggero.IndirizzoSalita),
+                                        visible: false,
+                                    }),
+                                });
+                                Microsoft.Maps.Events.addHandler(sale, "mouseover", function (eventArgs) {
+                                    if (_this.lastOpen)
+                                        _this.lastOpen.setOptions({ visible: false });
+                                    eventArgs.target._infobox.setOptions({ visible: true });
+                                    _this.lastOpen = eventArgs.target._infobox;
+                                });
+                                Microsoft.Maps.Events.addHandler(scende, "mouseover", function (eventArgs) {
+                                    if (_this.lastOpen)
+                                        _this.lastOpen.setOptions({ visible: false });
+                                    eventArgs.target._infobox.setOptions({ visible: true });
+                                    _this.lastOpen = eventArgs.target._infobox;
+                                });
+                                _this.mapObj.entities.push(sale);
+                                _this.mapObj.entities.push(sale._infobox);
+                                _this.mapObj.entities.push(scende);
+                                _this.mapObj.entities.push(scende._infobox);
                             }
                         }
                         console.log("caricate le posizioni");
@@ -96,6 +121,24 @@ var Caronte;
             Microsoft.Maps.Events.addHandler(pollyObj.PUSHPIN_FINISH, "mouseover", function (eventArgs) { return console.log("MVSSOLINI DVCE!"); });
             Microsoft.Maps.Events.addHandler(pollyObj.PUSHPIN_FINISH, "mouseout", function (eventArgs) { return console.log("MVSSOLINI SEMPRE!"); });
             this.percorso = pollyObj;
+        };
+        journeyReviewController.prototype.FormatSTR = function (strLine) {
+            var params = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                params[_i - 1] = arguments[_i];
+            }
+            for (var idx = 0; idx < params.length; idx++) {
+                strLine = strLine.replace("{" + idx.toString() + "}", params[idx].toString());
+                console.log(idx, params[idx]);
+            }
+            return strLine;
+        };
+        journeyReviewController.prototype.FormatDate = function (toFormatDate) {
+            var toRet = "";
+            toFormatDate = new Date(toFormatDate);
+            toRet = (toFormatDate.getHours() < 10 ? "0" : "") + toFormatDate.getHours().toString() + ":";
+            toRet += (toFormatDate.getMinutes() < 10 ? "0" : "") + toFormatDate.getMinutes().toString();
+            return toRet;
         };
         journeyReviewController.$inject = ["$scope", "journeyReviewService"];
         return journeyReviewController;
